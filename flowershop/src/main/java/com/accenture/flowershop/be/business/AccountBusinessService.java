@@ -1,8 +1,10 @@
 package com.accenture.flowershop.be.business;
 
-import com.accenture.flowershop.be.access.AccountDAOException;
+import com.accenture.flowershop.be.InternalException;
+import com.accenture.flowershop.be.entity.account.AccountType;
+
 
 public interface AccountBusinessService {
-    boolean Login(String login, String password) throws AccountDAOException;
-    boolean Registration(String login, String password, String type) throws AccountDAOException;
+    boolean login(String login, String password) throws InternalException;
+    boolean registration(String login, String password, AccountType type) throws InternalException;
 }
