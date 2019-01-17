@@ -1,7 +1,5 @@
 package com.accenture.flowershop.be.entity.account;
 
-import org.springframework.lang.NonNull;
-
 import javax.persistence.*;
 
 
@@ -10,35 +8,25 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
     @SequenceGenerator(name = "account_seq", sequenceName = "account_seq", allocationSize = 1)
-    @NonNull
-    private long ID;
+    private long id;
 
-    @NonNull
     private String login;
 
-    @NonNull
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @NonNull
     private AccountType type;
 
-    public Account(){
-        this.login = "";
-        this.password = "";
-        this.type = AccountType.customer;
-    }
 
-
-    public Account(String login, String password, String type){
+    public Account(String login, String password, AccountType type){
         this.login = login;
         this.password = password;
-        this.type = AccountType.valueOf(type);
+        this.type = type;
     }
 
 
-    public long getID() {
-        return ID;
+    public long getId() {
+        return id;
     }
 
     public String getLogin() {
@@ -49,5 +37,22 @@ public class Account {
         return password;
     }
 
-    public AccountType getType() { return AccountType.valueOf(type.toString()); }
+    public AccountType getType() { return type; }
+
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setType(AccountType type) {
+        this.type = type;
+    }
 }
