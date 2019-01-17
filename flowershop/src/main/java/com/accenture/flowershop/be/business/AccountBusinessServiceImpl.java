@@ -1,8 +1,9 @@
 package com.accenture.flowershop.be.business;
 
+import com.accenture.flowershop.be.InternalException;
 import com.accenture.flowershop.be.access.AccountDAO;
-import com.accenture.flowershop.be.access.AccountDAOException;
-import com.accenture.flowershop.be.entity.account.Account;
+import com.accenture.flowershop.be.entity.account.AccountType;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -11,36 +12,33 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountBusinessServiceImpl implements AccountBusinessService {
 
-
-
-
     @Autowired
-    @Qualifier("AccountDAOStubImpl")
-    AccountDAO accountDAOImplVar;
+    @Qualifier("AccountDAOImpl")
+    AccountDAO accountDAO;
 
     @Override
-    public boolean Login(String login, String password) throws AccountDAOException {
+    public boolean login(String login, String password) throws InternalException {
         try {
-            Account account = accountDAOImplVar.findAccount(login);
-            if(account!=null) {
-                if (account.getPassword().equals(password)) {
-                    return true;
-                }
+            if (StringUtils.equals(accountDAO.findAccount(login).getPassword(), password)) {
+                return true;
             }
             return false;
         }
-        catch (Exception e) {
-            throw new AccountDAOException(AccountDAOException.ERROR_FIND_LOGIN, new Throwable(e));
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_SERVICE_LOGIN, new Throwable(e));
         }
-
     }
 
     @Override
-    public boolean Registration(String login, String password, String type) throws AccountDAOException {
-        if(accountDAOImplVar.findAccount(login)==null) {
-            accountDAOImplVar.insertAccount(login, password, type);
-            return true;
+    public boolean registration(String login, String password, AccountType type) throws InternalException{
+        try {
+            if (accountDAO.insertAccount(login, password, type)) {
+                return true;
+            }
+            return false;
         }
-        return false;
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_SERVICE_REGISTER, new Throwable(e));
+        }
     }
 }
