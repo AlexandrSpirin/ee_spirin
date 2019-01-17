@@ -1,6 +1,8 @@
 package com.accenture.flowershop.be.access;
 
+import com.accenture.flowershop.be.InternalException;
 import com.accenture.flowershop.be.entity.account.Account;
+import com.accenture.flowershop.be.entity.account.AccountType;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -12,23 +14,23 @@ import java.util.List;
 public class AccountDAOImpl implements AccountDAO {
 
     @PersistenceContext
-    private EntityManager em;
+    private EntityManager entityManager;
 
     public AccountDAOImpl() { }
 
 
-    public Account findAccount(long ID) throws AccountDAOException {
+    public Account findAccount(long id) throws InternalException {
         try {
-            return em.find(Account.class, ID);
+            return entityManager.find(Account.class, id);
         }
         catch (Exception e){
-            throw new AccountDAOException(AccountDAOException.ERROR_FIND_ID, new Throwable(e));
+            throw new InternalException(InternalException.ERROR_DAO_FIND_ID, new Throwable(e));
         }
     }
 
-    public Account findAccount(String login) throws AccountDAOException {
+    public Account findAccount(String login) throws InternalException {
         try {
-            TypedQuery<Account> q = em.createQuery(" Select a from Account a where a.login = :l ", 	Account.class);
+            TypedQuery<Account> q = entityManager.createQuery("SELECT a FROM Account a WHERE a.login = :l ", Account.class);
             q.setParameter("l", login);
             List<Account> foundAccounts = q.getResultList();
             if(foundAccounts.isEmpty())
@@ -38,22 +40,22 @@ public class AccountDAOImpl implements AccountDAO {
             return null;
         }
         catch (Exception e){
-            throw new AccountDAOException(AccountDAOException.ERROR_FIND_LOGIN, new Throwable(e));
+            throw new InternalException(InternalException.ERROR_DAO_FIND_LOGIN, new Throwable(e));
         }
     }
 
-    public boolean insertAccount(String login, String password, String type)
-            throws AccountDAOException {
+    public boolean insertAccount(String login, String password, AccountType type)
+            throws InternalException {
         try {
             if(findAccount(login)==null)
             {
-                em.persist(new Account(login, password, type));
+                entityManager.persist(new Account(login, password, type));
                 return true;
             }
             return false;
         }
         catch (Exception e){
-            throw new AccountDAOException(AccountDAOException.ERROR_INSERT_ACCOUNT, new Throwable(e));
+            throw new InternalException(InternalException.ERROR_DAO_INSERT_ACCOUNT, new Throwable(e));
         }
     }
 }
