@@ -1,9 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Context>
     <Parameter name="AppName" value="cbr-clm"/>
-    <!--<ResourceLink name="jdbc/flowerShopDS"-->
-                  <!--global="jdbc/flowerShopDS"-->
-                  <!--type="javax.sql.DataSource" />-->
+
     <Resource name="jdbc/flowerShopDS" auth="Container"
               type="javax.sql.DataSource" driverClassName="org.h2.Driver"
               url="jdbc:h2:mem:flowershop;DATABASE_TO_UPPER=false"
@@ -16,4 +14,3 @@
               validationQuery="SELECT 1 FROM dual"
               maxWait="-1"/>
 </Context>
-        <!--testWhileIdle="true"  url+=;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false-->
