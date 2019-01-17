@@ -1,7 +1,6 @@
 package com.accenture.flowershop.fe.servlets;
 
 import com.accenture.flowershop.be.business.AccountBusinessService;
-import com.accenture.flowershop.be.access.AccountDAOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -18,11 +17,11 @@ import java.io.PrintWriter;
 
 @Component
 @WebServlet(name = "LoginServlet",
-        urlPatterns = {"/login-final"})
+        urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
 
     @Autowired
-    AccountBusinessService entryService;
+    private AccountBusinessService entryService;
 
     private ServletConfig config;
 
@@ -47,63 +46,36 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
-        Login(req,resp);
+        login(req,resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException
     {
-        Login(req,resp);
+        login(req,resp);
     }
 
 
-    public void Login(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException
+    public void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException
     {
         String login = (String) req.getParameter("login");
         String password = (String) req.getParameter("password");
         PrintWriter printWriter = resp.getWriter();
-        if (login != null) {
-            if (login.length() < 1) {
-                if (config.getInitParameter("login") != null) {
-                    if (config.getInitParameter("login").length() > 0) {
-                        login = config.getInitParameter("login");
-                    } else {
-                        login = null;
-                    }
-                } else {
-                    login = null;
-                }
-            }
-        } else {
-            if (config.getInitParameter("login") != null) {
-                if (config.getInitParameter("login").length() > 0) {
-                    login = config.getInitParameter("login");
-                } else {
-                    login = null;
-                }
-            } else {
-                login = null;
-            }
-        }
-
 
         printWriter.println("<html>");
         printWriter.println("<body>");
-
-        if (login != null) {
-            try {
-                if (entryService.Login(login, password)) {
-                    printWriter.println("<h1 align=center>Welcome, " + login + "!</h1>");
-                }
-                else {
-                    printWriter.println("<h1 align=center>Login or password not correct!</h1>");
-                }
-            } catch (AccountDAOException e) {
-                e.printStackTrace();
+        try {
+            if (entryService.login(login, password)) {
+                printWriter.println("<h1 align=center>Welcome, " + login + "!</h1>");
             }
-        } else {
-            printWriter.println("<h1 align=center>Login or password not correct!</h1>");
+            else {
+                printWriter.println("<h1 align=center>Login or password not correct!</h1>");
+            }
         }
+        catch (Exception e){
+            printWriter.println("<h1 align=center>Error on login!</h1>");
+        }
+
         printWriter.println("<form action='index.jsp'>");
         printWriter.println("<p align=center><input type=submit name='toMainPageButton' value='To main page'/></p>");
         printWriter.println("</form>");
