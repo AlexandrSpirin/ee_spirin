@@ -24,10 +24,4 @@
         <property name = "placeholderPrefix" value = "@{"/>
         <property name = "placeholderSuffix" value = "}"/>
     </bean>
-
-
-
-
-    <!--<bean name="AccountBusinessService" class = "com.accenture.flowershopowershop.account.AccountBusinessServiceImpl"/>-->
-
 </beans>
