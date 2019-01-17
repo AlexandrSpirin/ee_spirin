@@ -4,7 +4,7 @@
     <h1 align=center>REGISTRATION</h1>
     <hr>
     <br><br>
-    <form action="registration-final" method="post">
+    <form action="registration" method="post">
 	    <p align=center>Please enter your name:</p>
 		<p align=center><input type="text" name = "login" size="20px"></p>
 		<br>
