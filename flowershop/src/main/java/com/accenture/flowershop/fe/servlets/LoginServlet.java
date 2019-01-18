@@ -74,6 +74,8 @@ public class LoginServlet extends HttpServlet {
         }
         catch (Exception e){
             printWriter.println("<h1 align=center>Error on login!</h1>");
+            printWriter.println("<h1 align=center>Login: " + login + "</h1>");
+            printWriter.println("<h1 align=center>Password: " + password + "</h1>");
         }
 
         printWriter.println("<form action='index.jsp'>");
