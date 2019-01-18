@@ -63,14 +63,14 @@ public class LoginServlet extends HttpServlet {
         String password = (String) req.getParameter("password");
         PrintWriter printWriter = resp.getWriter();
         HttpSession session = req.getSession();
-        
+
 
         printWriter.println("<html>");
         printWriter.println("<body>");
         try {
             if (entryService.login(login, password)) {
                 printWriter.println("<h1 align=center>Welcome, " + login + "!</h1>");
-                if(login=="admin")
+                if(login.equals("admin"))
                 {
                     session.setAttribute("userType", "ADMIN");
                 }
