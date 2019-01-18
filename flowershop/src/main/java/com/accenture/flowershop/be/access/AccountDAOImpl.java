@@ -16,8 +16,6 @@ public class AccountDAOImpl implements AccountDAO {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public AccountDAOImpl() { }
-
 
     public Account findAccount(long id) throws InternalException {
         try {
@@ -30,10 +28,10 @@ public class AccountDAOImpl implements AccountDAO {
 
     public Account findAccount(String login) throws InternalException {
         try {
-            TypedQuery<Account> q = entityManager.createQuery("SELECT a FROM Account a WHERE a.login = :l ", Account.class);
+            TypedQuery<Account> q = entityManager.createQuery("SELECT a FROM accounts a WHERE a.login = :l ", Account.class);
             q.setParameter("l", login);
             List<Account> foundAccounts = q.getResultList();
-            if(foundAccounts.isEmpty())
+            if(!foundAccounts.isEmpty())
             {
                 return foundAccounts.get(0);
             }
