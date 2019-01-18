@@ -3,7 +3,8 @@ package com.accenture.flowershop.be.entity.account;
 import javax.persistence.*;
 
 
-@Entity
+@Entity(name="accounts")
+@Table(name="accounts")
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
@@ -17,6 +18,8 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private AccountType type;
 
+
+    public Account(){}
 
     public Account(String login, String password, AccountType type){
         this.login = login;
