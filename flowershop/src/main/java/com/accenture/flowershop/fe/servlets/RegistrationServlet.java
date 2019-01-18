@@ -66,7 +66,7 @@ public class RegistrationServlet extends HttpServlet {
         printWriter.println("<html>");
         printWriter.println("<body>");
 
-        if(passwordOne==passwordTwo) {
+        if(passwordOne.equals(passwordTwo)) {
             try {
                 if (entryService.registration(login, passwordOne, AccountType.CUSTOMER)) {
                     printWriter.println("<h1 align=center>Thank you, " + login + ", for registration!</h1>");
