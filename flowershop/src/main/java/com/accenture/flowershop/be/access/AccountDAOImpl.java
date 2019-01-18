@@ -4,6 +4,7 @@ import com.accenture.flowershop.be.InternalException;
 import com.accenture.flowershop.be.entity.account.Account;
 import com.accenture.flowershop.be.entity.account.AccountType;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -42,6 +43,7 @@ public class AccountDAOImpl implements AccountDAO {
         }
     }
 
+    @Transactional
     public boolean insertAccount(String login, String password, AccountType type)
             throws InternalException {
         try {
