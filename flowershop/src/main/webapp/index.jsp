@@ -6,8 +6,10 @@
     <form action="login.jsp">
         <p align=center><input type="submit" name = "submitButton" value="login"></p>
     </form>
-    <form action="registration.jsp">
-            <p align=center><input type="submit" name = "submitButton" value="registration"></p>
-    </form>
+    <% if (session.getAttribute("userType") == "ADMIN") { %>
+        <form action="registration.jsp">
+                    <p align=center><input type="submit" name = "submitButton" value="registration"></p>
+        </form>
+    <% } %>
 </body>
 </html>
