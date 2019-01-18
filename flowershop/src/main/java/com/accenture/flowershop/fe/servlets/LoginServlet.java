@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -61,12 +62,21 @@ public class LoginServlet extends HttpServlet {
         String login = (String) req.getParameter("login");
         String password = (String) req.getParameter("password");
         PrintWriter printWriter = resp.getWriter();
+        HttpSession session = req.getSession();
+        
 
         printWriter.println("<html>");
         printWriter.println("<body>");
         try {
             if (entryService.login(login, password)) {
                 printWriter.println("<h1 align=center>Welcome, " + login + "!</h1>");
+                if(login=="admin")
+                {
+                    session.setAttribute("userType", "ADMIN");
+                }
+                else {
+                    session.setAttribute("userType", "CUSTOMER");
+                }
             }
             else {
                 printWriter.println("<h1 align=center>Login or password not correct!</h1>");
