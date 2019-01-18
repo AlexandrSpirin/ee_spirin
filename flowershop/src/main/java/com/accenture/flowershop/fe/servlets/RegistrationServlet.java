@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -62,30 +63,39 @@ public class RegistrationServlet extends HttpServlet {
         String passwordOne = (String) req.getParameter("passwordOne");
         String passwordTwo = (String) req.getParameter("passwordTwo");
         PrintWriter printWriter = resp.getWriter();
+        HttpSession session = req.getSession();
 
-        printWriter.println("<html>");
-        printWriter.println("<body>");
 
-        if(passwordOne.equals(passwordTwo)) {
-            try {
-                if (entryService.registration(login, passwordOne, AccountType.CUSTOMER)) {
-                    printWriter.println("<h1 align=center>Thank you, " + login + ", for registration!</h1>");
-                } else {
-                    printWriter.println("<h1 align=center>This login is already in use! Please choose another login.</h1>");
+        if(session.getAttribute("userType")=="ADMIN") {
+            printWriter.println("<html>");
+            printWriter.println("<body>");
+
+            if (passwordOne.equals(passwordTwo)) {
+                try {
+                    if (entryService.registration(login, passwordOne, AccountType.CUSTOMER)) {
+                        printWriter.println("<h1 align=center>Thank you, " + login + ", for registration!</h1>");
+                    } else {
+                        printWriter.println("<h1 align=center>This login is already in use! Please choose another login.</h1>");
+                    }
+                } catch (Exception e) {
+                    printWriter.println("<h1 align=center>Error on registration!</h1>");
                 }
+            } else {
+                printWriter.println("<h1 align=center>Different passwords are indicated!</h1>");
             }
-            catch (Exception e){
-                printWriter.println("<h1 align=center>Error on registration!</h1>");
-            }
+
+            printWriter.println("<form action='index.jsp'>");
+            printWriter.println("<p align=center><input type=submit name='toMainPageButton' value='To main page'/></p>");
+            printWriter.println("</form>");
+            printWriter.println("</body>");
+            printWriter.println("</html>");
         }
         else {
-            printWriter.println("<h1 align=center>Different passwords are indicated!</h1>");
+            printWriter.println("<html>");
+            printWriter.println("<body>");
+            printWriter.println("<h1 align=center>Error! You do not have rights to register an account!</h1>");
+            printWriter.println("</body>");
+            printWriter.println("</html>");
         }
-
-        printWriter.println("<form action='index.jsp'>");
-        printWriter.println("<p align=center><input type=submit name='toMainPageButton' value='To main page'/></p>");
-        printWriter.println("</form>");
-        printWriter.println("</body>");
-        printWriter.println("</html>");
     }
 }
