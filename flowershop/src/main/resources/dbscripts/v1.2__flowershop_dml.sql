@@ -6,15 +6,15 @@ CREATE SEQUENCE flower_pool_seq;
 
 
 
-INSERT INTO accounts (ID, login, password, type) VALUES (account_seq.NEXTVAL, 'admin','admin123','admin');
+INSERT INTO accounts (ID, login, password, type) VALUES (account_seq.NEXTVAL, 'admin','admin123','ADMIN');
 
 
-INSERT INTO accounts (ID, login, password, type) VALUES (account_seq.NEXTVAL, 'eaglesss','qwerty','customer');
+INSERT INTO accounts (ID, login, password, type) VALUES (account_seq.NEXTVAL, 'eaglesss','qwerty','CUSTOMER');
 
 INSERT INTO customers (ID, account_ID, first_name, middle_name, last_name, email, phone_number, money, discount) VALUES (customer_seq.NEXTVAL, account_seq.CURRVAL, 'Nikita','Aleksandrovich','Orlov', 'agamon@mail.ru', 89201542335, 100000.00, 10);
 
 
-INSERT INTO accounts (ID, login, password, type) VALUES (account_seq.NEXTVAL, 'oops','123456','customer');
+INSERT INTO accounts (ID, login, password, type) VALUES (account_seq.NEXTVAL, 'oops','123456','CUSTOMER');
 
 INSERT INTO customers (ID, account_ID, first_name, middle_name, last_name, email, phone_number, money, discount) VALUES (customer_seq.NEXTVAL, account_seq.CURRVAL, 'Nikita','Igorevich','Popov', 'boooo@rambler.ru', 89209984445, 100.00, 1);
 
@@ -54,15 +54,3 @@ INSERT INTO flower_pools (ID, flower_ID, flower_count) VALUES (flower_pool_seq.N
 INSERT INTO flowers (ID, name, cost) VALUES (flower_seq.NEXTVAL, 'Roses', 115.00);
 
 INSERT INTO flower_pools (ID, flower_ID, flower_count) VALUES (flower_pool_seq.NEXTVAL, 7, 5815);
-
-
-
-
-
-
-
-
-
-
-
-
