@@ -20,7 +20,10 @@ public class InternalException extends Exception{
 
     public static final String ERROR_DAO_ORDER_GET_ALL = "(DAO)Exception occcured while get all Orders";
     public static final String ERROR_DAO_ORDER_FIND_ID = "(DAO)Exception occcured while finding Order via ID";
-    public static final String ERROR_DAO_ORDER_FIND_FLOWER_ID = "(DAO)Exception occcured while finding Order via Flower Id";
+    public static final String ERROR_DAO_ORDER_FIND_STATUS = "(DAO)Exception occcured while finding Order via Status";
+    public static final String ERROR_DAO_ORDER_FIND_CREATE_DATE = "(DAO)Exception occcured while finding Order via Create Date";
+    public static final String ERROR_DAO_ORDER_FIND_CLOSE_DATE = "(DAO)Exception occcured while finding Order via Close Date";
+    public static final String ERROR_DAO_ORDER_FIND_FINAL_PRICE = "(DAO)Exception occcured while finding Order via Final Price";
     public static final String ERROR_DAO_ORDER_FIND_DISCOUNT = "(DAO)Exception occcured while finding Order via Discount";
     public static final String ERROR_DAO_ORDER_INSERT = "(DAO)Exception occured while inserting new Order";
 
@@ -37,6 +40,15 @@ public class InternalException extends Exception{
     public static final String ERROR_SERVICE_FLOWERS_FIND_MAX_COST = "(Service)Exception occcured while finding Flowers via Max Cost";
     public static final String ERROR_SERVICE_FLOWERS_FIND_RANGE_COST = "(Service)Exception occcured while finding Flowers via Range Cost";
     public static final String ERROR_SERVICE_FLOWER_INSERT = "(Service)Exception occured while inserting new Flower";
+
+    public static final String ERROR_SERVICE_ORDER_GET_ALL = "(Service)Exception occcured while get all Orders";
+    public static final String ERROR_SERVICE_ORDER_FIND_ID = "(Service)Exception occcured while finding Order via ID";
+    public static final String ERROR_SERVICE_ORDER_FIND_STATUS = "(Service)Exception occcured while finding Order via Status";
+    public static final String ERROR_SERVICE_ORDER_FIND_CREATE_DATE = "(Service)Exception occcured while finding Order via Create Date";
+    public static final String ERROR_SERVICE_ORDER_FIND_CLOSE_DATE = "(Service)Exception occcured while finding Order via Close Date";
+    public static final String ERROR_SERVICE_ORDER_FIND_FINAL_PRICE = "(Service)Exception occcured while finding Order via Final Price";
+    public static final String ERROR_SERVICE_ORDER_FIND_DISCOUNT = "(Service)Exception occcured while finding Order via Discount";
+    public static final String ERROR_SERVICE_ORDER_INSERT = "(Service)Exception occured while inserting new Order";
 
 
 
