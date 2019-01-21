@@ -90,10 +90,10 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 
     @Override
     @Transactional
-    public boolean insertOrder(String status, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice)
+    public boolean insertOrder(long accountId, String status, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice)
             throws InternalException {
         try {
-            return orderDAO.insertOrder(status, createDate, closeDate, discount, finalPrice);
+            return orderDAO.insertOrder(accountId, status, createDate, closeDate, discount, finalPrice);
         }
         catch (Exception e){
             throw new InternalException(InternalException.ERROR_SERVICE_ORDER_INSERT, new Throwable(e));
