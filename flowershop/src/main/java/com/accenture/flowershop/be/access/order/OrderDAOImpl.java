@@ -107,10 +107,10 @@ public class OrderDAOImpl implements OrderDAO{
 
     @Override
     @Transactional
-    public boolean insertOrder(String status, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice)
+    public boolean insertOrder(long accountId, String status, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice)
             throws InternalException {
         try {
-            entityManager.persist(new Order(status, createDate, closeDate, discount, finalPrice));
+            entityManager.persist(new Order(accountId, status, createDate, closeDate, discount, finalPrice));
             return true;
         }
         catch (Exception e){
