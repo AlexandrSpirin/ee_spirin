@@ -15,5 +15,10 @@
 		<br>
 		<p align=center><input type="submit" name = "submitRegistrationButton" value="submit"></p>
 	</form>
+	<br>
+    <br>
+    <form action='index.jsp'>
+    	<p align=center><input type=submit name='mainPageButton' value='Main page'/></p>
+    </form>
 </body>
 </html>
