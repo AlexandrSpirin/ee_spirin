@@ -37,18 +37,31 @@ CREATE TABLE "flowers"
 
 CREATE TABLE "flower_pools"
 (
-    "id" LONG PRIMARY KEY,
+    "id" LONG NOT NULL,
     "flower_id" LONG NOT NULL,
-    "flower_count" NUMBER(8, 0) NOT NULL
+    "flower_count" NUMBER(8, 0) NOT NULL,
+    CONSTRAINT "pk_flower_pools" PRIMARY KEY ("id", "flower_id")
 );
-
 
 
 
 CREATE TABLE "orders"
 (
     "id" LONG PRIMARY KEY,
+    "status" VARCHAR2(45 CHAR) NOT NULL,
+    "create_date" DATE,
+    "close_date" DATE,
+    "discount" NUMBER(2) NOT NULL,
+    "final_price" NUMBER(10, 2) NOT NULL
+);
+
+
+
+
+CREATE TABLE "orders_flowers"
+(
+    "order_id" LONG NOT NULL,
     "flower_id" LONG NOT NULL,
     "flower_count" NUMBER(8, 0) NOT NULL,
-    "discount" NUMBER(2) NOT NULL
+    CONSTRAINT "pk_orders_flowers" PRIMARY KEY ("order_id", "flower_id")
 );
