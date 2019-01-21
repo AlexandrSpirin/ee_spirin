@@ -123,6 +123,7 @@ public class MapService {
                 orderEntity = new com.accenture.flowershop.be.entity.order.Order();
             }
             orderEntity.setId(orderDto.getId());
+            orderEntity.setAccountId(orderDto.getAccountId());
             orderEntity.setStatus(orderDto.getStatus());
             orderEntity.setCreateDate(orderDto.getCreateDate());
             orderEntity.setCloseDate(orderDto.getCloseDate());
@@ -139,6 +140,7 @@ public class MapService {
                 orderDto = new Order();
             }
             orderDto.setId(orderEntity.getId());
+            orderDto.setAccountId(orderEntity.getAccountId());
             orderDto.setStatus(orderEntity.getStatus());
             orderDto.setCreateDate(orderEntity.getCreateDate());
             orderDto.setCloseDate(orderEntity.getCloseDate());
