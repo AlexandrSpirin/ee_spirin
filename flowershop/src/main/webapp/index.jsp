@@ -5,8 +5,8 @@
     <h1 align=center>MAIN PAGE</h1>
     <hr>
     <form action="flowers" method="post">
-            <p align=center><input type="submit" name = "submitButton" value="flowers"></p>
-        </form>
+        <p align=center><input type="submit" name = "submitButton" value="flowers"></p>
+    </form>
     <form action="login.jsp">
         <p align=center><input type="submit" name = "submitButton" value="login"></p>
     </form>
