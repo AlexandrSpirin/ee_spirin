@@ -85,7 +85,7 @@ public class RegistrationServlet extends HttpServlet {
             }
 
             printWriter.println("<form action='index.jsp'>");
-            printWriter.println("<p align=center><input type=submit name='toMainPageButton' value='To main page'/></p>");
+            printWriter.println("<p align=center><input type=submit name='mainPageButton' value='Main page'/></p>");
             printWriter.println("</form>");
             printWriter.println("</body>");
             printWriter.println("</html>");
