@@ -16,6 +16,8 @@ public class Order {
     @SequenceGenerator(name = "order_seq", sequenceName = "order_seq", allocationSize = 1)
     private long id;
 
+    private long accountId;
+
     private String status;
 
     private Date createDate;
@@ -30,7 +32,8 @@ public class Order {
 
     public Order() {}
 
-    public Order(String status, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice){
+    public Order(long accountId, String status, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice){
+        this.accountId = accountId;
         this.status = status;
         this.createDate = createDate;
         this.closeDate = closeDate;
@@ -46,6 +49,14 @@ public class Order {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(long accountId) {
+        this.accountId = accountId;
     }
 
     public String getStatus() {
