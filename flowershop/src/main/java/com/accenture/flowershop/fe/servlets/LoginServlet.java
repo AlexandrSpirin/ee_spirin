@@ -1,6 +1,7 @@
 package com.accenture.flowershop.fe.servlets;
 
-import com.accenture.flowershop.be.business.AccountBusinessService;
+import com.accenture.flowershop.be.business.account.AccountBusinessService;
+import com.accenture.flowershop.be.entity.account.AccountType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -22,7 +23,7 @@ import java.io.PrintWriter;
 public class LoginServlet extends HttpServlet {
 
     @Autowired
-    private AccountBusinessService entryService;
+    private AccountBusinessService accountBusinessService;
 
     private ServletConfig config;
 
@@ -68,14 +69,14 @@ public class LoginServlet extends HttpServlet {
         printWriter.println("<html>");
         printWriter.println("<body>");
         try {
-            if (entryService.login(login, password)) {
+            if (accountBusinessService.login(login, password)) {
                 printWriter.println("<h1 align=center>Welcome, " + login + "!</h1>");
-                if(login.equals("admin"))
+                if(accountBusinessService.isAdmin(login))
                 {
-                    session.setAttribute("userType", "ADMIN");
+                    session.setAttribute("userType", AccountType.ADMIN);
                 }
                 else {
-                    session.setAttribute("userType", "CUSTOMER");
+                    session.setAttribute("userType", AccountType.CUSTOMER);
                 }
             }
             else {
@@ -84,8 +85,6 @@ public class LoginServlet extends HttpServlet {
         }
         catch (Exception e){
             printWriter.println("<h1 align=center>Error on login!</h1>");
-            printWriter.println("<h1 align=center>Login: " + login + "</h1>");
-            printWriter.println("<h1 align=center>Password: " + password + "</h1>");
         }
 
         printWriter.println("<form action='index.jsp'>");
