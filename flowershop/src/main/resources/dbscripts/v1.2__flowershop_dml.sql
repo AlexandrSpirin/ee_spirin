@@ -29,29 +29,29 @@ INSERT INTO flower_pools (id, flower_id, flower_count) VALUES (flower_pool_seq.N
 
 INSERT INTO flowers (id, name, cost) VALUES (flower_seq.NEXTVAL, 'Jasmine', 50.00);
 
-INSERT INTO flower_pools (id, flower_id, flower_count) VALUES (flower_pool_seq.NEXTVAL, 2, 311);
+INSERT INTO flower_pools (id, flower_id, flower_count) VALUES (flower_pool_seq.CURRVAL, flower_seq.CURRVAL, 311);
 
 
 INSERT INTO flowers (id, name, cost) VALUES (flower_seq.NEXTVAL, 'Chrysanthemums', 66.13);
 
-INSERT INTO flower_pools (id, flower_id, flower_count) VALUES (flower_pool_seq.NEXTVAL, 3, 1625);
+INSERT INTO flower_pools (id, flower_id, flower_count) VALUES (flower_pool_seq.CURRVAL, flower_seq.CURRVAL, 1625);
 
 
 INSERT INTO flowers (id, name, cost) VALUES (flower_seq.NEXTVAL, 'Lilac', 23.42);
 
-INSERT INTO flower_pools (id, flower_id, flower_count) VALUES (flower_pool_seq.NEXTVAL, 4, 6234);
+INSERT INTO flower_pools (id, flower_id, flower_count) VALUES (flower_pool_seq.CURRVAL, flower_seq.CURRVAL, 6234);
 
 
 INSERT INTO flowers (id, name, cost) VALUES (flower_seq.NEXTVAL, 'Tulips', 90.00);
 
-INSERT INTO flower_pools (id, flower_id, flower_count) VALUES (flower_pool_seq.NEXTVAL, 5, 0);
+INSERT INTO flower_pools (id, flower_id, flower_count) VALUES (flower_pool_seq.CURRVAL, flower_seq.CURRVAL, 0);
 
 
 INSERT INTO flowers (id, name, cost) VALUES (flower_seq.NEXTVAL, 'Lotus', 141.50);
 
-INSERT INTO flower_pools (id, flower_id, flower_count) VALUES (flower_pool_seq.NEXTVAL, 6, 1132);
+INSERT INTO flower_pools (id, flower_id, flower_count) VALUES (flower_pool_seq.CURRVAL, flower_seq.CURRVAL, 1132);
 
 
 INSERT INTO flowers (id, name, cost) VALUES (flower_seq.NEXTVAL, 'Roses', 115.00);
 
-INSERT INTO flower_pools (id, flower_id, flower_count) VALUES (flower_pool_seq.NEXTVAL, 7, 5815);
+INSERT INTO flower_pools (id, flower_id, flower_count) VALUES (flower_pool_seq.CURRVAL, flower_seq.CURRVAL, 5815);
