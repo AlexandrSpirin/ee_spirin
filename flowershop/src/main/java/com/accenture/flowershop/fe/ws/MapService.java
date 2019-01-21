@@ -123,8 +123,11 @@ public class MapService {
                 orderEntity = new com.accenture.flowershop.be.entity.order.Order();
             }
             orderEntity.setId(orderDto.getId());
-            orderEntity.setFlowers(orderDto.getFlowers());
+            orderEntity.setStatus(orderDto.getStatus());
+            orderEntity.setCreateDate(orderDto.getCreateDate());
+            orderEntity.setCloseDate(orderDto.getCloseDate());
             orderEntity.setDiscount(orderDto.getDiscount());
+            orderEntity.setFinalPrice(orderDto.getFinalPrice());
         }
         return orderEntity;
     }
@@ -136,8 +139,11 @@ public class MapService {
                 orderDto = new Order();
             }
             orderDto.setId(orderEntity.getId());
-            orderDto.setFlowers(orderEntity.getFlowers());
+            orderDto.setStatus(orderEntity.getStatus());
+            orderDto.setCreateDate(orderEntity.getCreateDate());
+            orderDto.setCloseDate(orderEntity.getCloseDate());
             orderDto.setDiscount(orderEntity.getDiscount());
+            orderDto.setFinalPrice(orderEntity.getFinalPrice());
         }
         return orderDto;
     }
@@ -156,7 +162,7 @@ public class MapService {
 
     public List<Order> mapAllOrderDtos
             (List<Order> orderDtos, List<com.accenture.flowershop.be.entity.order.Order> orderEntities) {
-        for (int i = 0; i<orderEntities.size(); i++) {
+        for (int i = 0; i < orderEntities.size(); i++) {
             if(orderDtos.size() < i+1) {
                 orderDtos.add(new Order());
             }
