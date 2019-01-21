@@ -68,6 +68,7 @@ public class FlowersServlet extends HttpServlet {
 
     public void showFlowers(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException {
         PrintWriter printWriter = resp.getWriter();
+        String searchText = (String) req.getParameter("searchText");
 
         printWriter.println("<html>");
         printWriter.println("<body>");
@@ -76,12 +77,21 @@ public class FlowersServlet extends HttpServlet {
             printWriter.println("<hr>");
             printWriter.println("<h1 align=center>FLOWERS</h1>");
             printWriter.println("<hr>");
+            printWriter.println("<form action='flowers' method='post'>");
+            printWriter.println("<h2 align=center><input type=text name='searchText' value='" + searchText +
+                    "'/><input type=submit name='searchButton' value='Search'/>");
+            printWriter.println("</form></h2>");
             List<Flower> flowerDtos = new ArrayList();
-            mapService.mapAllFlowerDtos(flowerDtos, flowerBusinessService.getAllFlowers());
-            for (Flower f:flowerDtos) {
-                printWriter.println("<hr>");
-                printWriter.println("<h1 align=center>Name: " + f.getName() + "</h1>");
-                printWriter.println("<h2 align=center>Cost: " + f.getCost() + "</h2>");
+            mapService.mapAllFlowerDtos(flowerDtos, flowerBusinessService.findFlowers(searchText));
+            if(flowerDtos.isEmpty()) {
+                printWriter.println("<h1 align=center>No flower found with these parameters!</h1>");
+            }
+            else {
+                for (Flower f:flowerDtos) {
+                    printWriter.println("<hr>");
+                    printWriter.println("<h2 align=center>Name: " + f.getName() + "</h2>");
+                    printWriter.println("<h3 align=center>Cost: " + f.getCost() + "</h3>");
+                }
             }
             printWriter.println("<hr>");
             printWriter.println("<form action='index.jsp'>");
