@@ -1,7 +1,10 @@
 package com.accenture.flowershop.be.entity.order;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.sql.Date;
 import java.util.HashMap;
 
 
@@ -13,18 +16,28 @@ public class Order {
     @SequenceGenerator(name = "order_seq", sequenceName = "order_seq", allocationSize = 1)
     private long id;
 
-    private HashMap<BigInteger, Integer> flowers;
+    private String status;
+
+    private Date createDate;
+
+    private Date closeDate;
 
     private Integer discount;
+
+    private BigDecimal finalPrice;
 
 
 
     public Order() {}
 
-    public Order(HashMap<BigInteger, Integer> flowers, Integer discount){
-        this.flowers = flowers;
+    public Order(String status, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice){
+        this.status = status;
+        this.createDate = createDate;
+        this.closeDate = closeDate;
         this.discount = discount;
+        this.finalPrice = finalPrice;
     }
+
 
 
     public long getId() {
@@ -35,12 +48,28 @@ public class Order {
         this.id = id;
     }
 
-    public HashMap<BigInteger, Integer> getFlowers() {
-        return flowers;
+    public String getStatus() {
+        return status;
     }
 
-    public void setFlowers(HashMap<BigInteger, Integer> flowers) {
-        this.flowers = flowers;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getCloseDate() {
+        return closeDate;
+    }
+
+    public void setCloseDate(Date closeDate) {
+        this.closeDate = closeDate;
     }
 
     public Integer getDiscount() {
@@ -49,5 +78,13 @@ public class Order {
 
     public void setDiscount(Integer discount) {
         this.discount = discount;
+    }
+
+    public BigDecimal getFinalPrice() {
+        return finalPrice;
+    }
+
+    public void setFinalPrice(BigDecimal finalPrice) {
+        this.finalPrice = finalPrice;
     }
 }
