@@ -6,6 +6,8 @@ import java.sql.Date;
 public class Order {
     private long id;
 
+    private long accountId;
+
     private String status;
 
     private Date createDate;
@@ -20,8 +22,8 @@ public class Order {
 
     public Order() {}
 
-    public Order(long id, String status, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice){
-        this.id = id;
+    public Order(long accountId, String status, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice){
+        this.accountId = accountId;
         this.status = status;
         this.createDate = createDate;
         this.closeDate = closeDate;
@@ -37,6 +39,14 @@ public class Order {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(long accountId) {
+        this.accountId = accountId;
     }
 
     public String getStatus() {
