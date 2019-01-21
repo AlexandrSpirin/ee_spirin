@@ -15,5 +15,5 @@ public interface OrderBusinessService {
     List<Order> findOrdersCloseDate(Date closeDate) throws InternalException;
     List<Order> findOrders(BigDecimal finalPrice) throws InternalException;
     List<Order> findOrders(Integer discount) throws InternalException;
-    boolean insertOrder(String status, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice) throws InternalException;
+    boolean insertOrder(long accountId, String status, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice) throws InternalException;
 }
