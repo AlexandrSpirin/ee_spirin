@@ -81,8 +81,12 @@ public class FlowersServlet extends HttpServlet {
             for (Flower f:flowerDtos) {
                 printWriter.println("<hr>");
                 printWriter.println("<h1 align=center>Name: " + f.getName() + "</h1>");
-                printWriter.println("<h1 align=center>Cost: " + f.getCost() + "</h1>");
+                printWriter.println("<h2 align=center>Cost: " + f.getCost() + "</h2>");
             }
+            printWriter.println("<hr>");
+            printWriter.println("<form action='index.jsp'>");
+            printWriter.println("<p align=center><input type=submit name='mainPageButton' value='Main page'/></p>");
+            printWriter.println("</form>");
         }
         catch (Exception e){
                 printWriter.println("<h1 align=center>Error on show flowers</h1>");
