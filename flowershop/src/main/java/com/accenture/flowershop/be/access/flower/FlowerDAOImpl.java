@@ -42,8 +42,8 @@ public class FlowerDAOImpl implements FlowerDAO{
     @Override
     public Flower findFlower(String name) throws InternalException {
         try {
-            TypedQuery<Flower> q = entityManager.createQuery("SELECT f FROM flowers f WHERE f.name = :n", Flower.class);
-            q.setParameter("n", name);
+            TypedQuery<Flower> q = entityManager.createQuery("SELECT f FROM flowers f WHERE UPPER (f.name) = :n", Flower.class);
+            q.setParameter("n", name.toUpperCase());
             List<Flower> foundFlowers = q.getResultList();
             if(!foundFlowers.isEmpty())
             {
@@ -59,8 +59,8 @@ public class FlowerDAOImpl implements FlowerDAO{
     @Override
     public List<Flower> findFlowers(String name) throws InternalException {
         try {
-            TypedQuery<Flower> q = entityManager.createQuery("SELECT f FROM flowers f WHERE f.name LIKE :n", Flower.class);
-            q.setParameter("n", "%" + name + "%");
+            TypedQuery<Flower> q = entityManager.createQuery("SELECT f FROM flowers f WHERE UPPER (f.name) LIKE :n", Flower.class);
+            q.setParameter("n", "%" + name.toUpperCase() + "%");
             List<Flower> foundFlowers = q.getResultList();
             return foundFlowers;
         }
