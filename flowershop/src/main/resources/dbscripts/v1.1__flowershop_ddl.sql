@@ -48,6 +48,7 @@ CREATE TABLE "flower_pools"
 CREATE TABLE "orders"
 (
     "id" LONG PRIMARY KEY,
+    "account_id" LONG NOT NULL,
     "status" VARCHAR2(45 CHAR) NOT NULL,
     "create_date" DATE,
     "close_date" DATE,
