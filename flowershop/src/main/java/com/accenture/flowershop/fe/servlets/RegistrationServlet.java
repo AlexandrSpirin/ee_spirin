@@ -1,6 +1,6 @@
 package com.accenture.flowershop.fe.servlets;
 
-import com.accenture.flowershop.be.business.AccountBusinessService;
+import com.accenture.flowershop.be.business.account.AccountBusinessService;
 import com.accenture.flowershop.be.entity.account.AccountType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -66,7 +66,7 @@ public class RegistrationServlet extends HttpServlet {
         HttpSession session = req.getSession();
 
 
-        if(session.getAttribute("userType")=="ADMIN") {
+        if(session.getAttribute("userType")==AccountType.ADMIN) {
             printWriter.println("<html>");
             printWriter.println("<body>");
 
