@@ -12,11 +12,22 @@ public class InternalException extends Exception{
     public static final String ERROR_DAO_FLOWER_FIND_ID = "(DAO)Exception occcured while finding Flower via ID";
     public static final String ERROR_DAO_FLOWER_FIND_NAME = "(DAO)Exception occcured while finding Flower via Name";
     public static final String ERROR_DAO_FLOWERS_FIND_NAME = "(DAO)Exception occcured while finding Flowers via Name(Like)";
+    public static final String ERROR_DAO_FLOWERS_FIND_NAME_AND_RANGE_COST = "(DAO)Exception occcured while finding Flowers via Name(Like) and Range Cost";
     public static final String ERROR_DAO_FLOWERS_FIND_COST = "(DAO)Exception occcured while finding Flowers via Cost";
     public static final String ERROR_DAO_FLOWERS_FIND_MIN_COST = "(DAO)Exception occcured while finding Flowers via Min Cost";
     public static final String ERROR_DAO_FLOWERS_FIND_MAX_COST = "(DAO)Exception occcured while finding Flowers via Max Cost";
     public static final String ERROR_DAO_FLOWERS_FIND_RANGE_COST = "(DAO)Exception occcured while finding Flowers via Range Cost";
     public static final String ERROR_DAO_FLOWER_INSERT = "(DAO)Exception occured while inserting new Flower";
+
+    public static final String ERROR_DAO_FLOWER_POOLS_GET_ALL = "(DAO)Exception occcured while get all Flower Pools";
+    public static final String ERROR_DAO_FLOWER_POOLS_FIND_ID = "(DAO)Exception occcured while finding Flower Pools via ID";
+    public static final String ERROR_DAO_FLOWER_POOLS_FIND_FLOWER_ID = "(DAO)Exception occcured while finding Flower Pools via Flower Id";
+    public static final String ERROR_DAO_FLOWER_POOL_FIND = "(DAO)Exception occcured while finding Flowers via Id and Flower Id";
+    public static final String ERROR_DAO_FLOWER_POOLS_FIND_FLOWER_COUNT = "(DAO)Exception occcured while finding Flowers via Flower Count";
+    public static final String ERROR_DAO_FLOWER_POOLS_FIND_MIN_FLOWER_COUNT = "(DAO)Exception occcured while finding Flower Pools via Min Flower Count";
+    public static final String ERROR_DAO_FLOWER_POOLS_FIND_MAX_FLOWER_COUNT = "(DAO)Exception occcured while finding Flower Pools via Max Flower Count";
+    public static final String ERROR_DAO_FLOWER_POOLS_FIND_RANGE_FLOWER_COUNT = "(DAO)Exception occcured while finding Flower Pools via Range Flower Count";
+    public static final String ERROR_DAO_FLOWER_POOL_INSERT = "(DAO)Exception occured while inserting new Flower Pool";
 
     public static final String ERROR_DAO_ORDER_GET_ALL = "(DAO)Exception occcured while get all Orders";
     public static final String ERROR_DAO_ORDER_FIND_ID = "(DAO)Exception occcured while finding Order via ID";
@@ -35,6 +46,7 @@ public class InternalException extends Exception{
     public static final String ERROR_SERVICE_FLOWER_FIND_ID = "(Service)Exception occcured while finding Flower via ID";
     public static final String ERROR_SERVICE_FLOWER_FIND_NAME = "(Service)Exception occcured while finding Flower via Name";
     public static final String ERROR_SERVICE_FLOWERS_FIND_NAME = "(Service)Exception occcured while finding Flowers via Name(Like)";
+    public static final String ERROR_SERVICE_FLOWERS_FIND_NAME_AND_RANGE_COST = "(Service)Exception occcured while finding Flowers via Name(Like) and Range Cost";
     public static final String ERROR_SERVICE_FLOWERS_FIND_COST = "(Service)Exception occcured while finding Flowers via Cost";
     public static final String ERROR_SERVICE_FLOWERS_FIND_MIN_COST = "(Service)Exception occcured while finding Flowers via Min Cost";
     public static final String ERROR_SERVICE_FLOWERS_FIND_MAX_COST = "(Service)Exception occcured while finding Flowers via Max Cost";
@@ -49,6 +61,16 @@ public class InternalException extends Exception{
     public static final String ERROR_SERVICE_ORDER_FIND_FINAL_PRICE = "(Service)Exception occcured while finding Order via Final Price";
     public static final String ERROR_SERVICE_ORDER_FIND_DISCOUNT = "(Service)Exception occcured while finding Order via Discount";
     public static final String ERROR_SERVICE_ORDER_INSERT = "(Service)Exception occured while inserting new Order";
+
+    public static final String ERROR_SERVICE_FLOWER_POOLS_GET_ALL = "(Service)Exception occcured while get all Flower Pools";
+    public static final String ERROR_SERVICE_FLOWER_POOLS_FIND_ID = "(Service)Exception occcured while finding Flower Pools via ID";
+    public static final String ERROR_SERVICE_FLOWER_POOLS_FIND_FLOWER_ID = "(Service)Exception occcured while finding Flower Pools via Flower Id";
+    public static final String ERROR_SERVICE_FLOWER_POOL_FIND = "(Service)Exception occcured while finding Flowers via Id and Flower Id";
+    public static final String ERROR_SERVICE_FLOWER_POOLS_FIND_FLOWER_COUNT = "(Service)Exception occcured while finding Flowers via Flower Count";
+    public static final String ERROR_SERVICE_FLOWER_POOLS_FIND_MIN_FLOWER_COUNT = "(Service)Exception occcured while finding Flower Pools via Min Flower Count";
+    public static final String ERROR_SERVICE_FLOWER_POOLS_FIND_MAX_FLOWER_COUNT = "(Service)Exception occcured while finding Flower Pools via Max Flower Count";
+    public static final String ERROR_SERVICE_FLOWER_POOLS_FIND_RANGE_FLOWER_COUNT = "(Service)Exception occcured while finding Flower Pools via Range Flower Count";
+    public static final String ERROR_SERVICE_FLOWER_POOL_INSERT = "(Service)Exception occured while inserting new Flower Pool";
 
 
 
