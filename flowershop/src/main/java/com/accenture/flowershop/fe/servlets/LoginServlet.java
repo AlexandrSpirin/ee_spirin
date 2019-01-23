@@ -1,7 +1,10 @@
 package com.accenture.flowershop.fe.servlets;
 
 import com.accenture.flowershop.be.business.account.AccountBusinessService;
+import com.accenture.flowershop.be.business.flower.FlowerBusinessService;
 import com.accenture.flowershop.be.entity.account.AccountType;
+import com.accenture.flowershop.fe.dto.flower.Flower;
+import com.accenture.flowershop.fe.ws.MapService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -15,6 +18,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 
 @Component
@@ -24,6 +32,12 @@ public class LoginServlet extends HttpServlet {
 
     @Autowired
     private AccountBusinessService accountBusinessService;
+
+    @Autowired
+    FlowerBusinessService flowerBusinessService;
+
+    @Autowired
+    MapService mapService;
 
     private ServletConfig config;
 
@@ -66,18 +80,30 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = req.getSession();
 
 
-        printWriter.println("<html>");
-        printWriter.println("<body>");
+        printWriter.println("<html><body>");
+
         try {
             if (accountBusinessService.login(login, password)) {
-                printWriter.println("<h1 align=center>Welcome, " + login + "!</h1>");
+                session.setAttribute("login", login);
                 if(accountBusinessService.isAdmin(login))
                 {
                     session.setAttribute("userType", AccountType.ADMIN);
+                    session.setAttribute("discount", "0");
+                    session.setAttribute("money", new BigDecimal(0));
                 }
                 else {
                     session.setAttribute("userType", AccountType.CUSTOMER);
+                    session.setAttribute("discount", "11");
+                    session.setAttribute("money", new BigDecimal(2000));
+                    HashMap<BigInteger, Integer> flowersInBasket = new HashMap<>();
+                    List<Flower> flowerDtos = new ArrayList();
+                    mapService.mapAllFlowerDtos(flowerDtos, flowerBusinessService.getAllFlowers());
+                    for (Flower f: flowerDtos) {
+                        flowersInBasket.put(BigInteger.valueOf(f.getId()), 2);
+                    }
+                    session.setAttribute("flowersInBasket", flowersInBasket);
                 }
+                resp.sendRedirect("flowers");
             }
             else {
                 printWriter.println("<h1 align=center>Login or password not correct!</h1>");
