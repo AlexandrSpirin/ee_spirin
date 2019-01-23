@@ -3,6 +3,7 @@ package com.accenture.flowershop.fe.ws;
 import com.accenture.flowershop.fe.dto.account.Account;
 import com.accenture.flowershop.fe.dto.flower.Flower;
 import com.accenture.flowershop.fe.dto.order.Order;
+import com.accenture.flowershop.fe.dto.flowerPool.FlowerPool;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -112,6 +113,59 @@ public class MapService {
         }
         return flowerDtos;
     }
+
+
+
+
+    public com.accenture.flowershop.be.entity.flowerPool.FlowerPool mapToFlowerPoolEntity
+            (FlowerPool flowerPoolDto, com.accenture.flowershop.be.entity.flowerPool.FlowerPool flowerPoolEntity) {
+        if(flowerPoolDto != null) {
+            if (flowerPoolEntity == null) {
+                flowerPoolEntity = new com.accenture.flowershop.be.entity.flowerPool.FlowerPool();
+            }
+            flowerPoolEntity.setId(flowerPoolDto.getId());
+            flowerPoolEntity.setFlowerId(flowerPoolDto.getFlowerId());
+            flowerPoolEntity.setFlowerCount(flowerPoolDto.getFlowerCount());
+        }
+        return flowerPoolEntity;
+    }
+
+    public FlowerPool mapToFlowerPoolDto
+            (FlowerPool flowerPoolDto, com.accenture.flowershop.be.entity.flowerPool.FlowerPool flowerPoolEntity) {
+        if(flowerPoolEntity != null) {
+            if (flowerPoolDto == null) {
+                flowerPoolDto = new FlowerPool();
+            }
+            flowerPoolDto.setId(flowerPoolEntity.getId());
+            flowerPoolDto.setFlowerId(flowerPoolEntity.getFlowerId());
+            flowerPoolDto.setFlowerCount(flowerPoolEntity.getFlowerCount());
+        }
+        return flowerPoolDto;
+    }
+
+
+    public List<com.accenture.flowershop.be.entity.flowerPool.FlowerPool> mapAllFlowerPoolEntities
+            (List<FlowerPool> flowerPoolDtos, List<com.accenture.flowershop.be.entity.flowerPool.FlowerPool> flowerPoolEntities) {
+        for (int i = 0; i < flowerPoolDtos.size(); i++) {
+            if(flowerPoolEntities.size() < i+1) {
+                flowerPoolEntities.add(new com.accenture.flowershop.be.entity.flowerPool.FlowerPool());
+            }
+            mapToFlowerPoolEntity(flowerPoolDtos.get(i), flowerPoolEntities.get(i));
+        }
+        return flowerPoolEntities;
+    }
+
+    public List<FlowerPool> mapAllFlowerPoolDtos
+            (List<FlowerPool> flowerPoolDtos, List<com.accenture.flowershop.be.entity.flowerPool.FlowerPool> orderEntities) {
+        for (int i = 0; i < orderEntities.size(); i++) {
+            if(flowerPoolDtos.size() < i+1) {
+                flowerPoolDtos.add(new FlowerPool());
+            }
+            mapToFlowerPoolDto(flowerPoolDtos.get(i), orderEntities.get(i));
+        }
+        return flowerPoolDtos;
+    }
+
 
 
 
