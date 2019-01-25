@@ -34,7 +34,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     @Override
     public Customer findCustomer(Long id) throws InternalException{
         try {
-            TypedQuery<Customer> q = entityManager.createQuery("SELECT c FROM customers c WHERE c.id = :id ", Customer.class);
+            TypedQuery<Customer> q = entityManager.createQuery("SELECT c FROM Customer c WHERE c.id = :id ", Customer.class);
             q.setParameter("id", id);
             List<Customer> foundCustomer = q.getResultList();
             if(!foundCustomer.isEmpty())
