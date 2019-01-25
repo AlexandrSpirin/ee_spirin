@@ -1,7 +1,10 @@
 package com.accenture.flowershop.fe.servlets;
 
 import com.accenture.flowershop.be.business.account.AccountBusinessService;
+import com.accenture.flowershop.be.business.customer.CustomerBusinessService;
 import com.accenture.flowershop.be.entity.account.AccountType;
+import com.accenture.flowershop.be.entity.customer.Customer;
+import com.accenture.flowershop.fe.enums.SessionAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -15,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 
 
 @Component
@@ -23,57 +27,63 @@ import java.io.PrintWriter;
 public class RegistrationServlet extends HttpServlet {
 
     @Autowired
-    private AccountBusinessService entryService;
+    private AccountBusinessService accountBusinessService;
 
-    private ServletConfig config;
+    @Autowired
+    private CustomerBusinessService customerBusinessService;
 
     @Override
     public void init (ServletConfig config) throws ServletException
     {
-        this.config = config;
         super.init(config);
         SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
                 config.getServletContext());
     }
 
     @Override
-    public ServletConfig getServletConfig()
-    {
-        return config;
-    }
-
-    @Override
-    public void destroy(){}
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
         registration(req,resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
         registration(req,resp);
     }
 
-    public void registration(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException
+    public void registration(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
-        String login = (String) req.getParameter("login");
-        String passwordOne = (String) req.getParameter("passwordOne");
-        String passwordTwo = (String) req.getParameter("passwordTwo");
+        String login = req.getParameter("login");
+        String passwordOne = req.getParameter("passwordOne");
+        String passwordTwo = req.getParameter("passwordTwo");
+        String firstName = req.getParameter("firstName");
+        String middleName = req.getParameter("middleName");
+        String lastName = req.getParameter("lastName");
+        String email = req.getParameter("email");
+        String phoneNumber = req.getParameter("phoneNumber");
+        String money = req.getParameter("money");
+        String discount = req.getParameter("discount");
+
+
         PrintWriter printWriter = resp.getWriter();
         HttpSession session = req.getSession();
 
 
-        if(session.getAttribute("userType")==AccountType.ADMIN) {
+        if(session.getAttribute(SessionAttribute.USER_TYPE.toString()) == AccountType.ADMIN) {
             printWriter.println("<html>");
             printWriter.println("<body>");
 
             if (passwordOne.equals(passwordTwo)) {
                 try {
-                    if (entryService.registration(login, passwordOne, AccountType.CUSTOMER)) {
-                        printWriter.println("<h1 align=center>Thank you, " + login + ", for registration!</h1>");
+                    if (accountBusinessService.registration(login, passwordOne, AccountType.CUSTOMER)) {
+                        if(customerBusinessService.insertCustomer(accountBusinessService.findAccount(login),
+                                firstName, middleName, lastName, email, phoneNumber, new BigDecimal(money), Integer.valueOf(discount))) {
+                            printWriter.println("<h1 align=center>Thank you, " + login + " was registered!</h1>");
+                        }
+                        else {
+                            printWriter.println("<h1 align=center>This account is already in use! Please choose another account.</h1>");
+                        }
                     } else {
                         printWriter.println("<h1 align=center>This login is already in use! Please choose another login.</h1>");
                     }
