@@ -50,7 +50,8 @@ CREATE TABLE "flower_stocks"
 CREATE TABLE "orders"
 (
     "id" LONG PRIMARY KEY,
-    "account_id" LONG NOT NULL,
+    "customer_id" LONG NOT NULL,
+    FOREIGN KEY ("customer_id") REFERENCES "customers" ("id"),
     "status" VARCHAR2(45 CHAR) NOT NULL,
     "create_date" DATE,
     "close_date" DATE,
@@ -63,8 +64,10 @@ CREATE TABLE "orders"
 
 CREATE TABLE "orders_flowers"
 (
+    "id" LONG NOT NULL,
     "order_id" LONG NOT NULL,
+    FOREIGN KEY ("order_id") REFERENCES "orders" ("id"),
     "flower_id" LONG NOT NULL,
+    FOREIGN KEY ("flower_id") REFERENCES "flowers" ("id"),
     "flower_count" NUMBER(8, 0) NOT NULL,
-    CONSTRAINT "pk_orders_flowers" PRIMARY KEY ("order_id", "flower_id")
 );
