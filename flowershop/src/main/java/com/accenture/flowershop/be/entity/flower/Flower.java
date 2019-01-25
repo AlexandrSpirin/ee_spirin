@@ -4,13 +4,13 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 
-@Entity(name="flowers")
+@Entity
 @Table(name="flowers")
 public class Flower {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "flower_seq")
     @SequenceGenerator(name = "flower_seq", sequenceName = "flower_seq", allocationSize = 1)
-    private long id;
+    private Long id;
 
     private String name;
 
