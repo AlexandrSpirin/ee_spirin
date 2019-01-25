@@ -1,9 +1,10 @@
 package com.accenture.flowershop.fe.ws;
 
 import com.accenture.flowershop.fe.dto.account.Account;
+import com.accenture.flowershop.fe.dto.customer.Customer;
 import com.accenture.flowershop.fe.dto.flower.Flower;
 import com.accenture.flowershop.fe.dto.order.Order;
-import com.accenture.flowershop.fe.dto.flowerPool.FlowerPool;
+import com.accenture.flowershop.fe.dto.flowerStock.FlowerStock;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -65,6 +66,70 @@ public class MapService {
 
 
 
+    public com.accenture.flowershop.be.entity.customer.Customer mapToCustomerEntity
+            (Customer customerDto, com.accenture.flowershop.be.entity.customer.Customer customerEntity) {
+        if(customerDto != null) {
+            if (customerEntity == null) {
+                customerEntity = new com.accenture.flowershop.be.entity.customer.Customer();
+            }
+            customerEntity.setId(customerDto.getId());
+            customerEntity.setAccount(mapToAccountEntity(customerDto.getAccount(), new com.accenture.flowershop.be.entity.account.Account()));
+            customerEntity.setFirstName(customerDto.getFirstName());
+            customerEntity.setMiddleName(customerDto.getMiddleName());
+            customerEntity.setLastName(customerDto.getLastName());
+            customerEntity.setEmail(customerDto.getEmail());
+            customerEntity.setPhoneNumber(customerDto.getPhoneNumber());
+            customerEntity.setMoney(customerDto.getMoney());
+            customerEntity.setDiscount(customerDto.getDiscount());
+        }
+        return customerEntity;
+    }
+
+    public Customer mapToCustomerDto
+            (Customer customerDto, com.accenture.flowershop.be.entity.customer.Customer customerEntity) {
+        if(customerEntity != null) {
+            if (customerDto == null) {
+                customerDto = new Customer();
+            }
+            customerDto.setId(customerEntity.getId());
+            customerDto.setAccount(mapToAccountDto(new Account(), customerEntity.getAccount()));
+            customerDto.setFirstName(customerEntity.getFirstName());
+            customerDto.setMiddleName(customerEntity.getMiddleName());
+            customerDto.setLastName(customerEntity.getLastName());
+            customerDto.setEmail(customerEntity.getEmail());
+            customerDto.setPhoneNumber(customerEntity.getPhoneNumber());
+            customerDto.setMoney(customerEntity.getMoney());
+            customerDto.setDiscount(customerEntity.getDiscount());
+        }
+        return customerDto;
+    }
+
+
+    public List<com.accenture.flowershop.be.entity.customer.Customer> mapAllCustomerEntities
+            (List<Customer> customerDtos, List<com.accenture.flowershop.be.entity.customer.Customer> customerEntities) {
+        for (int i = 0; i < customerDtos.size(); i++) {
+            if(customerEntities.size() < i+1) {
+                customerEntities.add(new com.accenture.flowershop.be.entity.customer.Customer());
+            }
+            mapToCustomerEntity(customerDtos.get(i), customerEntities.get(i));
+        }
+        return customerEntities;
+    }
+
+    public List<Customer> mapAllCustomerDtos
+            (List<Customer> customerDtos, List<com.accenture.flowershop.be.entity.customer.Customer> customerEntities) {
+        for (int i = 0; i<customerEntities.size(); i++) {
+            if(customerDtos.size() < i+1) {
+                customerDtos.add(new Customer());
+            }
+            mapToCustomerDto(customerDtos.get(i), customerEntities.get(i));
+        }
+        return customerDtos;
+    }
+
+
+
+
     public com.accenture.flowershop.be.entity.flower.Flower mapToFlowerEntity
             (Flower flowerDto, com.accenture.flowershop.be.entity.flower.Flower flowerEntity) {
         if(flowerDto != null) {
@@ -117,53 +182,53 @@ public class MapService {
 
 
 
-    public com.accenture.flowershop.be.entity.flowerPool.FlowerPool mapToFlowerPoolEntity
-            (FlowerPool flowerPoolDto, com.accenture.flowershop.be.entity.flowerPool.FlowerPool flowerPoolEntity) {
-        if(flowerPoolDto != null) {
-            if (flowerPoolEntity == null) {
-                flowerPoolEntity = new com.accenture.flowershop.be.entity.flowerPool.FlowerPool();
+    public com.accenture.flowershop.be.entity.flowerStock.FlowerStock mapToFlowerStockEntity
+            (FlowerStock flowerStockDto, com.accenture.flowershop.be.entity.flowerStock.FlowerStock flowerStockEntity) {
+        if(flowerStockDto != null) {
+            if (flowerStockEntity == null) {
+                flowerStockEntity = new com.accenture.flowershop.be.entity.flowerStock.FlowerStock();
             }
-            flowerPoolEntity.setId(flowerPoolDto.getId());
-            flowerPoolEntity.setFlowerId(flowerPoolDto.getFlowerId());
-            flowerPoolEntity.setFlowerCount(flowerPoolDto.getFlowerCount());
+            flowerStockEntity.setId(flowerStockDto.getId());
+            flowerStockEntity.setFlower(mapToFlowerEntity(flowerStockDto.getFlower(), new com.accenture.flowershop.be.entity.flower.Flower()));
+            flowerStockEntity.setFlowerCount(flowerStockDto.getFlowerCount());
         }
-        return flowerPoolEntity;
+        return flowerStockEntity;
     }
 
-    public FlowerPool mapToFlowerPoolDto
-            (FlowerPool flowerPoolDto, com.accenture.flowershop.be.entity.flowerPool.FlowerPool flowerPoolEntity) {
-        if(flowerPoolEntity != null) {
-            if (flowerPoolDto == null) {
-                flowerPoolDto = new FlowerPool();
+    public FlowerStock mapToFlowerStockDto
+            (FlowerStock flowerStockDto, com.accenture.flowershop.be.entity.flowerStock.FlowerStock flowerStockEntity) {
+        if(flowerStockEntity != null) {
+            if (flowerStockDto == null) {
+                flowerStockDto = new FlowerStock();
             }
-            flowerPoolDto.setId(flowerPoolEntity.getId());
-            flowerPoolDto.setFlowerId(flowerPoolEntity.getFlowerId());
-            flowerPoolDto.setFlowerCount(flowerPoolEntity.getFlowerCount());
+            flowerStockDto.setId(flowerStockEntity.getId());
+            flowerStockDto.setFlower(mapToFlowerDto(new Flower(), flowerStockEntity.getFlower()));
+            flowerStockDto.setFlowerCount(flowerStockEntity.getFlowerCount());
         }
-        return flowerPoolDto;
+        return flowerStockDto;
     }
 
 
-    public List<com.accenture.flowershop.be.entity.flowerPool.FlowerPool> mapAllFlowerPoolEntities
-            (List<FlowerPool> flowerPoolDtos, List<com.accenture.flowershop.be.entity.flowerPool.FlowerPool> flowerPoolEntities) {
-        for (int i = 0; i < flowerPoolDtos.size(); i++) {
-            if(flowerPoolEntities.size() < i+1) {
-                flowerPoolEntities.add(new com.accenture.flowershop.be.entity.flowerPool.FlowerPool());
+    public List<com.accenture.flowershop.be.entity.flowerStock.FlowerStock> mapAllFlowerStockEntities
+            (List<FlowerStock> flowerStockDtos, List<com.accenture.flowershop.be.entity.flowerStock.FlowerStock> flowerStockEntities) {
+        for (int i = 0; i < flowerStockDtos.size(); i++) {
+            if(flowerStockEntities.size() < i+1) {
+                flowerStockEntities.add(new com.accenture.flowershop.be.entity.flowerStock.FlowerStock());
             }
-            mapToFlowerPoolEntity(flowerPoolDtos.get(i), flowerPoolEntities.get(i));
+            mapToFlowerStockEntity(flowerStockDtos.get(i), flowerStockEntities.get(i));
         }
-        return flowerPoolEntities;
+        return flowerStockEntities;
     }
 
-    public List<FlowerPool> mapAllFlowerPoolDtos
-            (List<FlowerPool> flowerPoolDtos, List<com.accenture.flowershop.be.entity.flowerPool.FlowerPool> orderEntities) {
+    public List<FlowerStock> mapAllFlowerStockDtos
+            (List<FlowerStock> flowerStockDtos, List<com.accenture.flowershop.be.entity.flowerStock.FlowerStock> orderEntities) {
         for (int i = 0; i < orderEntities.size(); i++) {
-            if(flowerPoolDtos.size() < i+1) {
-                flowerPoolDtos.add(new FlowerPool());
+            if(flowerStockDtos.size() < i+1) {
+                flowerStockDtos.add(new FlowerStock());
             }
-            mapToFlowerPoolDto(flowerPoolDtos.get(i), orderEntities.get(i));
+            mapToFlowerStockDto(flowerStockDtos.get(i), orderEntities.get(i));
         }
-        return flowerPoolDtos;
+        return flowerStockDtos;
     }
 
 
@@ -177,7 +242,7 @@ public class MapService {
                 orderEntity = new com.accenture.flowershop.be.entity.order.Order();
             }
             orderEntity.setId(orderDto.getId());
-            orderEntity.setAccountId(orderDto.getAccountId());
+            orderEntity.setCustomer(mapToCustomerEntity(orderDto.getCustomer(), new com.accenture.flowershop.be.entity.customer.Customer()));
             orderEntity.setStatus(orderDto.getStatus());
             orderEntity.setCreateDate(orderDto.getCreateDate());
             orderEntity.setCloseDate(orderDto.getCloseDate());
@@ -194,7 +259,7 @@ public class MapService {
                 orderDto = new Order();
             }
             orderDto.setId(orderEntity.getId());
-            orderDto.setAccountId(orderEntity.getAccountId());
+            orderDto.setCustomer(mapToCustomerDto(new Customer(), orderEntity.getCustomer()));
             orderDto.setStatus(orderEntity.getStatus());
             orderDto.setCreateDate(orderEntity.getCreateDate());
             orderDto.setCloseDate(orderEntity.getCloseDate());
