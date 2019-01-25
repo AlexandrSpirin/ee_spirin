@@ -3,13 +3,13 @@ package com.accenture.flowershop.be.entity.account;
 import javax.persistence.*;
 
 
-@Entity(name="accounts")
+@Entity
 @Table(name="accounts")
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_seq")
     @SequenceGenerator(name = "account_seq", sequenceName = "account_seq", allocationSize = 1)
-    private long id;
+    private Long id;
 
     private String login;
 
@@ -28,7 +28,7 @@ public class Account {
     }
 
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -43,7 +43,7 @@ public class Account {
     public AccountType getType() { return type; }
 
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
