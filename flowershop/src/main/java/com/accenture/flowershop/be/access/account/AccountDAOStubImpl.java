@@ -41,7 +41,7 @@ public class AccountDAOStubImpl implements AccountDAO {
     }
 
     @Override
-    public Account findAccount(long id) throws InternalException {
+    public Account findAccount(Long id) throws InternalException {
         try {
             for (Account acc: accounts) {
                 if(acc.getId()==id) {
