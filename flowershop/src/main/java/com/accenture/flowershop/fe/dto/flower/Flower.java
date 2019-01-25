@@ -3,7 +3,7 @@ package com.accenture.flowershop.fe.dto.flower;
 import java.math.BigDecimal;
 
 public class Flower {
-    private long id;
+    private Long id;
 
     private String name;
 
@@ -12,18 +12,18 @@ public class Flower {
 
     public Flower(){}
 
-    public Flower(long id, String name, BigDecimal cost){
+    public Flower(Long id, String name, BigDecimal cost){
         this.id = id;
         this.name = name;
         this.cost = cost;
     }
 
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
