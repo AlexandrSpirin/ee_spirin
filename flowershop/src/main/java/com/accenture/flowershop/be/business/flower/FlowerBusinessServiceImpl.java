@@ -24,12 +24,12 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
             return flowerDAO.getAllFlowers();
         }
         catch (Exception e){
-            throw new InternalException(InternalException.ERROR_SERVICE_FLOWER_GET_ALL, new Throwable(e));
+            throw new InternalException(InternalException.ERROR_SERVICE_FLOWERS_GET_ALL, new Throwable(e));
         }
     }
 
     @Override
-    public Flower findFlower(long id) throws InternalException {
+    public Flower findFlower(Long id) throws InternalException {
         try {
             return flowerDAO.findFlower(id);
         }
@@ -59,6 +59,16 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
     }
 
     @Override
+    public List<Flower> findFlowers(String name, BigDecimal minCost, BigDecimal maxCost) throws InternalException {
+        try {
+            return flowerDAO.findFlowers(name, minCost, maxCost);
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_SERVICE_FLOWERS_FIND_NAME_AND_RANGE_COST, new Throwable(e));
+        }
+    }
+
+    @Override
     public List<Flower> findFlowers(BigDecimal cost) throws InternalException {
         try {
             return flowerDAO.findFlowers(cost);
@@ -67,6 +77,37 @@ public class FlowerBusinessServiceImpl implements FlowerBusinessService {
             throw new InternalException(InternalException.ERROR_SERVICE_FLOWERS_FIND_COST, new Throwable(e));
         }
     }
+
+    @Override
+    public List<Flower> findFlowersByMinCost(BigDecimal minCost) throws InternalException{
+        try {
+            return flowerDAO.findFlowersByMinCost(minCost);
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_SERVICE_FLOWERS_FIND_MIN_COST, new Throwable(e));
+        }
+    }
+
+    @Override
+    public List<Flower> findFlowersByMaxCost(BigDecimal maxCost) throws InternalException{
+        try {
+            return flowerDAO.findFlowersByMaxCost(maxCost);
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_SERVICE_FLOWERS_FIND_MAX_COST, new Throwable(e));
+        }
+    }
+
+    @Override
+    public List<Flower> findFlowersByRange(BigDecimal minCost, BigDecimal maxCost) throws InternalException{
+        try {
+            return flowerDAO.findFlowersByRange(minCost, maxCost);
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_SERVICE_FLOWERS_FIND_RANGE_COST, new Throwable(e));
+        }
+    }
+
 
     @Override
     public boolean insertFlower(String name, BigDecimal cost)
