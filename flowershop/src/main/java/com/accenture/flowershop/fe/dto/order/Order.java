@@ -1,12 +1,17 @@
 package com.accenture.flowershop.fe.dto.order;
 
+import com.accenture.flowershop.fe.dto.customer.Customer;
+
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.List;
 
 public class Order {
-    private long id;
+    private Long id;
 
-    private long accountId;
+    private Customer customer;
+
+    private List<OrderFlowers> orderFlowers;
 
     private String status;
 
@@ -22,8 +27,8 @@ public class Order {
 
     public Order() {}
 
-    public Order(long accountId, String status, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice){
-        this.accountId = accountId;
+    public Order(Customer customer, String status, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice){
+        this.customer = customer;
         this.status = status;
         this.createDate = createDate;
         this.closeDate = closeDate;
@@ -33,20 +38,20 @@ public class Order {
 
 
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getAccountId() {
-        return accountId;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setAccountId(long accountId) {
-        this.accountId = accountId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public String getStatus() {
