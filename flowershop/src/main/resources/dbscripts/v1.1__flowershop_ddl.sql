@@ -12,12 +12,13 @@ CREATE TABLE "accounts"
 CREATE TABLE "customers"
 (
     "id" LONG PRIMARY KEY,
-    "account_id" LONG NOT NULL,
+    "account_id" LONG,
+    FOREIGN KEY ("account_id") REFERENCES "accounts" ("id"),
     "first_name" VARCHAR2(45 CHAR) NOT NULL,
-    "middle_name" VARCHAR2(45 CHAR) NOT NULL,
+    "middle_name" VARCHAR2(45 CHAR),
     "last_name" VARCHAR2(45 CHAR) NOT NULL,
-    "email" VARCHAR2(45 CHAR) NOT NULL,
-    "phone_number" NUMBER(11, 0) NOT NULL,
+    "email" VARCHAR2(45 CHAR),
+    "phone_number" VARCHAR2(20 CHAR),
     "money" NUMBER(10, 2) NOT NULL,
     "discount" NUMBER(2) NOT NULL
 );
@@ -35,12 +36,13 @@ CREATE TABLE "flowers"
 
 
 
-CREATE TABLE "flower_pools"
+CREATE TABLE "flower_stocks"
 (
-    "id" LONG NOT NULL,
-    "flower_id" LONG NOT NULL,
+    "id" LONG PRIMARY KEY,
+    "flower_id" LONG,
+    FOREIGN KEY ("flower_id") REFERENCES "flowers" ("id"),
     "flower_count" NUMBER(8, 0) NOT NULL,
-    CONSTRAINT "pk_flower_pools" PRIMARY KEY ("id", "flower_id")
+    "flower_stock_id" LONG NOT NULL
 );
 
 
