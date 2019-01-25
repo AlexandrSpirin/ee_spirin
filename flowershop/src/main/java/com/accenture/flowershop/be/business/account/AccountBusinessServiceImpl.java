@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class AccountBusinessServiceImpl implements AccountBusinessService {
@@ -17,12 +19,43 @@ public class AccountBusinessServiceImpl implements AccountBusinessService {
     @Qualifier("accountDAOImpl")
     private AccountDAO accountDAO;
 
+
+    @Override
+    public List<Account> getAllAccounts() throws InternalException{
+        try {
+            return accountDAO.getAllAccounts();
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_SERVICE_ACCOUNTS_GET_ALL, new Throwable(e));
+        }
+    }
+
+    @Override
+    public Account findAccount(Long id) throws InternalException{
+        try {
+            return accountDAO.findAccount(id);
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_SERVICE_ACCOUNT_FIND_ID, new Throwable(e));
+        }
+    }
+
+    @Override
+    public Account findAccount(String login) throws InternalException{
+        try {
+            return accountDAO.findAccount(login);
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_SERVICE_ACCOUNT_FIND_LOGIN, new Throwable(e));
+        }
+    }
+
     @Override
     public boolean login(String login, String password) throws InternalException {
         try {
             Account findAccount=accountDAO.findAccount(login);
             if (findAccount!=null) {
-                return StringUtils.equals(findAccount.getPassword(), password)?true:false;
+                return StringUtils.equals(findAccount.getPassword(), password);
             }
             return false;
         }
@@ -34,10 +67,7 @@ public class AccountBusinessServiceImpl implements AccountBusinessService {
     @Override
     public boolean registration(String login, String password, AccountType type) throws InternalException{
         try {
-            if (accountDAO.insertAccount(login, password, type)) {
-                return true;
-            }
-            return false;
+            return accountDAO.insertAccount(login, password, type);
         }
         catch (Exception e){
             throw new InternalException(InternalException.ERROR_SERVICE_ACCOUNT_REGISTER, new Throwable(e));
@@ -47,15 +77,10 @@ public class AccountBusinessServiceImpl implements AccountBusinessService {
     @Override
     public boolean isAdmin(String login) throws InternalException{
         try {
-            if (accountDAO.findAccount(login) != null) {
-                if(accountDAO.findAccount(login).getType() == AccountType.ADMIN){
-                    return true;
-                }
-            }
-            return false;
+            return ((accountDAO.findAccount(login) != null) && (accountDAO.findAccount(login).getType() == AccountType.ADMIN));
         }
         catch (Exception e){
-            throw new InternalException(InternalException.ERROR_SERVICE_ACCOUNT_REGISTER, new Throwable(e));
+            throw new InternalException(InternalException.ERROR_SERVICE_ACCOUNT_IS_ADMIN, new Throwable(e));
         }
     }
 }
