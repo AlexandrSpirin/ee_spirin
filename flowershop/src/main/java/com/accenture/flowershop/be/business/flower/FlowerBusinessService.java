@@ -8,9 +8,13 @@ import java.util.List;
 
 public interface FlowerBusinessService {
     List<Flower> getAllFlowers() throws InternalException;
-    Flower findFlower(long id) throws InternalException;
+    Flower findFlower(Long id) throws InternalException;
     Flower findFlower(String name) throws InternalException;
     List<Flower> findFlowers(String name) throws InternalException;
+    List<Flower> findFlowers(String name, BigDecimal minCost, BigDecimal maxCost) throws InternalException;
     List<Flower> findFlowers(BigDecimal cost) throws InternalException;
+    List<Flower> findFlowersByMinCost(BigDecimal minCost) throws InternalException;
+    List<Flower> findFlowersByMaxCost(BigDecimal maxCost) throws InternalException;
+    List<Flower> findFlowersByRange(BigDecimal minCost, BigDecimal maxCost) throws InternalException;
     boolean insertFlower(String name, BigDecimal cost) throws InternalException;
 }
