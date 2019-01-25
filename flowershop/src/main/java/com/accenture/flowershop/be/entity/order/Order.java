@@ -1,22 +1,28 @@
 package com.accenture.flowershop.be.entity.order;
 
+import com.accenture.flowershop.be.entity.customer.Customer;
+
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.sql.Date;
-import java.util.HashMap;
+import java.util.List;
 
 
-@Entity(name="orders")
+@Entity
 @Table(name="orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq")
     @SequenceGenerator(name = "order_seq", sequenceName = "order_seq", allocationSize = 1)
-    private long id;
+    private Long id;
 
-    private long accountId;
+    @OneToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
+    @OneToMany
+    @JoinColumn(name = "order_flowers_id")
+    private List<OrderFlowers> orderFlowers;
 
     private String status;
 
@@ -32,8 +38,8 @@ public class Order {
 
     public Order() {}
 
-    public Order(long accountId, String status, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice){
-        this.accountId = accountId;
+    public Order(Customer customer, String status, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice){
+        this.customer = customer;
         this.status = status;
         this.createDate = createDate;
         this.closeDate = closeDate;
@@ -43,20 +49,20 @@ public class Order {
 
 
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getAccountId() {
-        return accountId;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setAccountId(long accountId) {
-        this.accountId = accountId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public String getStatus() {
