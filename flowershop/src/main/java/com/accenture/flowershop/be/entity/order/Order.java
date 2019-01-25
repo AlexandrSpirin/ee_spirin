@@ -26,12 +26,15 @@ public class Order {
 
     private String status;
 
+    @Column(name="create_date")
     private Date createDate;
 
+    @Column(name="close_date")
     private Date closeDate;
 
     private Integer discount;
 
+    @Column(name="final_price")
     private BigDecimal finalPrice;
 
 
