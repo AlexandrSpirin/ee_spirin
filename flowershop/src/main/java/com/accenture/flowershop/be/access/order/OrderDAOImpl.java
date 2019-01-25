@@ -23,7 +23,7 @@ public class OrderDAOImpl implements OrderDAO{
     @Override
     public List<Order> getAllOrders() throws InternalException {
         try {
-            TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM orders o", Order.class);
+            TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o", Order.class);
             return q.getResultList();
         }
         catch (Exception e){
@@ -35,7 +35,7 @@ public class OrderDAOImpl implements OrderDAO{
     @Override
     public Order findOrder(Long id) throws InternalException {
         try {
-            TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM order o WHERE o.id = :id ", Order.class);
+            TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o WHERE o.id = :id ", Order.class);
             q.setParameter("id", id);
             List<Order> foundOrder = q.getResultList();
             if(!foundOrder.isEmpty())
@@ -52,7 +52,7 @@ public class OrderDAOImpl implements OrderDAO{
     @Override
     public List<Order> findOrders(String status) throws InternalException {
         try {
-            TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM orders o WHERE o.status = :d", Order.class);
+            TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o WHERE o.status = :d", Order.class);
             q.setParameter("s", status);
             return q.getResultList();
         }
@@ -64,7 +64,7 @@ public class OrderDAOImpl implements OrderDAO{
     @Override
     public List<Order> findOrdersCreateDate(Date createDate) throws InternalException {
         try {
-            TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM orders o WHERE o.createDate = :createD", Order.class);
+            TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o WHERE o.createDate = :createD", Order.class);
             q.setParameter("createD", createDate);
             return q.getResultList();
         }
@@ -76,7 +76,7 @@ public class OrderDAOImpl implements OrderDAO{
     @Override
     public List<Order> findOrdersCloseDate(Date closeDate) throws InternalException {
         try {
-            TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM orders o WHERE o.closeDate = :closeD", Order.class);
+            TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o WHERE o.closeDate = :closeD", Order.class);
             q.setParameter("closeD", closeDate);
             return q.getResultList();
         }
@@ -88,7 +88,7 @@ public class OrderDAOImpl implements OrderDAO{
     @Override
     public List<Order> findOrders(BigDecimal finalPrice) throws InternalException {
         try {
-            TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM orders o WHERE o.final_price = :fP", Order.class);
+            TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o WHERE o.final_price = :fP", Order.class);
             q.setParameter("fP", finalPrice);
             return q.getResultList();
         }
@@ -100,7 +100,7 @@ public class OrderDAOImpl implements OrderDAO{
     @Override
     public List<Order> findOrders(Integer discount) throws InternalException {
         try {
-            TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM orders o WHERE o.discount = :d", Order.class);
+            TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o WHERE o.discount = :d", Order.class);
             q.setParameter("d", discount);
             return q.getResultList();
         }
