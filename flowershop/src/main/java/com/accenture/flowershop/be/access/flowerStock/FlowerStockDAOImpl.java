@@ -20,7 +20,7 @@ public class FlowerStockDAOImpl implements FlowerStockDAO {
     @Override
     public List<FlowerStock> getAllFlowerStocks() throws InternalException {
         try {
-            TypedQuery<FlowerStock> q = entityManager.createQuery("SELECT fS FROM flower_stocks fS", FlowerStock.class);
+            TypedQuery<FlowerStock> q = entityManager.createQuery("SELECT fS FROM FlowerStock fS", FlowerStock.class);
             return q.getResultList();
         }
         catch (Exception e){
@@ -31,7 +31,7 @@ public class FlowerStockDAOImpl implements FlowerStockDAO {
     @Override
     public FlowerStock findFlowerStock(Long id) throws InternalException{
         try {
-            TypedQuery<FlowerStock> q = entityManager.createQuery("SELECT fS FROM flower_stocks fS WHERE fS.id = :id", FlowerStock.class);
+            TypedQuery<FlowerStock> q = entityManager.createQuery("SELECT fS FROM FlowerStock fS WHERE fS.id = :id", FlowerStock.class);
             q.setParameter("id", id);
             List<FlowerStock> foundFlowerStock = q.getResultList();
             if(!foundFlowerStock.isEmpty())
@@ -60,7 +60,7 @@ public class FlowerStockDAOImpl implements FlowerStockDAO {
     @Override
     public List<FlowerStock> findFlowerStocksByFlowerCount(int flowerCount) throws InternalException{
         try {
-            TypedQuery<FlowerStock> q = entityManager.createQuery("SELECT fS FROM flower_stocks fS WHERE fS.flowerCount = :fC",
+            TypedQuery<FlowerStock> q = entityManager.createQuery("SELECT fS FROM FlowerStock fS WHERE fS.flowerCount = :fC",
                     FlowerStock.class);
             q.setParameter("fC", flowerCount);
             return q.getResultList();
@@ -73,7 +73,7 @@ public class FlowerStockDAOImpl implements FlowerStockDAO {
     @Override
     public List<FlowerStock> findFlowerStocksByMinFlowerCount(int minFlowerCount) throws InternalException{
         try {
-            TypedQuery<FlowerStock> q = entityManager.createQuery("SELECT fS FROM flower_stocks fS WHERE fS.flowerCount >= :minFC",
+            TypedQuery<FlowerStock> q = entityManager.createQuery("SELECT fS FROM FlowerStock fS WHERE fS.flowerCount >= :minFC",
                     FlowerStock.class);
             q.setParameter("minFC", minFlowerCount);
             return q.getResultList();
@@ -86,7 +86,7 @@ public class FlowerStockDAOImpl implements FlowerStockDAO {
     @Override
     public List<FlowerStock> findFlowerStocksByMaxFlowerCount(int maxFlowerCount) throws InternalException{
         try {
-            TypedQuery<FlowerStock> q = entityManager.createQuery("SELECT fS FROM flower_stocks fS WHERE fS.flowerCount <= :maxFC", FlowerStock.class);
+            TypedQuery<FlowerStock> q = entityManager.createQuery("SELECT fS FROM FlowerStock fS WHERE fS.flowerCount <= :maxFC", FlowerStock.class);
             q.setParameter("maxFC", maxFlowerCount);
             return q.getResultList();
         }
@@ -98,7 +98,7 @@ public class FlowerStockDAOImpl implements FlowerStockDAO {
     @Override
     public List<FlowerStock> findFlowerStocksByRangeFlowerCount(int minFlowerCount, int maxFlowerCount) throws InternalException{
         try {
-            TypedQuery<FlowerStock> q = entityManager.createQuery("SELECT fS FROM flower_stocks fS WHERE fS.flowerCount >= :minFC AND " +
+            TypedQuery<FlowerStock> q = entityManager.createQuery("SELECT fS FROM FlowerStock fS WHERE fS.flowerCount >= :minFC AND " +
                     "fS.flowerCount <= :maxFC", FlowerStock.class);
             q.setParameter("minFC", minFlowerCount);
             q.setParameter("maxFC", maxFlowerCount);
