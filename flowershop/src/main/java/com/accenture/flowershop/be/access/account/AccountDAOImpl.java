@@ -20,19 +20,25 @@ public class AccountDAOImpl implements AccountDAO {
     @Override
     public List<Account> getAllAccounts() throws InternalException {
         try {
-            TypedQuery<Account> q = entityManager.createQuery("SELECT a FROM accounts a", Account.class);
-            List<Account> foundAccounts = q.getResultList();
-            return foundAccounts;
+            TypedQuery<Account> q = entityManager.createQuery("SELECT a FROM Account a", Account.class);
+            return q.getResultList();
         }
         catch (Exception e){
-            throw new InternalException(InternalException.ERROR_DAO_ACCOUNT_GET_ALL, new Throwable(e));
+            throw new InternalException(InternalException.ERROR_DAO_ACCOUNTS_GET_ALL, new Throwable(e));
         }
     }
 
     @Override
-    public Account findAccount(long id) throws InternalException {
+    public Account findAccount(Long id) throws InternalException {
         try {
-            return entityManager.find(Account.class, id);
+            TypedQuery<Account> q = entityManager.createQuery("SELECT a FROM Account a WHERE a.id = :id ", Account.class);
+            q.setParameter("id", id);
+            List<Account> foundAccounts = q.getResultList();
+            if(!foundAccounts.isEmpty())
+            {
+                return foundAccounts.get(0);
+            }
+            return null;
         }
         catch (Exception e){
             throw new InternalException(InternalException.ERROR_DAO_ACCOUNT_FIND_ID, new Throwable(e));
@@ -42,7 +48,7 @@ public class AccountDAOImpl implements AccountDAO {
     @Override
     public Account findAccount(String login) throws InternalException {
         try {
-            TypedQuery<Account> q = entityManager.createQuery("SELECT a FROM accounts a WHERE a.login = :l ", Account.class);
+            TypedQuery<Account> q = entityManager.createQuery("SELECT a FROM Account a WHERE a.login = :l ", Account.class);
             q.setParameter("l", login);
             List<Account> foundAccounts = q.getResultList();
             if(!foundAccounts.isEmpty())
