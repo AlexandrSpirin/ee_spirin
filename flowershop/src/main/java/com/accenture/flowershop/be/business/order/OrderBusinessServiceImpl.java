@@ -56,7 +56,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
             return orderDAO.findOrders(customer);
         }
         catch (Exception e){
-            throw new InternalException(InternalException.ERROR_SERVICE_ORDERS_FIND_STATUS, new Throwable(e));
+            throw new InternalException(InternalException.ERROR_SERVICE_ORDERS_FIND_CUSTOMER, new Throwable(e));
         }
     }
 
