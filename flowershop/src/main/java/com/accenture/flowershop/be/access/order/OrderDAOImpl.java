@@ -69,7 +69,7 @@ public class OrderDAOImpl implements OrderDAO{
             return q.getResultList();
         }
         catch (Exception e){
-            throw new InternalException(InternalException.ERROR_DAO_ORDERS_FIND_STATUS, new Throwable(e));
+            throw new InternalException(InternalException.ERROR_DAO_ORDERS_FIND_CUSTOMER, new Throwable(e));
         }
     }
 
