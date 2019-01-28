@@ -47,6 +47,7 @@ public class InternalException extends Exception{
     public static final String ERROR_DAO_ORDERS_GET_ALL = "(DAO)Exception occcured while get all Orders";
     public static final String ERROR_DAO_ORDER_FIND_ID = "(DAO)Exception occcured while finding Order via ID";
     public static final String ERROR_DAO_ORDERS_FIND_STATUS = "(DAO)Exception occcured while finding Order via Status";
+    public static final String ERROR_DAO_ORDERS_FIND_CUSTOMER = "(DAO)Exception occcured while finding Order via Customer";
     public static final String ERROR_DAO_ORDERS_FIND_CREATE_DATE = "(DAO)Exception occcured while finding Order via Create Date";
     public static final String ERROR_DAO_ORDERS_FIND_CLOSE_DATE = "(DAO)Exception occcured while finding Order via Close Date";
     public static final String ERROR_DAO_ORDERS_FIND_FINAL_PRICE = "(DAO)Exception occcured while finding Order via Final Price";
@@ -102,6 +103,7 @@ public class InternalException extends Exception{
     public static final String ERROR_SERVICE_ORDERS_GET_ALL = "(Service)Exception occcured while get all Orders";
     public static final String ERROR_SERVICE_ORDER_FIND_ID = "(Service)Exception occcured while finding Order via ID";
     public static final String ERROR_SERVICE_ORDERS_FIND_STATUS = "(Service)Exception occcured while finding Order via Status";
+    public static final String ERROR_SERVICE_ORDERS_FIND_CUSTOMER = "(Service)Exception occcured while finding Order via Customer";
     public static final String ERROR_SERVICE_ORDERS_FIND_CREATE_DATE = "(Service)Exception occcured while finding Order via Create Date";
     public static final String ERROR_SERVICE_ORDERS_FIND_CLOSE_DATE = "(Service)Exception occcured while finding Order via Close Date";
     public static final String ERROR_SERVICE_ORDERS_FIND_FINAL_PRICE = "(Service)Exception occcured while finding Order via Final Price";
