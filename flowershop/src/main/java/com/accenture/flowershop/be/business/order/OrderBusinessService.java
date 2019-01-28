@@ -12,6 +12,7 @@ public interface OrderBusinessService {
     List<Order> getAllOrders() throws InternalException;
     Order findOrder(Long id) throws InternalException;
     List<Order> findOrders(String status) throws InternalException;
+    List<Order> findOrders(Customer customer) throws InternalException;
     List<Order> findOrdersCreateDate(Date createDate) throws InternalException;
     List<Order> findOrdersCloseDate(Date closeDate) throws InternalException;
     List<Order> findOrders(BigDecimal finalPrice) throws InternalException;
