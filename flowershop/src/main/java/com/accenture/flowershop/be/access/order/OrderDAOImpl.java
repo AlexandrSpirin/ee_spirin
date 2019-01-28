@@ -62,6 +62,18 @@ public class OrderDAOImpl implements OrderDAO{
     }
 
     @Override
+    public List<Order> findOrders(Customer customer) throws InternalException {
+        try {
+            TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o WHERE o.customer.id = :cId", Order.class);
+            q.setParameter("cId", customer.getId());
+            return q.getResultList();
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_DAO_ORDERS_FIND_STATUS, new Throwable(e));
+        }
+    }
+
+    @Override
     public List<Order> findOrdersCreateDate(Date createDate) throws InternalException {
         try {
             TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o WHERE o.createDate = :createD", Order.class);
