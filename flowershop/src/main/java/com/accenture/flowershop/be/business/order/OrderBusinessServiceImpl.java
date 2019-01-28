@@ -51,6 +51,16 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     }
 
     @Override
+    public List<Order> findOrders(Customer customer) throws InternalException {
+        try {
+            return orderDAO.findOrders(customer);
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_SERVICE_ORDERS_FIND_STATUS, new Throwable(e));
+        }
+    }
+
+    @Override
     public List<Order> findOrdersCreateDate(Date createDate) throws InternalException {
         try {
             return orderDAO.findOrdersCreateDate(createDate);
