@@ -7,19 +7,15 @@ public class FlowerStock {
 
     private Flower flower;
 
-    private int flowerCount;
-
-    private Long flowerStockId;
+    private Integer flowerCount;
 
 
 
     public FlowerStock() {}
 
-    public FlowerStock(Long id, Flower flower, int flowerCount, Long flowerStockId) {
-        this.id = id;
+    public FlowerStock(Flower flower, Integer flowerCount) {
         this.flower = flower;
         this.flowerCount = flowerCount;
-        this.flowerStockId = flowerStockId;
     }
 
 
@@ -39,19 +35,11 @@ public class FlowerStock {
         this.flower = flower;
     }
 
-    public int getFlowerCount() {
+    public Integer getFlowerCount() {
         return flowerCount;
     }
 
-    public void setFlowerCount(int flowerCount) {
+    public void setFlowerCount(Integer flowerCount) {
         this.flowerCount = flowerCount;
-    }
-
-    public Long getFlowerStockId() {
-        return flowerStockId;
-    }
-
-    public void setFlowerStockId(Long flowerStockId) {
-        this.flowerStockId = flowerStockId;
     }
 }
