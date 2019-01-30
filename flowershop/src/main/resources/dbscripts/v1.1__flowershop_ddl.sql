@@ -41,9 +41,9 @@ CREATE TABLE "flower_stocks"
     "id" LONG PRIMARY KEY,
     "flower_id" LONG,
     FOREIGN KEY ("flower_id") REFERENCES "flowers" ("id"),
-    "flower_count" NUMBER(8, 0) NOT NULL,
-    "flower_stock_id" LONG NOT NULL
+    "flower_count" NUMBER(8, 0) NOT NULL
 );
+
 
 
 
@@ -56,18 +56,19 @@ CREATE TABLE "orders"
     "create_date" DATE,
     "close_date" DATE,
     "discount" NUMBER(2) NOT NULL,
-    "final_price" NUMBER(10, 2) NOT NULL
+    "final_price" NUMBER(10, 2) NOT NULL,
+    "order_flowers_id" LONG,
 );
 
 
 
 
-CREATE TABLE "orders_flowers"
+CREATE TABLE "order_flowers"
 (
-    "id" LONG NOT NULL,
+    "id" LONG PRIMARY KEY,
     "order_id" LONG NOT NULL,
     FOREIGN KEY ("order_id") REFERENCES "orders" ("id"),
     "flower_id" LONG NOT NULL,
     FOREIGN KEY ("flower_id") REFERENCES "flowers" ("id"),
-    "flower_count" NUMBER(8, 0) NOT NULL,
+    "flower_count" NUMBER(8, 0) NOT NULL
 );
