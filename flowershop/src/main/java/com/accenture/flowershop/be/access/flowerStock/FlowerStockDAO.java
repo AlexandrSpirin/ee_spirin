@@ -14,5 +14,6 @@ public interface FlowerStockDAO {
     List<FlowerStock> findFlowerStocksByMinFlowerCount(int minFlowerCount) throws InternalException;
     List<FlowerStock> findFlowerStocksByMaxFlowerCount(int maxFlowerCount) throws InternalException;
     List<FlowerStock> findFlowerStocksByRangeFlowerCount(int minFlowerCount, int maxFlowerCount) throws InternalException;
-    boolean insertFlowerStock(Long id, Flower flower, int flowerCount, Long flowerStockId) throws InternalException;
+    boolean insertFlowerStock(Flower flower, int flowerCount) throws InternalException;
+    boolean updateFlowerStock(FlowerStock flowerStock) throws InternalException;
 }
