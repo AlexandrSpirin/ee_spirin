@@ -23,6 +23,7 @@ public class InternalException extends Exception{
     public static final String ERROR_DAO_CUSTOMERS_FIND_MAX_DISCOUNT = "(DAO)Exception occcured while finding Customer via Max Discount";
     public static final String ERROR_DAO_CUSTOMERS_FIND_RANGE_DISCOUNT = "(DAO)Exception occcured while finding Customer via Range Discount";
     public static final String ERROR_DAO_CUSTOMER_INSERT = "(DAO)Exception occured while inserting new Customer";
+    public static final String ERROR_DAO_CUSTOMER_UPDATE = "(DAO)Exception occured while updating Customer";
 
     public static final String ERROR_DAO_FLOWERS_GET_ALL = "(DAO)Exception occcured while get all Flowers";
     public static final String ERROR_DAO_FLOWER_FIND_ID = "(DAO)Exception occcured while finding Flower via ID";
@@ -43,6 +44,7 @@ public class InternalException extends Exception{
     public static final String ERROR_DAO_FLOWER_STOCKS_FIND_MAX_FLOWER_COUNT = "(DAO)Exception occcured while finding Flower Stocks via Max Flower Count";
     public static final String ERROR_DAO_FLOWER_STOCKS_FIND_RANGE_FLOWER_COUNT = "(DAO)Exception occcured while finding Flower Stocks via Range Flower Count";
     public static final String ERROR_DAO_FLOWER_STOCK_INSERT = "(DAO)Exception occured while inserting new Flower Stock";
+    public static final String ERROR_DAO_FLOWER_STOCK_UPDATE = "(DAO)Exception occured while updating Flower Stock";
 
     public static final String ERROR_DAO_ORDERS_GET_ALL = "(DAO)Exception occcured while get all Orders";
     public static final String ERROR_DAO_ORDER_FIND_ID = "(DAO)Exception occcured while finding Order via ID";
@@ -52,7 +54,9 @@ public class InternalException extends Exception{
     public static final String ERROR_DAO_ORDERS_FIND_CLOSE_DATE = "(DAO)Exception occcured while finding Order via Close Date";
     public static final String ERROR_DAO_ORDERS_FIND_FINAL_PRICE = "(DAO)Exception occcured while finding Order via Final Price";
     public static final String ERROR_DAO_ORDERS_FIND_DISCOUNT = "(DAO)Exception occcured while finding Order via Discount";
+    public static final String ERROR_DAO_ORDER_FLOWERS_INSERT = "(DAO)Exception occured while inserting new Order Flowers";
     public static final String ERROR_DAO_ORDER_INSERT = "(DAO)Exception occured while inserting new Order";
+    public static final String ERROR_DAO_ORDER_UPDATE = "(DAO)Exception occured while updating Order";
 
 
 
@@ -79,6 +83,7 @@ public class InternalException extends Exception{
     public static final String ERROR_SERVICE_CUSTOMERS_FIND_MAX_DISCOUNT = "(Service)Exception occcured while finding Customer via Max Discount";
     public static final String ERROR_SERVICE_CUSTOMERS_FIND_RANGE_DISCOUNT = "(Service)Exception occcured while finding Customer via Range Discount";
     public static final String ERROR_SERVICE_CUSTOMER_INSERT = "(Service)Exception occured while inserting new Customer";
+    public static final String ERROR_SERVICE_CUSTOMER_UPDATE = "(Service)Exception occured while updating Customer";
 
     public static final String ERROR_SERVICE_FLOWERS_GET_ALL = "(Service)Exception occcured while get all Flowers";
     public static final String ERROR_SERVICE_FLOWER_FIND_ID = "(Service)Exception occcured while finding Flower via ID";
@@ -99,6 +104,7 @@ public class InternalException extends Exception{
     public static final String ERROR_SERVICE_FLOWER_STOCKS_FIND_MAX_FLOWER_COUNT = "(Service)Exception occcured while finding Flower Stocks via Max Flower Count";
     public static final String ERROR_SERVICE_FLOWER_STOCKS_FIND_RANGE_FLOWER_COUNT = "(Service)Exception occcured while finding Flower Stocks via Range Flower Count";
     public static final String ERROR_SERVICE_FLOWER_STOCK_INSERT = "(Service)Exception occured while inserting new Flower Stock";
+    public static final String ERROR_SERVICE_FLOWER_STOCK_UPDATE = "(Service)Exception occured while updating Flower Stock";
 
     public static final String ERROR_SERVICE_ORDERS_GET_ALL = "(Service)Exception occcured while get all Orders";
     public static final String ERROR_SERVICE_ORDER_FIND_ID = "(Service)Exception occcured while finding Order via ID";
@@ -108,7 +114,9 @@ public class InternalException extends Exception{
     public static final String ERROR_SERVICE_ORDERS_FIND_CLOSE_DATE = "(Service)Exception occcured while finding Order via Close Date";
     public static final String ERROR_SERVICE_ORDERS_FIND_FINAL_PRICE = "(Service)Exception occcured while finding Order via Final Price";
     public static final String ERROR_SERVICE_ORDERS_FIND_DISCOUNT = "(Service)Exception occcured while finding Order via Discount";
+    public static final String ERROR_SERVICE_ORDER_FLOWERS_INSERT = "(Service)Exception occured while inserting new Order Flowers";
     public static final String ERROR_SERVICE_ORDER_INSERT = "(Service)Exception occured while inserting new Order";
+    public static final String ERROR_SERVICE_ORDER_UPDATE = "(Service)Exception occured while updating Order";
 
 
 
