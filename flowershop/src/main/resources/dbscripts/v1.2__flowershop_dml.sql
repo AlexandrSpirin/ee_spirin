@@ -3,6 +3,7 @@ CREATE SEQUENCE customer_seq;
 CREATE SEQUENCE flower_seq;
 CREATE SEQUENCE flower_stock_seq;
 CREATE SEQUENCE order_seq;
+CREATE SEQUENCE order_flowers_seq;
 
 
 
@@ -24,34 +25,34 @@ INSERT INTO customers (id, account_id, first_name, middle_name, last_name, email
 
 INSERT INTO flowers (id, name, cost) VALUES (flower_seq.NEXTVAL, 'Chamomile', 10.00);
 
-INSERT INTO flower_stocks (id, flower_id, flower_count, flower_stock_id) VALUES (flower_stock_seq.NEXTVAL, flower_seq.CURRVAL, 810, 1);
+INSERT INTO flower_stocks (id, flower_id, flower_count) VALUES (flower_stock_seq.NEXTVAL, flower_seq.CURRVAL, 810);
 
 
 INSERT INTO flowers (id, name, cost) VALUES (flower_seq.NEXTVAL, 'Jasmine', 50.00);
 
-INSERT INTO flower_stocks (id, flower_id, flower_count, flower_stock_id) VALUES (flower_stock_seq.NEXTVAL, flower_seq.CURRVAL, 311, 1);
+INSERT INTO flower_stocks (id, flower_id, flower_count) VALUES (flower_stock_seq.NEXTVAL, flower_seq.CURRVAL, 311);
 
 
 INSERT INTO flowers (id, name, cost) VALUES (flower_seq.NEXTVAL, 'Chrysanthemums', 66.13);
 
-INSERT INTO flower_stocks (id, flower_id, flower_count, flower_stock_id) VALUES (flower_stock_seq.NEXTVAL, flower_seq.CURRVAL, 1625, 1);
+INSERT INTO flower_stocks (id, flower_id, flower_count) VALUES (flower_stock_seq.NEXTVAL, flower_seq.CURRVAL, 1625);
 
 
 INSERT INTO flowers (id, name, cost) VALUES (flower_seq.NEXTVAL, 'Lilac', 23.42);
 
-INSERT INTO flower_stocks (id, flower_id, flower_count, flower_stock_id) VALUES (flower_stock_seq.NEXTVAL, flower_seq.CURRVAL, 6234, 1);
+INSERT INTO flower_stocks (id, flower_id, flower_count) VALUES (flower_stock_seq.NEXTVAL, flower_seq.CURRVAL, 6234);
 
 
 INSERT INTO flowers (id, name, cost) VALUES (flower_seq.NEXTVAL, 'Tulips', 90.00);
 
-INSERT INTO flower_stocks (id, flower_id, flower_count, flower_stock_id) VALUES (flower_stock_seq.NEXTVAL, flower_seq.CURRVAL, 0, 1);
+INSERT INTO flower_stocks (id, flower_id, flower_count) VALUES (flower_stock_seq.NEXTVAL, flower_seq.CURRVAL, 0);
 
 
 INSERT INTO flowers (id, name, cost) VALUES (flower_seq.NEXTVAL, 'Lotus', 141.50);
 
-INSERT INTO flower_stocks (id, flower_id, flower_count, flower_stock_id) VALUES (flower_stock_seq.NEXTVAL, flower_seq.CURRVAL, 1132, 1);
+INSERT INTO flower_stocks (id, flower_id, flower_count) VALUES (flower_stock_seq.NEXTVAL, flower_seq.CURRVAL, 1132);
 
 
 INSERT INTO flowers (id, name, cost) VALUES (flower_seq.NEXTVAL, 'Roses', 115.00);
 
-INSERT INTO flower_stocks (id, flower_id, flower_count, flower_stock_id) VALUES (flower_stock_seq.NEXTVAL, flower_seq.CURRVAL, 5815, 1);
+INSERT INTO flower_stocks (id, flower_id, flower_count) VALUES (flower_stock_seq.NEXTVAL, flower_seq.CURRVAL, 5815);
