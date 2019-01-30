@@ -95,7 +95,7 @@ public class RegistrationServlet extends HttpServlet {
             }
 
             printWriter.println("<form action='index.jsp'>");
-            printWriter.println("<p align=center><input type=submit name='mainPageButton' value='Main page'/></p>");
+            printWriter.println("<h1 align=center><input type=submit name='mainPageButton' value='Main page'/></h1>");
             printWriter.println("</form>");
             printWriter.println("</body>");
             printWriter.println("</html>");
@@ -104,6 +104,9 @@ public class RegistrationServlet extends HttpServlet {
             printWriter.println("<html>");
             printWriter.println("<body>");
             printWriter.println("<h1 align=center>Error! You do not have rights to register an account!</h1>");
+            printWriter.println("<form action='index.jsp'>");
+            printWriter.println("<h1 align=center><input type=submit name='mainPageButton' value='Main page'/></h1>");
+            printWriter.println("</form>");
             printWriter.println("</body>");
             printWriter.println("</html>");
         }
