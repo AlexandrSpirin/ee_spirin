@@ -1,9 +1,11 @@
 package com.accenture.flowershop.be.entity.customer;
 
 import com.accenture.flowershop.be.entity.account.Account;
+import com.accenture.flowershop.be.entity.order.Order;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name="customers")
