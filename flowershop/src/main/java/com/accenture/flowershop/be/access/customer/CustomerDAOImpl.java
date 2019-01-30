@@ -220,4 +220,16 @@ public class CustomerDAOImpl implements CustomerDAO {
             throw new InternalException(InternalException.ERROR_DAO_CUSTOMER_INSERT, new Throwable(e));
         }
     }
+
+    @Override
+    @Transactional
+    public boolean updateCustomer(Customer customer)throws InternalException{
+        try {
+            entityManager.merge(customer);
+            return true;
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_DAO_CUSTOMER_UPDATE, new Throwable(e));
+        }
+    }
 }
