@@ -92,11 +92,6 @@ public class LoginServlet extends HttpServlet {
                         session.setAttribute(SessionAttribute.SHOW_ONLY_BASKET.toString(), false);
                         session.setAttribute(SessionAttribute.CUSTOMER.toString(), customer);
                         HashMap<BigInteger, Integer> flowersInBasket = new HashMap<>();
-                        List<Flower> flowerDtos = new ArrayList();
-                        mapService.mapAllFlowerDtos(flowerDtos, flowerBusinessService.getAllFlowers());
-                        for (Flower f : flowerDtos) {
-                            flowersInBasket.put(BigInteger.valueOf(f.getId()), 0);
-                        }
                         session.setAttribute(SessionAttribute.FLOWERS_IN_BASKET.toString(), flowersInBasket);
                         resp.sendRedirect("flowers");
                     }
