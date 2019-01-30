@@ -10,12 +10,12 @@ public class OrderFlowers {
 
     private Flower flower;
 
-    private int flowerCount;
+    private Integer flowerCount;
 
 
     public OrderFlowers() {}
 
-    public OrderFlowers(Order order, Flower flower, int flowerCount) {
+    public OrderFlowers(Order order, Flower flower, Integer flowerCount) {
         this.order = order;
         this.flower = flower;
         this.flowerCount = flowerCount;
@@ -46,11 +46,11 @@ public class OrderFlowers {
         this.flower = flower;
     }
 
-    public int getFlowerCount() {
+    public Integer getFlowerCount() {
         return flowerCount;
     }
 
-    public void setFlowerCount(int flowerCount) {
+    public void setFlowerCount(Integer flowerCount) {
         this.flowerCount = flowerCount;
     }
 }
