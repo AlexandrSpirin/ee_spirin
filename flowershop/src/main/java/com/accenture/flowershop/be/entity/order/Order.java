@@ -5,6 +5,7 @@ import com.accenture.flowershop.be.entity.customer.Customer;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,9 +21,8 @@ public class Order {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToMany
-    @JoinColumn(name = "order_flowers_id")
-    private List<OrderFlowers> orderFlowers;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderFlowers> orderFlowersList;
 
     private String status;
 
@@ -41,8 +41,9 @@ public class Order {
 
     public Order() {}
 
-    public Order(Customer customer, String status, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice){
+    public Order(Customer customer, List<OrderFlowers> orderFlowersList, String status, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice){
         this.customer = customer;
+        this.orderFlowersList = orderFlowersList;
         this.status = status;
         this.createDate = createDate;
         this.closeDate = closeDate;
@@ -66,6 +67,22 @@ public class Order {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public List<OrderFlowers> getOrderFlowersList() {
+        return orderFlowersList;
+    }
+
+    public void setOrderFlowersList(List<OrderFlowers> orderFlowersList) {
+        this.orderFlowersList = orderFlowersList;
+    }
+
+    public  void addOrderFlowers(OrderFlowers oF){
+        if(orderFlowersList == null){
+            orderFlowersList = new ArrayList<>();
+        }
+        orderFlowersList.add(oF);
+        oF.setOrder(this);
     }
 
     public String getStatus() {
