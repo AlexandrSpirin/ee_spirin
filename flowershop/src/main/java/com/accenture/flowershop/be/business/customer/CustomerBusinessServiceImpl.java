@@ -172,4 +172,14 @@ public class CustomerBusinessServiceImpl implements CustomerBusinessService {
             throw new InternalException(InternalException.ERROR_SERVICE_CUSTOMER_INSERT, new Throwable(e));
         }
     }
+
+    @Override
+    public boolean updateCustomer(Customer customer)throws InternalException{
+        try {
+            return customerDAO.updateCustomer(customer);
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_SERVICE_CUSTOMER_UPDATE, new Throwable(e));
+        }
+    }
 }
