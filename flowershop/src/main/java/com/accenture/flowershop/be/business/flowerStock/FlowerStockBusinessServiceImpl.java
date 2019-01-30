@@ -89,45 +89,26 @@ public class FlowerStockBusinessServiceImpl implements FlowerStockBusinessServic
         }
     }
 
+
     @Override
-    public boolean buyFlowers(Flower flower, int flowerCount) throws InternalException{
+    public boolean insertFlowerStock(Flower flower, int flowerCount)
+            throws InternalException {
         try {
-            List<FlowerStock> findFlowerStocks = findFlowerStocksByFlower(flower);
-            if(findFlowerStocks != null){
-                int flowerCountInFindPools = 0;
-                for (FlowerStock fP: findFlowerStocks) {
-                    flowerCountInFindPools += fP.getFlowerCount();
-                }
-                if(flowerCountInFindPools>=flowerCount){
-                    for (FlowerStock fP: findFlowerStocks) {
-                        if(fP.getFlowerCount()>flowerCount){
-                            fP.setFlowerCount(fP.getFlowerCount()-flowerCount);
-                            flowerCount = 0;
-                        }
-                        else {
-                            fP.setFlowerCount(0);
-                            flowerCount -= fP.getFlowerCount();
-                        }
-                    }
-                    return true;
-                }
-            }
-            return false;
+            return flowerStockDAO.insertFlowerStock(flower, flowerCount);
         }
         catch (Exception e){
             throw new InternalException(InternalException.ERROR_SERVICE_FLOWER_STOCK_INSERT, new Throwable(e));
         }
     }
 
-
     @Override
-    public boolean insertFlowerStock(Long id, Flower flower, int flowerCount, Long flowerStockId)
+    public boolean updateFlowerStock(FlowerStock flowerStock)
             throws InternalException {
         try {
-            return flowerStockDAO.insertFlowerStock(id, flower, flowerCount, flowerStockId);
+            return flowerStockDAO.updateFlowerStock(flowerStock);
         }
         catch (Exception e){
-            throw new InternalException(InternalException.ERROR_SERVICE_FLOWER_STOCK_INSERT, new Throwable(e));
+            throw new InternalException(InternalException.ERROR_SERVICE_FLOWER_STOCK_UPDATE, new Throwable(e));
         }
     }
 }
