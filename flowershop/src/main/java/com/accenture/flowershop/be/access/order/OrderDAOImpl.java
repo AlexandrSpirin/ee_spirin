@@ -2,7 +2,9 @@ package com.accenture.flowershop.be.access.order;
 
 import com.accenture.flowershop.be.InternalException;
 import com.accenture.flowershop.be.entity.customer.Customer;
+import com.accenture.flowershop.be.entity.flower.Flower;
 import com.accenture.flowershop.be.entity.order.Order;
+import com.accenture.flowershop.be.entity.order.OrderFlowers;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +33,17 @@ public class OrderDAOImpl implements OrderDAO{
         }
     }
 
+
+    @Override
+    public List<OrderFlowers> getAllOrderFlowers() throws InternalException {
+        try {
+            TypedQuery<OrderFlowers> q = entityManager.createQuery("SELECT o FROM OrderFlowers o", OrderFlowers.class);
+            return q.getResultList();
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_DAO_ORDERS_GET_ALL, new Throwable(e));
+        }
+    }
 
     @Override
     public Order findOrder(Long id) throws InternalException {
@@ -124,14 +137,43 @@ public class OrderDAOImpl implements OrderDAO{
 
     @Override
     @Transactional
-    public boolean insertOrder(Customer customer, String status, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice)
+    public boolean insertOrderFlowers(Order order, Flower flower, Integer flowerCount)
             throws InternalException {
         try {
-            entityManager.persist(new Order(customer, status, createDate, closeDate, discount, finalPrice));
+            entityManager.persist(new OrderFlowers(order, flower, flowerCount));
             return true;
         }
         catch (Exception e){
+            throw new InternalException(InternalException.ERROR_DAO_ORDER_FLOWERS_INSERT, new Throwable(e));
+        }
+    }
+
+    @Override
+    @Transactional
+    public Order insertOrder(Customer customer, String status, List<OrderFlowers> orderFlowersList, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice)
+            throws InternalException {
+        try {
+            /*Order order = new Order(customer, orderFlowersList, status, createDate, closeDate, discount, finalPrice);
+            entityManager.persist(order);
+            return order;*/
+            entityManager.persist(new Order(customer, orderFlowersList, status, createDate, closeDate, discount, finalPrice));
+            return null;
+        }
+        catch (Exception e){
             throw new InternalException(InternalException.ERROR_DAO_ORDER_INSERT, new Throwable(e));
+        }
+    }
+
+    @Override
+    @Transactional
+    public boolean updateOrder(Order order)
+            throws InternalException {
+        try {
+            entityManager.merge(order);
+            return true;
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_DAO_ORDER_UPDATE, new Throwable(e));
         }
     }
 }
