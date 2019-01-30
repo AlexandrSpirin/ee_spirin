@@ -86,7 +86,7 @@ public class FlowerDAOImpl implements FlowerDAO{
                 }
                 else {
                     q = entityManager.createQuery(queryText +
-                            "AND f.cost <= :maxC", Flower.class);
+                            " AND f.cost <= :maxC", Flower.class);
                     q.setParameter("n", "%" + name.toUpperCase() + "%");
                     q.setParameter("maxC", maxCost);
                 }
@@ -94,13 +94,13 @@ public class FlowerDAOImpl implements FlowerDAO{
             else {
                 if(maxCost.signum() <= 0) {
                     q = entityManager.createQuery(queryText +
-                            "AND f.cost >= :minC", Flower.class);
+                            " AND f.cost >= :minC", Flower.class);
                     q.setParameter("n", "%" + name.toUpperCase() + "%");
                     q.setParameter("minC", minCost);
                 }
                 else {
                     q = entityManager.createQuery(queryText +
-                            "AND f.cost >= :minC AND f.cost <= :maxC", Flower.class);
+                            " AND f.cost >= :minC AND f.cost <= :maxC", Flower.class);
                     q.setParameter("n", "%" + name.toUpperCase() + "%");
                     q.setParameter("minC", minCost);
                     q.setParameter("maxC", maxCost);
