@@ -24,4 +24,5 @@ public interface CustomerBusinessService {
     List<Customer> findCustomersByRangeDiscount(int minDiscount, int maxDiscount) throws InternalException;
     boolean insertCustomer(Account account, String firstName, String middleName, String lastName,
                            String email, String phoneNumber, BigDecimal money, int discount)throws InternalException;
+    boolean updateCustomer(Customer customer)throws InternalException;
 }
