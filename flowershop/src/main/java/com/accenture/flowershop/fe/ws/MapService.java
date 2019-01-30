@@ -5,8 +5,10 @@ import com.accenture.flowershop.fe.dto.customer.Customer;
 import com.accenture.flowershop.fe.dto.flower.Flower;
 import com.accenture.flowershop.fe.dto.order.Order;
 import com.accenture.flowershop.fe.dto.flowerStock.FlowerStock;
+import com.accenture.flowershop.fe.dto.order.OrderFlowers;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -234,6 +236,62 @@ public class MapService {
 
 
 
+    public com.accenture.flowershop.be.entity.order.OrderFlowers mapToOrderFlowersEntity
+            (OrderFlowers orderFlowersDto, com.accenture.flowershop.be.entity.order.OrderFlowers orderFlowersEntity) {
+        if(orderFlowersDto != null) {
+            if (orderFlowersEntity == null) {
+                orderFlowersEntity = new com.accenture.flowershop.be.entity.order.OrderFlowers();
+            }
+            orderFlowersEntity.setId(orderFlowersDto.getId());
+            //orderFlowersEntity.setOrder(new com.accenture.flowershop.be.entity.order.Order());
+            orderFlowersEntity.setOrder(null);
+            orderFlowersEntity.setFlower(mapToFlowerEntity(orderFlowersDto.getFlower(), new com.accenture.flowershop.be.entity.flower.Flower()));
+            orderFlowersEntity.setFlowerCount(orderFlowersDto.getFlowerCount());
+        }
+        return orderFlowersEntity;
+    }
+
+    public OrderFlowers mapToOrderFlowersDto
+            (OrderFlowers orderFlowersDto, com.accenture.flowershop.be.entity.order.OrderFlowers orderFlowersEntity) {
+        if(orderFlowersEntity != null) {
+            if (orderFlowersDto == null) {
+                orderFlowersDto = new OrderFlowers();
+            }
+            orderFlowersDto.setId(orderFlowersEntity.getId());
+            //orderFlowersDto.setOrder(new Order());
+            orderFlowersDto.setOrder(null);
+            orderFlowersDto.setFlower(mapToFlowerDto(new Flower(), orderFlowersEntity.getFlower()));
+            orderFlowersDto.setFlowerCount(orderFlowersEntity.getFlowerCount());
+        }
+        return orderFlowersDto;
+    }
+
+
+    public List<com.accenture.flowershop.be.entity.order.OrderFlowers> mapAllOrderFlowersEntities
+            (List<OrderFlowers> orderFlowersDtos, List<com.accenture.flowershop.be.entity.order.OrderFlowers> orderFlowersEntities) {
+        for (int i = 0; i < orderFlowersDtos.size(); i++) {
+            if(orderFlowersEntities.size() < i+1) {
+                orderFlowersEntities.add(new com.accenture.flowershop.be.entity.order.OrderFlowers());
+            }
+            mapToOrderFlowersEntity(orderFlowersDtos.get(i), orderFlowersEntities.get(i));
+        }
+        return orderFlowersEntities;
+    }
+
+    public List<OrderFlowers> mapAllOrderFlowersDtos
+            (List<OrderFlowers> orderFlowersDtos, List<com.accenture.flowershop.be.entity.order.OrderFlowers> orderFlowersEntities) {
+        for (int i = 0; i < orderFlowersEntities.size(); i++) {
+            if(orderFlowersDtos.size() < i+1) {
+                orderFlowersDtos.add(new OrderFlowers());
+            }
+            mapToOrderFlowersDto(orderFlowersDtos.get(i), orderFlowersEntities.get(i));
+        }
+        return orderFlowersDtos;
+    }
+
+
+
+
 
     public com.accenture.flowershop.be.entity.order.Order mapToOrderEntity
             (Order orderDto, com.accenture.flowershop.be.entity.order.Order orderEntity) {
@@ -243,6 +301,8 @@ public class MapService {
             }
             orderEntity.setId(orderDto.getId());
             orderEntity.setCustomer(mapToCustomerEntity(orderDto.getCustomer(), new com.accenture.flowershop.be.entity.customer.Customer()));
+            //orderEntity.setOrderFlowersList(new ArrayList<com.accenture.flowershop.be.entity.order.OrderFlowers>());
+            orderEntity.setOrderFlowersList(null);
             orderEntity.setStatus(orderDto.getStatus());
             orderEntity.setCreateDate(orderDto.getCreateDate());
             orderEntity.setCloseDate(orderDto.getCloseDate());
@@ -260,6 +320,8 @@ public class MapService {
             }
             orderDto.setId(orderEntity.getId());
             orderDto.setCustomer(mapToCustomerDto(new Customer(), orderEntity.getCustomer()));
+            //orderDto.setOrderFlowersList(new ArrayList<OrderFlowers>());
+            orderDto.setOrderFlowersList(null);
             orderDto.setStatus(orderEntity.getStatus());
             orderDto.setCreateDate(orderEntity.getCreateDate());
             orderDto.setCloseDate(orderEntity.getCloseDate());
