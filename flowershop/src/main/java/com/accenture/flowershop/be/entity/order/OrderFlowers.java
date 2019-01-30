@@ -1,18 +1,20 @@
 package com.accenture.flowershop.be.entity.order;
 
 import com.accenture.flowershop.be.entity.flower.Flower;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="orders_flowers")
+@Table(name="order_flowers")
 public class OrderFlowers {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_flowers_seq")
     @SequenceGenerator(name = "order_flowers_seq", sequenceName = "order_flowers_seq", allocationSize = 1)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
     private Order order;
 
@@ -20,12 +22,13 @@ public class OrderFlowers {
     @JoinColumn(name = "flower_id")
     private Flower flower;
 
-    private int flowerCount;
+    @Column(name = "flower_count")
+    private Integer flowerCount;
 
 
     public OrderFlowers() {}
 
-    public OrderFlowers(Order order, Flower flower, int flowerCount) {
+    public OrderFlowers(Order order, Flower flower, Integer flowerCount) {
         this.order = order;
         this.flower = flower;
         this.flowerCount = flowerCount;
@@ -56,11 +59,11 @@ public class OrderFlowers {
         this.flower = flower;
     }
 
-    public int getFlowerCount() {
+    public Integer getFlowerCount() {
         return flowerCount;
     }
 
-    public void setFlowerCount(int flowerCount) {
+    public void setFlowerCount(Integer flowerCount) {
         this.flowerCount = flowerCount;
     }
 }
