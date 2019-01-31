@@ -139,6 +139,18 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 
     @Override
     @Transactional
+    public boolean insertOrder(Order order)
+            throws InternalException {
+        try {
+            return orderDAO.insertOrder(order);
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_SERVICE_ORDER_INSERT, new Throwable(e));
+        }
+    }
+
+    @Override
+    @Transactional
     public boolean updateOrder(Order order)
             throws InternalException {
         try {
