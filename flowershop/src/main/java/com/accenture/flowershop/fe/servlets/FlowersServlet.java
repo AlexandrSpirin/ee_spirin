@@ -242,8 +242,7 @@ public class FlowersServlet extends HttpServlet {
                                     "<form action = 'flowers' method = 'post'>");
                             if(req.getParameter("show" + o.getId() + "OrderFlowersButton") == null){
                                 printWriter.println("<p align=center><input type = 'submit' name = 'show" + o.getId() + "OrderFlowersButton' value = 'Show order flowers'/></p>");
-                            }
-                            else {
+                            } else {
                                 printWriter.println("<br><br><h3 align=center>Flowers</h3>");
                                 List<OrderFlowers> orderFlowersList = o.getOrderFlowersList();
                                 for (OrderFlowers oF: orderFlowersList) {
@@ -267,7 +266,7 @@ public class FlowersServlet extends HttpServlet {
                     if(userType == AccountType.ADMIN){
                         if (flowerStockDtos.isEmpty()) {
                             printWriter.println("<h2 align = center>No flower found with these parameters!</h2>");
-                        } else{
+                        } else {
                             for (FlowerStock fS: flowerStockDtos) {
                                 printWriter.println("<hr>");
                                 showMainFlowerInfo(printWriter, fS.getFlower().getName(),  fS.getFlower().getCost().toString(),  fS.getFlowerCount().toString());
@@ -278,8 +277,7 @@ public class FlowersServlet extends HttpServlet {
                         if(showOnlyBasket){
                             if(flowersInBasket.isEmpty()){
                                 printWriter.println("<hr><h2 align=center>Your basket is empty!</h2>");
-                            }
-                            else {
+                            } else {
                                 BigDecimal totalCost = BigDecimal.ZERO;
                                 Order order = new Order();
                                 boolean createOrder = req.getParameter("createOrder") != null;
@@ -300,8 +298,7 @@ public class FlowersServlet extends HttpServlet {
                                                     }
                                                     if(entry.getValue() == 0){
                                                         flowersInBasket.put(fS.getFlower(), newFlowerCountInBasket);
-                                                    }
-                                                    else {
+                                                    } else {
                                                         entry.setValue(newFlowerCountInBasket);
                                                     }
 
@@ -318,8 +315,7 @@ public class FlowersServlet extends HttpServlet {
                                                     if (newFlowerCountInBasket <= 0) {
                                                         it.remove();
                                                         entryWasRemoved = true;
-                                                    }
-                                                    else {
+                                                    } else {
                                                         entry.setValue(newFlowerCountInBasket);
                                                     }
                                                     session.setAttribute(SessionAttribute.FLOWERS_IN_BASKET.toString(), flowersInBasket);
@@ -351,8 +347,7 @@ public class FlowersServlet extends HttpServlet {
                                                 "<form action='flowers' method='post'>" +
                                                 "<p align=center><input type=submit name='basket' value='Back to Basket' style='display:inline-block; margin-top:12; margin-bottom:0; margin-left:0; margin-right:0'/></p>" +
                                                 "</form>");
-                                    }
-                                    else {
+                                    } else {
                                         printWriter.println("<h2 align=center>Your order is successfully completed!</h2>" +
                                                 "<h2 align=center>Total cost: " + totalCost + "RUB");
 
@@ -384,8 +379,7 @@ public class FlowersServlet extends HttpServlet {
 
                                         com.accenture.flowershop.be.entity.order.Order insertOrder = orderBusinessService.insertOrder(mappedOrder.getCustomer(), mappedOrder.getStatus(), mappedOrder.getOrderFlowersList(), mappedOrder.getCreateDate(), mappedOrder.getCloseDate(),mappedOrder.getDiscount(), mappedOrder.getFinalPrice());
                                     }
-                                }
-                                else {
+                                } else {
                                     printWriter.println("<hr><h2 align=center>Total cost: " + totalCost + "RUB");
                                     printWriter.println("<form action='flowers' method='post'>" +
                                             "<input type=submit name='createOrder' value='Create Order' style='display:inline-block; margin-top:12; margin-bottom:0; margin-left:0; margin-right:0'/>" +
@@ -418,8 +412,7 @@ public class FlowersServlet extends HttpServlet {
                                         }
                                         if(flowerCountInBasket == 0){
                                             flowersInBasket.put(fS.getFlower(), newFlowerCountInBasket);
-                                        }
-                                        else {
+                                        } else {
                                             for (HashMap.Entry<Flower, Integer> entry : flowersInBasket.entrySet()) {
                                                 if (entry.getKey().getId().toString().equals(fS.getFlower().getId().toString())) {
                                                     entry.setValue(newFlowerCountInBasket);
@@ -444,8 +437,7 @@ public class FlowersServlet extends HttpServlet {
                                                     it.remove();
                                                 }
                                             }
-                                        }
-                                        else {
+                                        } else {
                                             for (Iterator<HashMap.Entry<Flower, Integer>> it = flowersInBasket.entrySet().iterator(); it.hasNext(); ) {
                                                 HashMap.Entry<Flower, Integer> entry = it.next();
                                                 if (entry.getKey().getId().toString().equals(fS.getFlower().getId().toString())) {
