@@ -22,5 +22,6 @@ public interface OrderDAO {
     List<Order> findOrders(Integer discount) throws InternalException;
     boolean insertOrderFlowers(Order order, Flower flower, Integer flowerCount) throws InternalException;
     Order insertOrder(Customer customer, String status, List<OrderFlowers> orderFlowersList, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice) throws InternalException;
+    boolean insertOrder(Order order) throws InternalException;
     boolean updateOrder(Order order) throws InternalException;
 }
