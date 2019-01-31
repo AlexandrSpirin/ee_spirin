@@ -153,11 +153,22 @@ public class OrderDAOImpl implements OrderDAO{
     public Order insertOrder(Customer customer, String status, List<OrderFlowers> orderFlowersList, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice)
             throws InternalException {
         try {
-            /*Order order = new Order(customer, orderFlowersList, status, createDate, closeDate, discount, finalPrice);
+            Order order = new Order(customer, orderFlowersList, status, createDate, closeDate, discount, finalPrice);
             entityManager.persist(order);
-            return order;*/
-            entityManager.persist(new Order(customer, orderFlowersList, status, createDate, closeDate, discount, finalPrice));
-            return null;
+            return order;
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_DAO_ORDER_INSERT, new Throwable(e));
+        }
+    }
+
+    @Override
+    @Transactional
+    public boolean insertOrder(Order order)
+            throws InternalException {
+        try {
+            entityManager.persist(order);
+            return true;
         }
         catch (Exception e){
             throw new InternalException(InternalException.ERROR_DAO_ORDER_INSERT, new Throwable(e));
