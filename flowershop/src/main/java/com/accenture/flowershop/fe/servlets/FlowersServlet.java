@@ -377,7 +377,8 @@ public class FlowersServlet extends HttpServlet {
                                             mappedOrder.addOrderFlowers(oF);
                                         }
 
-                                        com.accenture.flowershop.be.entity.order.Order insertOrder = orderBusinessService.insertOrder(mappedOrder.getCustomer(), mappedOrder.getStatus(), mappedOrder.getOrderFlowersList(), mappedOrder.getCreateDate(), mappedOrder.getCloseDate(),mappedOrder.getDiscount(), mappedOrder.getFinalPrice());
+                                        //com.accenture.flowershop.be.entity.order.Order insertOrder = orderBusinessService.insertOrder(mappedOrder.getCustomer(), mappedOrder.getStatus(), mappedOrder.getOrderFlowersList(), mappedOrder.getCreateDate(), mappedOrder.getCloseDate(),mappedOrder.getDiscount(), mappedOrder.getFinalPrice());
+                                        orderBusinessService.insertOrder(mappedOrder);
                                     }
                                 } else {
                                     printWriter.println("<hr><h2 align=center>Total cost: " + totalCost + "RUB");
