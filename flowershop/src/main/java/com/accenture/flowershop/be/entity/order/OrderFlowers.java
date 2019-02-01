@@ -14,7 +14,7 @@ public class OrderFlowers {
     @SequenceGenerator(name = "order_flowers_seq", sequenceName = "order_flowers_seq", allocationSize = 1)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
     private Order order;
 
