@@ -9,10 +9,8 @@ import com.accenture.flowershop.be.entity.account.AccountType;
 import com.accenture.flowershop.fe.dto.customer.Customer;
 import com.accenture.flowershop.fe.dto.flower.Flower;
 import com.accenture.flowershop.fe.dto.flowerStock.FlowerStock;
-import com.accenture.flowershop.fe.dto.order.Order;
-import com.accenture.flowershop.fe.dto.order.OrderFlowers;
 import com.accenture.flowershop.fe.enums.SessionAttribute;
-import com.accenture.flowershop.fe.ws.MapService;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -24,15 +22,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.transaction.Transaction;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -54,7 +49,7 @@ public class FlowersServlet extends HttpServlet {
     private CustomerBusinessService customerBusinessService;
 
     @Autowired
-    private MapService mapService;
+    private Mapper mapper;
 
 
     @Override
@@ -123,16 +118,13 @@ public class FlowersServlet extends HttpServlet {
 
                 //Находим все типы цветов, подходящие под условия поиска
                 List<Flower> flowerDtos = new ArrayList();
-                mapService.mapAllFlowerDtos(flowerDtos, flowerBusinessService.findFlowers(searchNameText, searchMinCostText, searchMaxCostText));
+                mapper.map(flowerBusinessService.findFlowers(searchNameText, searchMinCostText, searchMaxCostText), flowerDtos);
 
                 //Находим все позиции склада с цветами, типы которых подходят под условия поиска
                 List<FlowerStock> flowerStockDtos = new ArrayList();
                 for (int i = 0; i < flowerDtos.size(); i++) {
-                    List<FlowerStock> flowerStockDtosWithFlower = new ArrayList();
-                    mapService.mapAllFlowerStockDtos(flowerStockDtosWithFlower,
-                            flowerStockBusinessService.findFlowerStocksByFlower(mapService.mapToFlowerEntity(flowerDtos.get(i), new com.accenture.flowershop.be.entity.flower.Flower())));
-                    for (FlowerStock fP : flowerStockDtosWithFlower) {
-                        flowerStockDtos.add(fP);
+                    for(com.accenture.flowershop.be.entity.flowerStock.FlowerStock fS : flowerStockBusinessService.findFlowerStocksByFlower(mapper.map(flowerDtos.get(i), com.accenture.flowershop.be.entity.flower.Flower.class))){
+                        flowerStockDtos.add(mapper.map(fS, FlowerStock.class));
                     }
                 }
 
@@ -157,7 +149,25 @@ public class FlowersServlet extends HttpServlet {
                 }
                 printWriter.println("<input type = 'submit' name = 'ordersButton' value = 'Orders' style = 'display:inline-block; margin-top:0; margin-bottom:0; margin-left:18'/>" +
                         "</form>" +
-                        "</h2>");
+                        "</h2>" +
+                        "<hr>" +
+                        "<h2 align = center>" +
+                        "Search" +
+                        "</h2>" +
+                        "<h3 align = center>" +
+                        "<form action = 'flowers' method = 'post'>" +
+                        "name " +
+                        "<input type=text name='searchNameText' value='" + searchNameText +
+                        "' style='display:inline-block; margin-top:0; margin-bottom:0; margin-left:12'/>" +
+                        "<p>cost: min" +
+                        "<input type = text name='searchMinCostText' onkeypress='return event.charCode >= 48 && event.charCode <= 57'  value='"
+                        + searchMinCostText + "' style='display:inline-block; margin-top:0; margin-bottom:0; margin-left:12; margin-right:36'/>" +
+                        "max" +
+                        "<input type = text name = 'searchMaxCostText' onkeypress = 'return event.charCode >= 48 && event.charCode <= 57' value='"
+                        + searchMaxCostText + "' style = 'display:inline-block; margin-top:0; margin-bottom:0; margin-left:12; margin-right:36'/>" +
+                        "<p><input type = 'submit' name = 'searchButton' value = 'Search' />" +
+                        "</form>" +
+                        "</h3>");
                 if (flowerStockDtos.isEmpty()) {
                     printWriter.println("<hr><h2 align = center>No flower found with these parameters!</h2>");
                 } else {
