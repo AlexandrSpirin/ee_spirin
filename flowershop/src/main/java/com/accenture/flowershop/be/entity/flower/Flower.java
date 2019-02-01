@@ -2,6 +2,7 @@ package com.accenture.flowershop.be.entity.flower;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 
 @Entity
@@ -47,5 +48,18 @@ public class Flower {
 
     public void setCost(BigDecimal cost) {
         this.cost = cost;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Flower flower = (Flower) o;
+        return id.equals(flower.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
