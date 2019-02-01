@@ -6,7 +6,7 @@
 
   <groupId>com.accenture</groupId>
   <artifactId>flowershop</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
   <packaging>war</packaging>
 
 
@@ -88,6 +88,13 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>3.0</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>net.sf.dozer</groupId>
+      <artifactId>dozer</artifactId>
+      <version>5.4.0</version>
     </dependency>
   </dependencies>
 
