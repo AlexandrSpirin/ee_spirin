@@ -45,6 +45,9 @@ public class MapService {
 
     public List<com.accenture.flowershop.be.entity.account.Account> mapAllAccountEntities
             (List<Account> accountDtos, List<com.accenture.flowershop.be.entity.account.Account> accountEntities) {
+        if(accountEntities == null){
+            accountEntities = new ArrayList<>();
+        }
         for (int i = 0; i < accountDtos.size(); i++) {
             if(accountEntities.size() < i+1) {
                 accountEntities.add(new com.accenture.flowershop.be.entity.account.Account());
@@ -56,6 +59,9 @@ public class MapService {
 
     public List<Account> mapAllAccountDtos
             (List<Account> accountDtos, List<com.accenture.flowershop.be.entity.account.Account> accountEntities) {
+        if(accountDtos == null){
+            accountDtos = new ArrayList<>();
+        }
         for (int i = 0; i<accountEntities.size(); i++) {
             if(accountDtos.size() < i+1) {
                 accountDtos.add(new Account());
@@ -109,6 +115,9 @@ public class MapService {
 
     public List<com.accenture.flowershop.be.entity.customer.Customer> mapAllCustomerEntities
             (List<Customer> customerDtos, List<com.accenture.flowershop.be.entity.customer.Customer> customerEntities) {
+        if(customerEntities == null){
+            customerEntities = new ArrayList<>();
+        }
         for (int i = 0; i < customerDtos.size(); i++) {
             if(customerEntities.size() < i+1) {
                 customerEntities.add(new com.accenture.flowershop.be.entity.customer.Customer());
@@ -120,6 +129,9 @@ public class MapService {
 
     public List<Customer> mapAllCustomerDtos
             (List<Customer> customerDtos, List<com.accenture.flowershop.be.entity.customer.Customer> customerEntities) {
+        if(customerDtos == null){
+            customerDtos = new ArrayList<>();
+        }
         for (int i = 0; i<customerEntities.size(); i++) {
             if(customerDtos.size() < i+1) {
                 customerDtos.add(new Customer());
@@ -161,6 +173,9 @@ public class MapService {
 
     public List<com.accenture.flowershop.be.entity.flower.Flower> mapAllFlowerEntities
             (List<Flower> flowerDtos, List<com.accenture.flowershop.be.entity.flower.Flower> flowerEntities) {
+        if(flowerEntities == null){
+            flowerEntities = new ArrayList<>();
+        }
         for (int i = 0; i < flowerDtos.size(); i++) {
             if(flowerEntities.size() < i+1) {
                 flowerEntities.add(new com.accenture.flowershop.be.entity.flower.Flower());
@@ -172,6 +187,9 @@ public class MapService {
 
     public List<Flower> mapAllFlowerDtos
             (List<Flower> flowerDtos, List<com.accenture.flowershop.be.entity.flower.Flower> flowerEntities) {
+        if(flowerDtos == null){
+            flowerDtos = new ArrayList<>();
+        }
         for (int i = 0; i < flowerEntities.size(); i++) {
             if(flowerDtos.size() < i+1) {
                 flowerDtos.add(new Flower());
@@ -213,6 +231,9 @@ public class MapService {
 
     public List<com.accenture.flowershop.be.entity.flowerStock.FlowerStock> mapAllFlowerStockEntities
             (List<FlowerStock> flowerStockDtos, List<com.accenture.flowershop.be.entity.flowerStock.FlowerStock> flowerStockEntities) {
+        if(flowerStockEntities == null){
+            flowerStockEntities = new ArrayList<>();
+        }
         for (int i = 0; i < flowerStockDtos.size(); i++) {
             if(flowerStockEntities.size() < i+1) {
                 flowerStockEntities.add(new com.accenture.flowershop.be.entity.flowerStock.FlowerStock());
@@ -224,6 +245,9 @@ public class MapService {
 
     public List<FlowerStock> mapAllFlowerStockDtos
             (List<FlowerStock> flowerStockDtos, List<com.accenture.flowershop.be.entity.flowerStock.FlowerStock> orderEntities) {
+        if(flowerStockDtos == null){
+            flowerStockDtos = new ArrayList<>();
+        }
         for (int i = 0; i < orderEntities.size(); i++) {
             if(flowerStockDtos.size() < i+1) {
                 flowerStockDtos.add(new FlowerStock());
@@ -269,6 +293,9 @@ public class MapService {
 
     public List<com.accenture.flowershop.be.entity.order.OrderFlowers> mapAllOrderFlowersEntities
             (List<OrderFlowers> orderFlowersDtos, List<com.accenture.flowershop.be.entity.order.OrderFlowers> orderFlowersEntities) {
+        if(orderFlowersEntities == null){
+            orderFlowersEntities = new ArrayList<>();
+        }
         for (int i = 0; i < orderFlowersDtos.size(); i++) {
             if(orderFlowersEntities.size() < i+1) {
                 orderFlowersEntities.add(new com.accenture.flowershop.be.entity.order.OrderFlowers());
@@ -280,6 +307,9 @@ public class MapService {
 
     public List<OrderFlowers> mapAllOrderFlowersDtos
             (List<OrderFlowers> orderFlowersDtos, List<com.accenture.flowershop.be.entity.order.OrderFlowers> orderFlowersEntities) {
+        if(orderFlowersDtos == null){
+            orderFlowersDtos = new ArrayList<>();
+        }
         for (int i = 0; i < orderFlowersEntities.size(); i++) {
             if(orderFlowersDtos.size() < i+1) {
                 orderFlowersDtos.add(new OrderFlowers());
@@ -334,6 +364,9 @@ public class MapService {
 
     public List<com.accenture.flowershop.be.entity.order.Order> mapAllOrderEntities
             (List<Order> orderDtos, List<com.accenture.flowershop.be.entity.order.Order> orderEntities) {
+        if(orderEntities == null){
+            orderEntities = new ArrayList<>();
+        }
         for (int i = 0; i < orderDtos.size(); i++) {
             if(orderEntities.size() < i+1) {
                 orderEntities.add(new com.accenture.flowershop.be.entity.order.Order());
@@ -345,6 +378,9 @@ public class MapService {
 
     public List<Order> mapAllOrderDtos
             (List<Order> orderDtos, List<com.accenture.flowershop.be.entity.order.Order> orderEntities) {
+        if(orderDtos == null){
+            orderDtos = new ArrayList<>();
+        }
         for (int i = 0; i < orderEntities.size(); i++) {
             if(orderDtos.size() < i+1) {
                 orderDtos.add(new Order());
