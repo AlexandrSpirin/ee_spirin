@@ -36,8 +36,8 @@
 		<p align=center><input type="submit" name = "submitRegistrationButton" value="Register"></p>
 	</form>
 
-    <form action='index.jsp' style='display:inline-block; margin-top:0; margin-bottom:0; margin-left:18'>
-    	<p align=center><input type=submit name='mainPageButton' value='Main page'/></p>
+    <form action="index.jsp">
+    	<p align=center><input type="submit" name="mainPageButton" value="Main page"/></p>
     </form>
 </body>
 </html>
