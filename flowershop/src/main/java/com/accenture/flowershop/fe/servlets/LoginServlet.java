@@ -5,7 +5,7 @@ import com.accenture.flowershop.be.business.customer.CustomerBusinessService;
 import com.accenture.flowershop.be.business.flower.FlowerBusinessService;
 import com.accenture.flowershop.be.entity.account.Account;
 import com.accenture.flowershop.be.entity.account.AccountType;
-import com.accenture.flowershop.be.entity.customer.Customer;
+import com.accenture.flowershop.fe.dto.customer.Customer;
 import com.accenture.flowershop.fe.dto.flower.Flower;
 import com.accenture.flowershop.fe.enums.SessionAttribute;
 import com.accenture.flowershop.fe.ws.MapService;
@@ -87,11 +87,10 @@ public class LoginServlet extends HttpServlet {
                 }
                 else {
                     session.setAttribute(SessionAttribute.USER_TYPE.toString(), AccountType.CUSTOMER);
-                    Customer customer = customerBusinessService.findCustomer(accountBusinessService.findAccount(login));
+                    Customer customer = mapService.mapToCustomerDto(new Customer(),customerBusinessService.findCustomer(accountBusinessService.findAccount(login)));
                     if(customer != null) {
-                        session.setAttribute(SessionAttribute.SHOW_ONLY_BASKET.toString(), false);
                         session.setAttribute(SessionAttribute.CUSTOMER.toString(), customer);
-                        HashMap<BigInteger, Integer> flowersInBasket = new HashMap<>();
+                        HashMap<Flower, Integer> flowersInBasket = new HashMap<>();
                         session.setAttribute(SessionAttribute.FLOWERS_IN_BASKET.toString(), flowersInBasket);
                         resp.sendRedirect("flowers");
                     }
@@ -99,21 +98,24 @@ public class LoginServlet extends HttpServlet {
                         printWriter.println("<h1 align=center>Customer for this Account not found!</h1>");
                     }
                 }
-
             }
             else {
                 printWriter.println("<h1 align=center>Login or password not correct!</h1>");
             }
         }
         catch (Exception e){
-            printWriter.println("<h1 align=center>Error on login!</h1>");
-            printWriter.println("<h1 align=center>" + e.getMessage() + "</h1>");
+            printWriter.println("<h1 align=center>Error on Login</h1>" +
+                    "<h2 align=center>Error message:</h2>" +
+                    "<h3>" + e.getMessage() + "</h3>" +
+                    "<br>" +
+                    "<h2 align=center>Error localized message</h2>" +
+                    "<h3>" + e.getLocalizedMessage() + "</h3>");
         }
 
-        printWriter.println("<form action='index.jsp'>");
-        printWriter.println("<p align=center><input type=submit name='mainPageButton' value='Main page'/></p>");
-        printWriter.println("</form>");
-        printWriter.println("</body>");
-        printWriter.println("</html>");
+        printWriter.println("<form action='index.jsp'>" +
+                "<p align=center><input type=submit name='mainPageButton' value='Main page'/></p>" +
+                "</form>" +
+                "</body>" +
+                "</html>");
     }
 }
