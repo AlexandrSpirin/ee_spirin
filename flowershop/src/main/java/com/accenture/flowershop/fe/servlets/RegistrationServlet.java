@@ -69,46 +69,47 @@ public class RegistrationServlet extends HttpServlet {
         PrintWriter printWriter = resp.getWriter();
         HttpSession session = req.getSession();
 
+        printWriter.println("<html><body>");
 
-        if(session.getAttribute(SessionAttribute.USER_TYPE.toString()) == AccountType.ADMIN) {
-            printWriter.println("<html>");
-            printWriter.println("<body>");
+        try {
+            if(session.getAttribute(SessionAttribute.USER_TYPE.toString()) == AccountType.ADMIN) {
 
-            if (passwordOne.equals(passwordTwo)) {
-                try {
+
+                if (passwordOne.equals(passwordTwo)) {
                     if (accountBusinessService.registration(login, passwordOne, AccountType.CUSTOMER)) {
                         if(customerBusinessService.insertCustomer(accountBusinessService.findAccount(login),
                                 firstName, middleName, lastName, email, phoneNumber, new BigDecimal(money), Integer.valueOf(discount))) {
-                            printWriter.println("<h1 align=center>Thank you, " + login + " was registered!</h1>");
-                        }
-                        else {
+                            printWriter.println("<h1 align=center>" + login + " was registered!</h1>");
+                        } else {
                             printWriter.println("<h1 align=center>This account is already in use! Please choose another account.</h1>");
                         }
                     } else {
                         printWriter.println("<h1 align=center>This login is already in use! Please choose another login.</h1>");
                     }
-                } catch (Exception e) {
-                    printWriter.println("<h1 align=center>Error on registration!</h1>");
+                } else {
+                    printWriter.println("<h1 align=center>Different passwords are indicated!</h1>");
                 }
+                printWriter.println("<form action='index.jsp'>" +
+                        "<h1 align=center><input type=submit name='mainPageButton' value='Main page'/></h1>" +
+                        "</form>" +
+                        "</body>" +
+                        "</html>");
             } else {
-                printWriter.println("<h1 align=center>Different passwords are indicated!</h1>");
+                printWriter.println("<h1 align=center>Error! You do not have rights to register an account!</h1>" +
+                        "<form action='index.jsp'>" +
+                        "<h1 align=center><input type=submit name='mainPageButton' value='Main page'/></h1>" +
+                        "</form>" +
+                        "</body>" +
+                        "</html>");
             }
-
-            printWriter.println("<form action='index.jsp'>");
-            printWriter.println("<h1 align=center><input type=submit name='mainPageButton' value='Main page'/></h1>");
-            printWriter.println("</form>");
-            printWriter.println("</body>");
-            printWriter.println("</html>");
+        } catch (Exception e) {
+            printWriter.println("<h1 align=center>Error on show flowers</h1>" +
+                    "<h2 align=center>Error message:</h2>" +
+                    "<h3>" + e.getMessage() + "</h3>" +
+                    "<br>" +
+                    "<h2 align=center>Error localized message</h2>" +
+                    "<h3>" + e.getLocalizedMessage() + "</h3>");
         }
-        else {
-            printWriter.println("<html>");
-            printWriter.println("<body>");
-            printWriter.println("<h1 align=center>Error! You do not have rights to register an account!</h1>");
-            printWriter.println("<form action='index.jsp'>");
-            printWriter.println("<h1 align=center><input type=submit name='mainPageButton' value='Main page'/></h1>");
-            printWriter.println("</form>");
-            printWriter.println("</body>");
-            printWriter.println("</html>");
-        }
+        printWriter.println("</body></html>");
     }
 }
