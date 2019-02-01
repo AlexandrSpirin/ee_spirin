@@ -8,7 +8,6 @@ import com.accenture.flowershop.fe.dto.flower.Flower;
 import com.accenture.flowershop.fe.dto.order.Order;
 import com.accenture.flowershop.fe.dto.order.OrderFlowers;
 import com.accenture.flowershop.fe.enums.SessionAttribute;
-import com.accenture.flowershop.fe.ws.MapService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -25,14 +24,13 @@ import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Date;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
 
 @Component
 @WebServlet(name = "BasketServlet",
         urlPatterns = {"/basket"})
 public class BasketServlet extends HttpServlet {
-    @Autowired
-    private MapService mapService;
 
     @Autowired
     private FlowerStockBusinessService flowerStockBusinessService;
