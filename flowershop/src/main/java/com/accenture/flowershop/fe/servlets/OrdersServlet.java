@@ -11,7 +11,7 @@ import com.accenture.flowershop.fe.dto.flowerStock.FlowerStock;
 import com.accenture.flowershop.fe.dto.order.Order;
 import com.accenture.flowershop.fe.dto.order.OrderFlowers;
 import com.accenture.flowershop.fe.enums.SessionAttribute;
-import com.accenture.flowershop.fe.ws.MapService;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -26,10 +26,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.sql.Date;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Component
 @WebServlet(name = "OrsdersServlet",
@@ -46,7 +47,7 @@ public class OrdersServlet extends HttpServlet {
     private CustomerBusinessService customerBusinessService;
 
     @Autowired
-    private MapService mapService;
+    private Mapper mapper;
 
 
     @Override
@@ -112,29 +113,39 @@ public class OrdersServlet extends HttpServlet {
                         //Уменьшаем количество денег пользователя
                         customer.setMoney(customer.getMoney().subtract(orderToCreate.getFinalPrice()));
                         session.setAttribute(SessionAttribute.CUSTOMER.toString(), customer);
-                        customerBusinessService.updateCustomer(mapService.mapToCustomerEntity(customer, new com.accenture.flowershop.be.entity.customer.Customer()));
+                        com.accenture.flowershop.be.entity.customer.Customer customerEntity = new com.accenture.flowershop.be.entity.customer.Customer();
+                        mapper.map(customer, customerEntity);
+                        customerBusinessService.updateCustomer(customerEntity);
 
                         //Уменьшаем количество цветов на складе
                         for (OrderFlowers orderFlowers: orderToCreate.getOrderFlowersList()) {
-                            FlowerStock flowerStock = null;
-                            flowerStock = mapService.mapToFlowerStockDto(flowerStock, flowerStockBusinessService.findFlowerStocksByFlower(mapService.mapToFlowerEntity(orderFlowers.getFlower(), new com.accenture.flowershop.be.entity.flower.Flower())).get(0));
+                            FlowerStock flowerStock = new FlowerStock();
+                            com.accenture.flowershop.be.entity.flower.Flower flowerEntity = new com.accenture.flowershop.be.entity.flower.Flower();
+                            mapper.map(orderFlowers.getFlower(), flowerEntity);
+                            com.accenture.flowershop.be.entity.flowerStock.FlowerStock flowerStockEntity = flowerStockBusinessService.findFlowerStocksByFlower(flowerEntity).get(0);
+                            mapper.map(flowerStockEntity, flowerStock);
                             flowerStock.setFlowerCount(flowerStock.getFlowerCount() - orderFlowers.getFlowerCount());
-                            flowerStockBusinessService.updateFlowerStock(mapService.mapToFlowerStockEntity(flowerStock, new com.accenture.flowershop.be.entity.flowerStock.FlowerStock()));
+                            mapper.map(flowerStock, flowerStockEntity);
+                            flowerStockBusinessService.updateFlowerStock(flowerStockEntity);
                         }
 
                         //Создаем список сущнсотей цветков заказа из имеющихся в заказе(DTO)
-                        List<com.accenture.flowershop.be.entity.order.OrderFlowers> orderFlowersEntities = mapService.mapAllOrderFlowersEntities(orderToCreate.getOrderFlowersList(), new ArrayList<com.accenture.flowershop.be.entity.order.OrderFlowers>());
+                        List<com.accenture.flowershop.be.entity.order.OrderFlowers> orderFlowersEntitiesList = new ArrayList<>();
+                        for (OrderFlowers oF : orderToCreate.getOrderFlowersList()) {
+                            orderFlowersEntitiesList.add(mapper.map(oF, com.accenture.flowershop.be.entity.order.OrderFlowers.class));
+                        }
 
                         //Создаем сущность заказа из DTO заказа
-                        com.accenture.flowershop.be.entity.order.Order mappedOrder = mapService.mapToOrderEntity(orderToCreate, new com.accenture.flowershop.be.entity.order.Order());
+                        com.accenture.flowershop.be.entity.order.Order orderEntity = new com.accenture.flowershop.be.entity.order.Order();
+                        mapper.map(orderToCreate, orderEntity);
 
                         //Добавляем связи между созданной сущностью заказа и созданными сущностями цветков заказа
-                        for (com.accenture.flowershop.be.entity.order.OrderFlowers oF : orderFlowersEntities) {
-                            mappedOrder.addOrderFlowers(oF);
+                        for (com.accenture.flowershop.be.entity.order.OrderFlowers oF : orderFlowersEntitiesList) {
+                            orderEntity.addOrderFlowers(oF);
                         }
 
                         //Добавляем запись в таблицу заказов в бд
-                        orderBusinessService.insertOrder(mappedOrder);
+                        orderBusinessService.insertOrder(orderEntity);
 
                         showMainInfo(printWriter, userType, login, customer);
 
@@ -161,15 +172,23 @@ public class OrdersServlet extends HttpServlet {
                     }
 
                     //Создаем список заказов
-                    List<Order> orderDtos = null;
+                    List<Order> orderDtos = new ArrayList<>();
                     if (userType == AccountType.ADMIN) {
-                        orderDtos = mapService.mapAllOrderDtos(orderDtos, orderBusinessService.getAllOrders());
+                        for (com.accenture.flowershop.be.entity.order.Order o:orderBusinessService.getAllOrders()) {
+                            orderDtos.add(mapper.map(o, Order.class));
+                        }
                     } else if (userType == AccountType.CUSTOMER) {
-                        orderDtos = mapService.mapAllOrderDtos(orderDtos, orderBusinessService.findOrders(mapService.mapToCustomerEntity(customer, new com.accenture.flowershop.be.entity.customer.Customer())));
+                        com.accenture.flowershop.be.entity.customer.Customer customerEntity = new com.accenture.flowershop.be.entity.customer.Customer();
+                        mapper.map(customer, customerEntity);
+                        for (com.accenture.flowershop.be.entity.order.Order o:orderBusinessService.findOrders(customerEntity)) {
+                            orderDtos.add(mapper.map(o, Order.class));
+                        }
                     }
                     if(!orderDtos.isEmpty()) {
                         for (Order order : orderDtos) {
-                            order.setOrderFlowersList(mapService.mapAllOrderFlowersDtos(null, orderBusinessService.findOrder(order.getId()).getOrderFlowersList()));
+                            List<OrderFlowers> orderFlowersList = new ArrayList<>();
+                            mapper.map(orderBusinessService.findOrder(order.getId()).getOrderFlowersList(), orderFlowersList);
+                            order.setOrderFlowersList(orderFlowersList);
                         }
                     }
 
@@ -184,18 +203,24 @@ public class OrdersServlet extends HttpServlet {
                                 o.setCloseDate(new Date(System.currentTimeMillis()));
 
                                 //Создаем список сущнсотей цветков заказа из имеющихся в заказе(DTO)
-                                List<com.accenture.flowershop.be.entity.order.OrderFlowers> orderFlowersEntities = mapService.mapAllOrderFlowersEntities(o.getOrderFlowersList(), new ArrayList<com.accenture.flowershop.be.entity.order.OrderFlowers>());
+                                List<com.accenture.flowershop.be.entity.order.OrderFlowers> orderFlowersEntitiesList = new ArrayList<>();
+                                for (OrderFlowers oF : orderToCreate.getOrderFlowersList()) {
+                                    com.accenture.flowershop.be.entity.order.OrderFlowers oFEntity = new com.accenture.flowershop.be.entity.order.OrderFlowers();
+                                    mapper.map(oF, oFEntity);
+                                    orderFlowersEntitiesList.add(oFEntity);
+                                }
 
                                 //Создаем сущность заказа из DTO заказа
-                                com.accenture.flowershop.be.entity.order.Order mappedOrder = mapService.mapToOrderEntity(o, new com.accenture.flowershop.be.entity.order.Order());
+                                com.accenture.flowershop.be.entity.order.Order orderEntity = new com.accenture.flowershop.be.entity.order.Order();
+                                mapper.map(o, orderEntity);
 
                                 //Добавляем связи между созданной сущностью заказа и созданными сущностями цветков заказа
-                                for (com.accenture.flowershop.be.entity.order.OrderFlowers oF : orderFlowersEntities) {
-                                    mappedOrder.addOrderFlowers(oF);
+                                for (com.accenture.flowershop.be.entity.order.OrderFlowers oF : orderFlowersEntitiesList) {
+                                    orderEntity.addOrderFlowers(oF);
                                 }
 
                                 //Обновляем запись в бд
-                                orderBusinessService.updateOrder(mappedOrder);
+                                orderBusinessService.updateOrder(orderEntity);
                             }
                             printWriter.println("<hr>" +
                                     "<h3 align=center>Id: " + o.getId() + "</h3>" +
@@ -241,6 +266,7 @@ public class OrdersServlet extends HttpServlet {
                     "<h3>" + e.getLocalizedMessage() + "</h3>");
         }
         printWriter.println("</body></html>");
+
     }
 
 
