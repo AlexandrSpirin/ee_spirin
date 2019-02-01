@@ -3,12 +3,11 @@ package com.accenture.flowershop.fe.servlets;
 import com.accenture.flowershop.be.business.account.AccountBusinessService;
 import com.accenture.flowershop.be.business.customer.CustomerBusinessService;
 import com.accenture.flowershop.be.business.flower.FlowerBusinessService;
-import com.accenture.flowershop.be.entity.account.Account;
 import com.accenture.flowershop.be.entity.account.AccountType;
 import com.accenture.flowershop.fe.dto.customer.Customer;
 import com.accenture.flowershop.fe.dto.flower.Flower;
 import com.accenture.flowershop.fe.enums.SessionAttribute;
-import com.accenture.flowershop.fe.ws.MapService;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -22,11 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 @Component
@@ -44,7 +39,7 @@ public class LoginServlet extends HttpServlet {
     private FlowerBusinessService flowerBusinessService;
 
     @Autowired
-    private MapService mapService;
+    private Mapper mapper;
 
     @Override
     public void init (ServletConfig config) throws ServletException
@@ -87,7 +82,8 @@ public class LoginServlet extends HttpServlet {
                 }
                 else {
                     session.setAttribute(SessionAttribute.USER_TYPE.toString(), AccountType.CUSTOMER);
-                    Customer customer = mapService.mapToCustomerDto(new Customer(),customerBusinessService.findCustomer(accountBusinessService.findAccount(login)));
+                    Customer customer = new Customer();
+                    mapper.map(customerBusinessService.findCustomer(accountBusinessService.findAccount(login)), customer);
                     if(customer != null) {
                         session.setAttribute(SessionAttribute.CUSTOMER.toString(), customer);
                         HashMap<Flower, Integer> flowersInBasket = new HashMap<>();
