@@ -1,6 +1,5 @@
 package com.accenture.flowershop.fe.servlets;
 
-
 import com.accenture.flowershop.be.business.customer.CustomerBusinessService;
 import com.accenture.flowershop.be.business.flower.FlowerBusinessService;
 import com.accenture.flowershop.be.business.flowerStock.FlowerStockBusinessService;
@@ -70,11 +69,22 @@ public class FlowersServlet extends HttpServlet {
         showMainInfo(req, resp);
     }
 
-    public void showMainInfo(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    /**
+     * Отображение основной информации страницы
+     *
+     * @param req запрос, сессия и параметры которого используются в работе
+     * @param resp ответ, printWriter которого используется в работе
+     * @throws IOException исключение ввода-вывода, которое будет обрабатываться
+     */
+    private void showMainInfo(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        //Сессия, атрибуты которой используются для работы
         HttpSession session = req.getSession();
+        //Объект для печати объектов в поток вывода текста(отображение на странице)
         PrintWriter printWriter = resp.getWriter();
 
+        //Тип аккаунта пользователя
         AccountType userType = session.getAttribute(SessionAttribute.USER_TYPE.toString()) == null ? null : (AccountType) session.getAttribute(SessionAttribute.USER_TYPE.toString());
+        //Логин пользователя
         String login = session.getAttribute(SessionAttribute.LOGIN.toString()) == null ? "" : (String) session.getAttribute(SessionAttribute.LOGIN.toString());
 
         //Покупатель, просматривающий свои заказы
@@ -87,17 +97,12 @@ public class FlowersServlet extends HttpServlet {
         printWriter.println("<html><body>");
 
         try {
-            if (login == "" || userType == null || (userType == AccountType.CUSTOMER && customer == null)) {
+            if (login.equals("") || userType == null || (userType == AccountType.CUSTOMER && customer == null)) {
                 printWriter.println("Login error! Please login again!" +
                         "<form action='index.jsp' style='display:inline-block; margin-top:0; margin-bottom:0; margin-left:18'>" +
                         "<input type=submit name='toMainPage' value='Main Page'/>" +
                         "</form>");
             } else {
-
-                //Мапа для корзины пользователя, в которой хранятся цветки(DTO)/их количество
-                HashMap<Flower, Integer> flowersInBasket = session.getAttribute(SessionAttribute.FLOWERS_IN_BASKET.toString()) == null ?
-                        new HashMap<Flower, Integer>() : (HashMap<Flower, Integer>) session.getAttribute(SessionAttribute.FLOWERS_IN_BASKET.toString());
-
                 //Проверяем нажатие на кнопку перехода от всего ассортимента цветов к корзине
                 if (req.getParameter("basketButton") != null) {
                     resp.sendRedirect("basket");
@@ -108,28 +113,33 @@ public class FlowersServlet extends HttpServlet {
                     resp.sendRedirect("orders");
                 }
 
-                //Получаем параметры поиска цветков в корзине, указанные пользователем
+                //Мапа для корзины пользователя, в которой хранятся цветки(DTO)/их количество
+                HashMap<Flower, Integer> flowersInBasket = session.getAttribute(SessionAttribute.FLOWERS_IN_BASKET.toString()) == null ?
+                        new HashMap<Flower, Integer>() : (HashMap<Flower, Integer>) session.getAttribute(SessionAttribute.FLOWERS_IN_BASKET.toString());
+
+                //Текст, используемый в поиске цветка по имени
                 String searchNameText = req.getParameter("searchNameText") == null ? "" : req.getParameter("searchNameText");
+                //Минимальная цена, используемая в поиске цветка
                 BigDecimal searchMinCostText = req.getParameter("searchMinCostText") == null ? new BigDecimal(0) : new BigDecimal(req.getParameter("searchMinCostText"));
+                //Максимальная цена, используемая в поиске цветка
                 BigDecimal searchMaxCostText = req.getParameter("searchMaxCostText") == null ? new BigDecimal(0) : new BigDecimal(req.getParameter("searchMaxCostText"));
 
                 //Показываем основную панель пользователя
                 showUserPanel(printWriter, login, userType, customer, searchNameText, searchMinCostText.toString(), searchMaxCostText.toString());
 
-                //Находим все типы цветов, подходящие под условия поиска
+                //Все типы цветов, подходящие под условия поиска
                 List<Flower> flowerDtos = new ArrayList();
                 for (com.accenture.flowershop.be.entity.flower.Flower f: flowerBusinessService.findFlowers(searchNameText, searchMinCostText, searchMaxCostText)) {
                     flowerDtos.add(mapper.map(f, Flower.class));
                 }
 
-                //Находим все позиции склада с цветами, типы которых подходят под условия поиска
+                //Все позиции склада с цветами, типы которых подходят под условия поиска
                 List<FlowerStock> flowerStockDtos = new ArrayList();
                 for (int i = 0; i < flowerDtos.size(); i++) {
                     for(com.accenture.flowershop.be.entity.flowerStock.FlowerStock fS : flowerStockBusinessService.findFlowerStocksByFlower(mapper.map(flowerDtos.get(i), com.accenture.flowershop.be.entity.flower.Flower.class))){
                         flowerStockDtos.add(mapper.map(fS, FlowerStock.class));
                     }
                 }
-
 
                 if (flowerStockDtos.isEmpty()) {
                     printWriter.println("<hr><h2 align = center>No flower found with these parameters!</h2>");
@@ -143,7 +153,7 @@ public class FlowersServlet extends HttpServlet {
                     //Для покупателя показываем основную информацию и информацию покупателя о цветках, подходящих по условиям поиска
                     } else if (userType == AccountType.CUSTOMER) {
                         for (FlowerStock fS : flowerStockDtos) {
-                            //Получаем количество цветов этого типа в корзине
+                            //Текущее количество цветов этого типа в корзине
                             Integer flowerCountInBasket = 0;
                             if (flowersInBasket.get(fS.getFlower()) != null) {
                                 flowerCountInBasket = flowersInBasket.get(fS.getFlower());
@@ -152,8 +162,10 @@ public class FlowersServlet extends HttpServlet {
                             //Количество цветов этого типа, которое должно стать в корзине
                             Integer newFlowerCountInBasket = flowerCountInBasket;
 
-                            //Получаем количество цветов этого типа, на которое покупатель хотел изменить количество цветов этого типа в своей корзине
+                            //Количество цветов этого типа, на которое покупатель хотел изменить количество цветов этого типа в своей корзине
                             Integer flowerCountForChangeBasket = req.getParameter("flower" + fS.getFlower().getId() + "CountForChangeBasket") == null ? 0 : Integer.valueOf(req.getParameter("flower" + fS.getFlower().getId() + "CountForChangeBasket"));
+
+                            //Проверяем нажатие на кнопки для изменения количества цветков в корзине, только если количество, на которое необходимо изменить количество цветков в корзине больше 0
                             if(flowerCountForChangeBasket > 0) {
                                 //Если нажали кнопку добавить цветы в корзину для цветов этого типа
                                 if (req.getParameter("addFlower" + fS.getFlower().getId() + "ToBasket") != null) {
@@ -189,9 +201,9 @@ public class FlowersServlet extends HttpServlet {
                                 }
                             }
 
-                            //Получаем цену цветка этого типа с учетом скидки
+                            //Цена цветка этого типа с учетом скидки
                             BigDecimal flowerCostWithDiscount = fS.getFlower().getCost().multiply(BigDecimal.valueOf(1 - (customer.getDiscount() * 0.01))).setScale(2, RoundingMode.CEILING);
-                            //Получаем цену за все цветки этого типа в корзине пользователя с учетом скидки
+                            //Цена за все цветки этого типа в корзине пользователя с учетом скидки
                             BigDecimal totalCostForCurrentFlowerType = flowerCostWithDiscount.multiply(new BigDecimal(newFlowerCountInBasket)).setScale(2, RoundingMode.CEILING);
 
                             //Показываем всю информацию о цветке этого типа
@@ -216,9 +228,14 @@ public class FlowersServlet extends HttpServlet {
 
 
 
-    ///////
-    ///Показать показать основную информацию об указанном цветке
-    ///////
+    /**
+     * Отображение основной информации об указанном цветке
+     *
+     * @param printWriter бъект для печати объектов в поток вывода текста(отображение на странице)
+     * @param name название цветка
+     * @param cost цена цветка этого типа за штуку
+     * @param countOnStocks количество цветов этого типа на складе
+     */
     private void showMainFlowerInfo(PrintWriter printWriter, String name, String cost, String countOnStocks) {
         printWriter.println("<h3 align=center>Name: " + name + "</h3>" +
                 "<h4 align=center>Cost: " + cost + "RUB</h4>" +
@@ -226,9 +243,16 @@ public class FlowersServlet extends HttpServlet {
     }
 
 
-    ///////
-    ///Показать информацию покупателя об указанном цветке
-    ///////
+    /**
+     * Отображение информации покупателя об указанном цветке
+     *
+     * @param printWriter объект для печати объектов в поток вывода текста(отображение на странице)
+     * @param flowerId id цветка этого типа для создания элементов ввода(кнопки ввода добавить/убрать цветы в/из корзины,
+     *                 поле ввода для количества цветков, на которое необходимо изменить количество цветков этого типа в корзине) для покупателя
+     * @param flowerCountInBasket текущее количество цветков этого типа в корзине покупателя
+     * @param totalCostForCurrentFlowerType итоговая цена за все цветки этого типа, находящиеся в корзине
+     * @param flowerCountForChangeBasket количество цветков, на которое необходимо изменить количество цветков этого типа в корзине
+     */
     private void showCustomerFlowerInfo(PrintWriter printWriter, String flowerId, String flowerCountInBasket,
                                         String totalCostForCurrentFlowerType, String flowerCountForChangeBasket) {
         printWriter.println(" (" + flowerCountInBasket + " in Your Basket = " + totalCostForCurrentFlowerType +
@@ -242,9 +266,17 @@ public class FlowersServlet extends HttpServlet {
     }
 
 
-    ///////
-    ///Показать основную панель пользователя
-    ///////
+    /**
+     * Отображение основной панели пользователя
+     *
+     * @param printWriter объект для печати объектов в поток вывода текста(отображение на странице)
+     * @param login логин пользователя, который указывается в приветствии
+     * @param userType тип аккаунта пользователя, от которого зависит отображение некоторых элементов
+     * @param customer покупатель, у которого для отображения берется количество денег и скидка
+     * @param searchNameText текст, используемый в поиске цветка по имени
+     * @param searchMinCostText минимальная цена, используемая в поиске цветка
+     * @param searchMaxCostText максимальная цена, используемая в поиске цветка
+     */
     private  void  showUserPanel(PrintWriter printWriter, String login, AccountType userType, Customer customer, String searchNameText, String searchMinCostText, String searchMaxCostText){
         printWriter.println("<hr>" +
                 "<h1 align = center>FLOWERS</h1>" +

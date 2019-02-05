@@ -52,23 +52,34 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
-        login(req,resp);
+        showLoginInfo(req,resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
-        login(req,resp);
+        showLoginInfo(req,resp);
     }
 
 
-    public void login(HttpServletRequest req, HttpServletResponse resp) throws IOException
+    /**
+     * Отображение информации о входе пользователя
+     *
+     * @param req запрос, сессия и параметры которого используются в работе
+     * @param resp ответ, printWriter которого используется в работе
+     * @throws IOException исключение ввода-вывода, которое будет обрабатываться
+     */
+    private void showLoginInfo(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
-        String login = req.getParameter("login");
-        String password = req.getParameter("password");
-        PrintWriter printWriter = resp.getWriter();
+        //Сессия, атрибуты которой используются для работы
         HttpSession session = req.getSession();
+        //Объект для печати объектов в поток вывода текста(отображение на странице)
+        PrintWriter printWriter = resp.getWriter();
 
+        //Логин пользователя
+        String login = req.getParameter("login");
+        //Пароль пользователя
+        String password = req.getParameter("password");
 
         printWriter.println("<html><body>");
 
@@ -82,11 +93,18 @@ public class LoginServlet extends HttpServlet {
                 }
                 else {
                     session.setAttribute(SessionAttribute.USER_TYPE.toString(), AccountType.CUSTOMER);
+
+                    //Покупатель, которому принадлежит этот аккаунт
                     Customer customer = mapper.map(customerBusinessService.findCustomer(accountBusinessService.findAccount(login)), Customer.class);
+
                     if(customer != null) {
                         session.setAttribute(SessionAttribute.CUSTOMER.toString(), customer);
+
+                        //Новая корзина для покупателя
                         HashMap<Flower, Integer> flowersInBasket = new HashMap<>();
+
                         session.setAttribute(SessionAttribute.FLOWERS_IN_BASKET.toString(), flowersInBasket);
+
                         resp.sendRedirect("flowers");
                     }
                     else {

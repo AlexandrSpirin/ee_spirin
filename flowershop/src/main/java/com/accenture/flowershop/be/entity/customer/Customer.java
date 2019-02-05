@@ -1,11 +1,9 @@
 package com.accenture.flowershop.be.entity.customer;
 
 import com.accenture.flowershop.be.entity.account.Account;
-import com.accenture.flowershop.be.entity.order.Order;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
 
 @Entity
 @Table(name="customers")
@@ -35,12 +33,12 @@ public class Customer {
 
     private BigDecimal money;
 
-    private int discount;
+    private Integer discount;
 
 
     public Customer() {}
 
-    public Customer(Account account, String firstName, String middleName, String lastName, String email, String phoneNumber, BigDecimal money, int discount) {
+    public Customer(Account account, String firstName, String middleName, String lastName, String email, String phoneNumber, BigDecimal money, Integer discount) {
         this.account = account;
         this.firstName = firstName;
         this.middleName = middleName;
@@ -116,11 +114,11 @@ public class Customer {
         this.money = money;
     }
 
-    public int getDiscount() {
+    public Integer getDiscount() {
         return discount;
     }
 
-    public void setDiscount(int discount) {
+    public void setDiscount(Integer discount) {
         this.discount = discount;
     }
 }

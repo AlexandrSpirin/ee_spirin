@@ -2,6 +2,7 @@ package com.accenture.flowershop.fe.dto.account;
 
 import com.accenture.flowershop.be.entity.account.AccountType;
 
+
 public class Account {
     private long id;
 

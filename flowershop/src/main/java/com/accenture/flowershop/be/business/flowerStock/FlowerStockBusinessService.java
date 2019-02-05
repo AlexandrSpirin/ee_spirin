@@ -6,6 +6,7 @@ import com.accenture.flowershop.be.entity.flowerStock.FlowerStock;
 
 import java.util.List;
 
+
 public interface FlowerStockBusinessService {
     List<FlowerStock> getAllFlowerStocks() throws InternalException;
     FlowerStock findFlowerStock(Long id) throws InternalException;

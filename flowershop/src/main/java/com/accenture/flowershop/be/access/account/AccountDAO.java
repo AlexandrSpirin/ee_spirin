@@ -1,11 +1,11 @@
 package com.accenture.flowershop.be.access.account;
 
-
 import com.accenture.flowershop.be.InternalException;
 import com.accenture.flowershop.be.entity.account.Account;
 import com.accenture.flowershop.be.entity.account.AccountType;
 
 import java.util.List;
+
 
 public interface AccountDAO {
     List<Account> getAllAccounts() throws InternalException;

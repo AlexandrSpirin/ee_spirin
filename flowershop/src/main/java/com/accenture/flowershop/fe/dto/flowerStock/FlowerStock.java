@@ -2,6 +2,7 @@ package com.accenture.flowershop.fe.dto.flowerStock;
 
 import com.accenture.flowershop.fe.dto.flower.Flower;
 
+
 public class FlowerStock {
     private Long id;
 

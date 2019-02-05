@@ -4,6 +4,7 @@ import com.accenture.flowershop.fe.dto.account.Account;
 
 import java.math.BigDecimal;
 
+
 public class Customer {
     private Long id;
     private Account account;
@@ -13,12 +14,12 @@ public class Customer {
     private String email;
     private String phoneNumber;
     private BigDecimal money;
-    private int discount;
+    private Integer discount;
 
 
     public Customer() {}
 
-    public Customer(Account account, String firstName, String middleName, String lastName, String email, String phoneNumber, BigDecimal money, int discount) {
+    public Customer(Account account, String firstName, String middleName, String lastName, String email, String phoneNumber, BigDecimal money, Integer discount) {
         this.account = account;
         this.firstName = firstName;
         this.middleName = middleName;
@@ -94,11 +95,11 @@ public class Customer {
         this.money = money;
     }
 
-    public int getDiscount() {
+    public Integer getDiscount() {
         return discount;
     }
 
-    public void setDiscount(int discount) {
+    public void setDiscount(Integer discount) {
         this.discount = discount;
     }
 }

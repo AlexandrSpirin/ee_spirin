@@ -1,6 +1,5 @@
 package com.accenture.flowershop.fe.servlets;
 
-
 import com.accenture.flowershop.be.business.flowerStock.FlowerStockBusinessService;
 import com.accenture.flowershop.be.entity.account.AccountType;
 import com.accenture.flowershop.fe.dto.customer.Customer;
@@ -26,6 +25,7 @@ import java.math.RoundingMode;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+
 
 @Component
 @WebServlet(name = "BasketServlet",
@@ -58,24 +58,35 @@ public class BasketServlet extends HttpServlet {
     }
 
 
-    public void showBasket(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    /**
+     * Отображение основной информации страницы
+     *
+     * @param req запрос, сессия и параметры которого используются в работе
+     * @param resp ответ, printWriter которого используется в работе
+     * @throws IOException исключение ввода-вывода, которое будет обрабатываться
+     */
+    private void showBasket(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        //Сессия, атрибуты которой используются для работы
         HttpSession session = req.getSession();
+        //Объект для печати объектов в поток вывода текста(отображение на странице)
         PrintWriter printWriter = resp.getWriter();
 
+        //Тип аккаунта пользователя
         AccountType userType = session.getAttribute(SessionAttribute.USER_TYPE.toString()) == null ? null : (AccountType) session.getAttribute(SessionAttribute.USER_TYPE.toString());
+        //Логин пользователя
         String login = session.getAttribute(SessionAttribute.LOGIN.toString()) == null ? "" : (String) session.getAttribute(SessionAttribute.LOGIN.toString());
 
+        //Покупатель, которому принадлежит эта корзина
         Customer customer = null;
         if(session.getAttribute(SessionAttribute.CUSTOMER.toString()) != null) {
             customer = (com.accenture.flowershop.fe.dto.customer.Customer) session.getAttribute(SessionAttribute.CUSTOMER.toString());
         }
 
-
         printWriter.println("<html><body>");
 
         try {
             //Проверяем атрибуты сессии на корректность
-            if (login == "" || userType != AccountType.CUSTOMER || customer == null) {
+            if (login.equals("") || userType != AccountType.CUSTOMER || customer == null) {
                 printWriter.println("Login error! Please login again!" +
                         "<form action='index.jsp' style='display:inline-block; margin-top:0; margin-bottom:0; margin-left:18'>" +
                         "<input type=submit name='toMainPage' value='Main Page'/>" +
@@ -91,54 +102,24 @@ public class BasketServlet extends HttpServlet {
                     resp.sendRedirect("orders");
                 }
 
-
                 //Мапа для корзины пользователя, в которой хранятся цветки(DTO)/их количество
                 HashMap<Flower, Integer> flowersInBasket = session.getAttribute(SessionAttribute.FLOWERS_IN_BASKET.toString()) == null ?
                         new HashMap<Flower, Integer>() : (HashMap<Flower, Integer>) session.getAttribute(SessionAttribute.FLOWERS_IN_BASKET.toString());
 
 
-                //Получаем параметры поиска цветков в корзине, указанные пользователем
+                //Текст, используемый в поиске цветка по имени
                 String searchNameText = req.getParameter("searchNameText") == null ? "" : req.getParameter("searchNameText");
+                //Минимальная цена, используемая в поиске цветка
                 BigDecimal searchMinCostText = req.getParameter("searchMinCostText") == null ? new BigDecimal(0) : new BigDecimal(req.getParameter("searchMinCostText"));
+                //Максимальная цена, используемая в поиске цветка
                 BigDecimal searchMaxCostText = req.getParameter("searchMaxCostText") == null ? new BigDecimal(0) : new BigDecimal(req.getParameter("searchMaxCostText"));
 
-                printWriter.println("<hr>" +
-                        "<h1 align = center>BASKET</h1>" +
-                        "<hr>" +
-                        "<h2 align = center>Its Your basket, " +
-                        login + "! " +
-                        "<form action = 'index.jsp' style = 'display:inline-block; margin-top:0; margin-bottom:0; margin-left:18'>" +
-                        "<input type = 'submit' name = 'exitButton' value = 'Exit'/>" +
-                        "</form>" +
-                        "<p>" +
-                        "You have money: " + customer.getMoney() + "RUB and discount: " + customer.getDiscount() + "%" +
-                        "<form action = 'basket' method = 'post'>" +
-                        "<input type = 'submit' name = 'allFlowersButton' value = 'All Flowers' style = 'display:inline-block; margin-top:0; margin-bottom:0; margin-left:0'/>" +
-                        "<input type = 'submit' name = 'ordersButton' value = 'Orders' style = 'display:inline-block; margin-top:0; margin-bottom:0; margin-left:18'/>" +
-                        "</form>" +
-                        "</h2>" +
-                        "<hr>" +
-                        "<h2 align = center>" +
-                        "Search" +
-                        "</h2>" +
-                        "<h3 align = center>" +
-                        "<form action = 'basket' method = 'post'>" +
-                        "name " +
-                        "<input type=text name='searchNameText' value='" + searchNameText +
-                        "' style='display:inline-block; margin-top:0; margin-bottom:0; margin-left:12'/>" +
-                        "<p>cost: min" +
-                        "<input type = text name='searchMinCostText' onkeypress='return event.charCode >= 48 && event.charCode <= 57'  value='"
-                        + searchMinCostText + "' style='display:inline-block; margin-top:0; margin-bottom:0; margin-left:12; margin-right:36'/>" +
-                        "max" +
-                        "<input type = text name = 'searchMaxCostText' onkeypress = 'return event.charCode >= 48 && event.charCode <= 57' value='"
-                        + searchMaxCostText + "' style = 'display:inline-block; margin-top:0; margin-bottom:0; margin-left:12; margin-right:36'/>" +
-                        "<p><input type = 'submit' name = 'searchButton' value = 'Search' />" +
-                        "</form>" +
-                        "</h3>");
+                showUserPanel(printWriter, login, customer, searchNameText, searchMinCostText.toString(), searchMaxCostText.toString());
 
                 if (flowersInBasket.isEmpty()) {
                     printWriter.println("<hr><h2 align=center>Your basket is empty!</h2>");
                 } else {
+
                     boolean basketHasMatchingFlowers = false;
 
                     for (HashMap.Entry<Flower, Integer> entry : flowersInBasket.entrySet()) {
@@ -150,10 +131,11 @@ public class BasketServlet extends HttpServlet {
                     if (!basketHasMatchingFlowers) {
                         printWriter.println("<hr><h2 align=center>Your basket does not have matching flowers!</h2>");
                     } else {
-                        //Объявление заказа(DTO)
+                        //Заказ, который может быть создан из цветков, находящихся в корзине
                         Order order = new Order();
 
-                        BigDecimal totalCost = BigDecimal.ZERO;
+                        //Итоговая цена заказа
+                        BigDecimal finalPrice = BigDecimal.ZERO;
 
                         //Проходим по всей корзине для отображения цветов, находящихся в ней, и рассчета стоимости
                         for (Iterator<HashMap.Entry<Flower, Integer>> it = flowersInBasket.entrySet().iterator(); it.hasNext(); ) {
@@ -208,20 +190,28 @@ public class BasketServlet extends HttpServlet {
 
                             //Показываем элемент в корзине только, если его не удалили после изменения его количества в корзине
                             if (!entryWasRemoved) {
+                                //Цена цветка этого типа с учетом скидки
                                 BigDecimal flowerCostWithDiscount = entry.getKey().getCost().multiply(BigDecimal.valueOf(1 - (customer.getDiscount() * 0.01))).setScale(2, RoundingMode.CEILING);
+                                //Цена за все цветки этого типа в корзине пользователя с учетом скидки
                                 BigDecimal totalCostForCurrentFlowerType = flowerCostWithDiscount.multiply(new BigDecimal(entry.getValue())).setScale(2, RoundingMode.CEILING);
-                                totalCost = totalCost.add(totalCostForCurrentFlowerType);
+
+                                finalPrice = finalPrice.add(totalCostForCurrentFlowerType);
+
+                                //Цветки заказа из цветков, находящихся в корзине
                                 OrderFlowers orderFlowers = new OrderFlowers();
                                 orderFlowers.setFlower(entry.getKey());
                                 orderFlowers.setFlowerCount(entry.getValue());
+
                                 order.addOrderFlowers(orderFlowers);
+
+                                //Показываем всю информацию о цветке этого типа
                                 printWriter.println("<hr>");
                                 showMainFlowerInfo(printWriter, entry.getKey().getName(), flowerCostWithDiscount.toString(), flowerCountOnStock.toString());
                                 showCustomerFlowerInfo(printWriter, entry.getKey().getId().toString(), entry.getValue().toString(), totalCostForCurrentFlowerType.toString(), flowerCountForChangeBasket.toString());
                             }
                         }
 
-                        printWriter.println("<hr><h2 align=center>Total cost: " + totalCost + "RUB" +
+                        printWriter.println("<hr><h2 align=center>Total cost: " + finalPrice + "RUB" +
                                 "<form action='basket' method='post'>" +
                                 "<input type=submit name='createOrder' value='Create Order' style='display:inline-block; margin-top:12; margin-bottom:0; margin-left:0; margin-right:0'/>" +
                                 "</form>");
@@ -234,7 +224,7 @@ public class BasketServlet extends HttpServlet {
                             order.setStatus("Open");
                             order.setCreateDate(new Date(System.currentTimeMillis()));
                             order.setDiscount(customer.getDiscount());
-                            order.setFinalPrice(totalCost);
+                            order.setFinalPrice(finalPrice);
 
                             //Добавляем заказ в атрибуты сессии
                             session.setAttribute(SessionAttribute.ORDER.toString(), order);
@@ -259,12 +249,76 @@ public class BasketServlet extends HttpServlet {
     }
 
 
+    /**
+     * Отображение основной панели покупателя
+     *
+     * @param printWriter объект для печати объектов в поток вывода текста(отображение на странице)
+     * @param login логин пользователя, который указывается в приветствии
+     * @param customer покупатель, у которого для отображения берется количество денег и скидка
+     * @param searchNameText текст, используемый в поиске цветка по имени
+     * @param searchMinCostText минимальная цена, используемая в поиске цветка
+     * @param searchMaxCostText максимальная цена, используемая в поиске цветка
+     */
+    private void showUserPanel(PrintWriter printWriter, String login, Customer customer, String searchNameText, String searchMinCostText, String searchMaxCostText){
+        printWriter.println("<hr>" +
+                "<h1 align = center>BASKET</h1>" +
+                "<hr>" +
+                "<h2 align = center>Its Your basket, " +
+                login + "! " +
+                "<form action = 'index.jsp' style = 'display:inline-block; margin-top:0; margin-bottom:0; margin-left:18'>" +
+                "<input type = 'submit' name = 'exitButton' value = 'Exit'/>" +
+                "</form>" +
+                "<p>" +
+                "You have money: " + customer.getMoney() + "RUB and discount: " + customer.getDiscount() + "%" +
+                "<form action = 'basket' method = 'post'>" +
+                "<input type = 'submit' name = 'allFlowersButton' value = 'All Flowers' style = 'display:inline-block; margin-top:0; margin-bottom:0; margin-left:0'/>" +
+                "<input type = 'submit' name = 'ordersButton' value = 'Orders' style = 'display:inline-block; margin-top:0; margin-bottom:0; margin-left:18'/>" +
+                "</form>" +
+                "</h2>" +
+                "<hr>" +
+                "<h2 align = center>" +
+                "Search" +
+                "</h2>" +
+                "<h3 align = center>" +
+                "<form action = 'basket' method = 'post'>" +
+                "name " +
+                "<input type=text name='searchNameText' value='" + searchNameText +
+                "' style='display:inline-block; margin-top:0; margin-bottom:0; margin-left:12'/>" +
+                "<p>cost: min" +
+                "<input type = text name='searchMinCostText' onkeypress='return event.charCode >= 48 && event.charCode <= 57'  value='"
+                + searchMinCostText + "' style='display:inline-block; margin-top:0; margin-bottom:0; margin-left:12; margin-right:36'/>" +
+                "max" +
+                "<input type = text name = 'searchMaxCostText' onkeypress = 'return event.charCode >= 48 && event.charCode <= 57' value='"
+                + searchMaxCostText + "' style = 'display:inline-block; margin-top:0; margin-bottom:0; margin-left:12; margin-right:36'/>" +
+                "<p><input type = 'submit' name = 'searchButton' value = 'Search' />" +
+                "</form>" +
+                "</h3>");
+    }
+
+    /**
+     * Отображение основной информации об указанном цветке
+     *
+     * @param printWriter бъект для печати объектов в поток вывода текста(отображение на странице)
+     * @param name название цветка
+     * @param cost цена цветка этого типа за штуку
+     * @param countOnStocks количество цветов этого типа на складе
+     */
     private void showMainFlowerInfo(PrintWriter printWriter, String name, String cost, String countOnStocks){
         printWriter.println("<h3 align=center>Name: " + name + "</h3>" +
                 "<h4 align=center>Cost: " + cost + "RUB</h4>" +
                 "<h4 align=center>Count on stocks: " + countOnStocks);
     }
 
+    /**
+     * Отображение информации покупателя об указанном цветке
+     *
+     * @param printWriter объект для печати объектов в поток вывода текста(отображение на странице)
+     * @param flowerId id цветка этого типа для создания элементов ввода(кнопки ввода добавить/убрать цветы в/из корзины,
+     *                 поле ввода для количества цветков, на которое необходимо изменить количество цветков этого типа в корзине) для покупателя
+     * @param flowerCountInBasket текущее количество цветков этого типа в корзине покупателя
+     * @param totalCostForCurrentFlowerType итоговая цена за все цветки этого типа, находящиеся в корзине
+     * @param flowerCountForChangeBasket количество цветков, на которое необходимо изменить количество цветков этого типа в корзине
+     */
     private void showCustomerFlowerInfo(PrintWriter printWriter, String flowerId, String flowerCountInBasket,
                                         String totalCostForCurrentFlowerType, String flowerCountForChangeBasket){
         printWriter.println(" (" + flowerCountInBasket + " in Your Basket = " + totalCostForCurrentFlowerType +

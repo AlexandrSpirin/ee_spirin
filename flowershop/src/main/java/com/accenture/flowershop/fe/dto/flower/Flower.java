@@ -3,6 +3,7 @@ package com.accenture.flowershop.fe.dto.flower;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+
 public class Flower {
     private Long id;
 

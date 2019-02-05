@@ -42,42 +42,58 @@ public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
-        registration(req,resp);
+        showRegistrationInfo(req,resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
-        registration(req,resp);
+        showRegistrationInfo(req,resp);
     }
 
-    public void registration(HttpServletRequest req, HttpServletResponse resp) throws IOException
+
+    /**
+     * Отображение информации о регистрации покупателя
+     * @param req запрос, сессия и параметры которого используются в работе
+     * @param resp ответ, printWriter которого используется в работе
+     * @throws IOException исключение ввода-вывода, которое будет обрабатываться
+     */
+    private void showRegistrationInfo(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
-        String login = req.getParameter("login");
-        String passwordOne = req.getParameter("passwordOne");
-        String passwordTwo = req.getParameter("passwordTwo");
-        String firstName = req.getParameter("firstName");
-        String middleName = req.getParameter("middleName");
-        String lastName = req.getParameter("lastName");
-        String email = req.getParameter("email");
-        String phoneNumber = req.getParameter("phoneNumber");
-        String money = req.getParameter("money");
-        String discount = req.getParameter("discount");
-
-
-        PrintWriter printWriter = resp.getWriter();
+        //Сессия, атрибуты которой используются для работы
         HttpSession session = req.getSession();
+        //Объект для печати объектов в поток вывода текста(отображение на странице)
+        PrintWriter printWriter = resp.getWriter();
+
+        //Логин для аккаунта пользователя
+        String login = req.getParameter("login");
+        //Первый введенный пароль пользователя
+        String passwordOne = req.getParameter("passwordOne");
+        //Второй введенный пароль пользователя
+        String passwordTwo = req.getParameter("passwordTwo");
+        //Имя покупателя
+        String firstName = req.getParameter("firstName");
+        //Фамилия покупателя
+        String middleName = req.getParameter("middleName");
+        //Отчетсво покупателя
+        String lastName = req.getParameter("lastName");
+        //Почта покупателя
+        String email = req.getParameter("email");
+        //Номер телефона покупателя
+        String phoneNumber = req.getParameter("phoneNumber");
+        //Деньги покупателя
+        BigDecimal money = new BigDecimal(req.getParameter("money"));
+        //Скидка покупателя
+        Integer discount = Integer.valueOf(req.getParameter("discount"));
 
         printWriter.println("<html><body>");
 
         try {
             if(session.getAttribute(SessionAttribute.USER_TYPE.toString()) == AccountType.ADMIN) {
-
-
                 if (passwordOne.equals(passwordTwo)) {
                     if (accountBusinessService.registration(login, passwordOne, AccountType.CUSTOMER)) {
                         if(customerBusinessService.insertCustomer(accountBusinessService.findAccount(login),
-                                firstName, middleName, lastName, email, phoneNumber, new BigDecimal(money), Integer.valueOf(discount))) {
+                                firstName, middleName, lastName, email, phoneNumber, money, discount)) {
                             printWriter.println("<h1 align=center>" + login + " was registered!</h1>");
                         } else {
                             printWriter.println("<h1 align=center>This account is already in use! Please choose another account.</h1>");

@@ -7,6 +7,7 @@ import com.accenture.flowershop.be.entity.customer.Customer;
 import java.math.BigDecimal;
 import java.util.List;
 
+
 public interface CustomerDAO {
     List<Customer> getAllCustomers() throws InternalException;
     Customer findCustomer(Long id) throws InternalException;

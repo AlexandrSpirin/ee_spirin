@@ -6,6 +6,7 @@ import com.accenture.flowershop.be.entity.flower.Flower;
 import java.math.BigDecimal;
 import java.util.List;
 
+
 public interface FlowerDAO {
     List<Flower> getAllFlowers() throws InternalException;
     Flower findFlower(Long id) throws InternalException;
