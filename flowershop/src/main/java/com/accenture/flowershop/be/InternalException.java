@@ -54,7 +54,6 @@ public class InternalException extends Exception{
     public static final String ERROR_DAO_ORDERS_FIND_CLOSE_DATE = "(DAO)Exception occcured while finding Order via Close Date";
     public static final String ERROR_DAO_ORDERS_FIND_FINAL_PRICE = "(DAO)Exception occcured while finding Order via Final Price";
     public static final String ERROR_DAO_ORDERS_FIND_DISCOUNT = "(DAO)Exception occcured while finding Order via Discount";
-    public static final String ERROR_DAO_ORDER_FLOWERS_INSERT = "(DAO)Exception occured while inserting new Order Flowers";
     public static final String ERROR_DAO_ORDER_INSERT = "(DAO)Exception occured while inserting new Order";
     public static final String ERROR_DAO_ORDER_UPDATE = "(DAO)Exception occured while updating Order";
 
@@ -114,9 +113,8 @@ public class InternalException extends Exception{
     public static final String ERROR_SERVICE_ORDERS_FIND_CLOSE_DATE = "(Service)Exception occcured while finding Order via Close Date";
     public static final String ERROR_SERVICE_ORDERS_FIND_FINAL_PRICE = "(Service)Exception occcured while finding Order via Final Price";
     public static final String ERROR_SERVICE_ORDERS_FIND_DISCOUNT = "(Service)Exception occcured while finding Order via Discount";
-    public static final String ERROR_SERVICE_ORDER_FLOWERS_INSERT = "(Service)Exception occured while inserting new Order Flowers";
-    public static final String ERROR_SERVICE_ORDER_INSERT = "(Service)Exception occured while inserting new Order";
-    public static final String ERROR_SERVICE_ORDER_UPDATE = "(Service)Exception occured while updating Order";
+    public static final String ERROR_SERVICE_ORDER_CREATE = "(Service)Exception occured while creating new Order";
+    public static final String ERROR_SERVICE_ORDER_CLOSE = "(Service)Exception occured while closing Order";
 
 
 

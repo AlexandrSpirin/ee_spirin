@@ -1,9 +1,11 @@
 package com.accenture.flowershop.be.business.order;
 
 import com.accenture.flowershop.be.InternalException;
+import com.accenture.flowershop.be.access.customer.CustomerDAO;
+import com.accenture.flowershop.be.access.flowerStock.FlowerStockDAO;
 import com.accenture.flowershop.be.access.order.OrderDAO;
 import com.accenture.flowershop.be.entity.customer.Customer;
-import com.accenture.flowershop.be.entity.flower.Flower;
+import com.accenture.flowershop.be.entity.flowerStock.FlowerStock;
 import com.accenture.flowershop.be.entity.order.Order;
 import com.accenture.flowershop.be.entity.order.OrderFlowers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,14 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     @Autowired
     @Qualifier("orderDAOImpl")
     private OrderDAO orderDAO;
+
+    @Autowired
+    @Qualifier("customerDAOImpl")
+    private CustomerDAO customerDAO;
+
+    @Autowired
+    @Qualifier("flowerStockDAOImpl")
+    private FlowerStockDAO flowerStockDAO;
 
     @Override
     public List<Order> getAllOrders() throws InternalException {
@@ -65,7 +75,11 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     @Override
     public List<Order> findOrders(Customer customer) throws InternalException {
         try {
-            return orderDAO.findOrders(customer);
+            if(customer == null) {
+                return orderDAO.getAllOrders();
+            } else {
+                return orderDAO.findOrders(customer);
+            }
         }
         catch (Exception e){
             throw new InternalException(InternalException.ERROR_SERVICE_ORDERS_FIND_CUSTOMER, new Throwable(e));
@@ -115,49 +129,40 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 
     @Override
     @Transactional
-    public boolean insertOrderFlowers(Order order, Flower flower, Integer flowerCount)
+    public boolean createOrder(Order order)
             throws InternalException {
         try {
-            return orderDAO.insertOrderFlowers(order, flower, flowerCount);
+            Customer customer = customerDAO.findCustomer(order.getCustomer().getId());
+            if(order.getFinalPrice().compareTo(customer.getMoney()) <= 0) {
+                customer.setMoney(customer.getMoney().subtract(order.getFinalPrice()));
+                customerDAO.updateCustomer(customer);
+                for (OrderFlowers orderFlowers: order.getOrderFlowersList()) {
+                    FlowerStock flowerStock = flowerStockDAO.findFlowerStocksByFlower(orderFlowers.getFlower()).get(0);
+                    flowerStock.setFlowerCount(flowerStock.getFlowerCount() - orderFlowers.getFlowerCount());
+                    flowerStockDAO.updateFlowerStock(flowerStock);
+                }
+                return orderDAO.insertOrder(order);
+            }
+            return false;
         }
         catch (Exception e){
-            throw new InternalException(InternalException.ERROR_SERVICE_ORDER_FLOWERS_INSERT, new Throwable(e));
+            throw new InternalException(InternalException.ERROR_SERVICE_ORDER_CREATE, new Throwable(e));
         }
     }
 
     @Override
     @Transactional
-    public Order insertOrder(Customer customer, String status, List<OrderFlowers> orderFlowersList, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice)
+    public boolean closeOrder(Order order)
             throws InternalException {
         try {
-            return orderDAO.insertOrder(customer, status, orderFlowersList, createDate, closeDate, discount, finalPrice);
-        }
-        catch (Exception e){
-            throw new InternalException(InternalException.ERROR_SERVICE_ORDER_INSERT, new Throwable(e));
-        }
-    }
+            order.setStatus("Close");
+            order.setCloseDate(new Date(System.currentTimeMillis()));
 
-    @Override
-    @Transactional
-    public boolean insertOrder(Order order)
-            throws InternalException {
-        try {
-            return orderDAO.insertOrder(order);
-        }
-        catch (Exception e){
-            throw new InternalException(InternalException.ERROR_SERVICE_ORDER_INSERT, new Throwable(e));
-        }
-    }
-
-    @Override
-    @Transactional
-    public boolean updateOrder(Order order)
-            throws InternalException {
-        try {
             return orderDAO.updateOrder(order);
+
         }
         catch (Exception e){
-            throw new InternalException(InternalException.ERROR_SERVICE_ORDER_UPDATE, new Throwable(e));
+            throw new InternalException(InternalException.ERROR_SERVICE_ORDER_CLOSE, new Throwable(e));
         }
     }
 }

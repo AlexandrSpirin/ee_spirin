@@ -82,8 +82,7 @@ public class LoginServlet extends HttpServlet {
                 }
                 else {
                     session.setAttribute(SessionAttribute.USER_TYPE.toString(), AccountType.CUSTOMER);
-                    Customer customer = new Customer();
-                    mapper.map(customerBusinessService.findCustomer(accountBusinessService.findAccount(login)), customer);
+                    Customer customer = mapper.map(customerBusinessService.findCustomer(accountBusinessService.findAccount(login)), Customer.class);
                     if(customer != null) {
                         session.setAttribute(SessionAttribute.CUSTOMER.toString(), customer);
                         HashMap<Flower, Integer> flowersInBasket = new HashMap<>();

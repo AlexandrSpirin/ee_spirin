@@ -3,7 +3,6 @@ package com.accenture.flowershop.fe.servlets;
 import com.accenture.flowershop.be.business.account.AccountBusinessService;
 import com.accenture.flowershop.be.business.customer.CustomerBusinessService;
 import com.accenture.flowershop.be.entity.account.AccountType;
-import com.accenture.flowershop.be.entity.customer.Customer;
 import com.accenture.flowershop.fe.enums.SessionAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
