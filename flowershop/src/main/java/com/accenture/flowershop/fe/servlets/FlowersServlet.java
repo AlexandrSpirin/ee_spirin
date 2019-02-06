@@ -69,6 +69,9 @@ public class FlowersServlet extends HttpServlet {
         showMainInfo(req, resp);
     }
 
+
+
+
     /**
      * Отображение основной информации страницы
      *
@@ -92,7 +95,6 @@ public class FlowersServlet extends HttpServlet {
         if (session.getAttribute(SessionAttribute.CUSTOMER.toString()) != null) {
             customer = (com.accenture.flowershop.fe.dto.customer.Customer) session.getAttribute(SessionAttribute.CUSTOMER.toString());
         }
-
 
         printWriter.println("<html><body>");
 

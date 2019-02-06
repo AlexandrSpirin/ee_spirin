@@ -41,6 +41,7 @@ public class LoginServlet extends HttpServlet {
     @Autowired
     private Mapper mapper;
 
+
     @Override
     public void init (ServletConfig config) throws ServletException
     {
@@ -48,6 +49,7 @@ public class LoginServlet extends HttpServlet {
         SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
                 config.getServletContext());
     }
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
@@ -60,6 +62,8 @@ public class LoginServlet extends HttpServlet {
     {
         showLoginInfo(req,resp);
     }
+
+
 
 
     /**

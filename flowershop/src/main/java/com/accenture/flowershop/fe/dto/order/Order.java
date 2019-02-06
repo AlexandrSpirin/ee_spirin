@@ -1,5 +1,6 @@
 package com.accenture.flowershop.fe.dto.order;
 
+import com.accenture.flowershop.be.entity.order.OrderStatus;
 import com.accenture.flowershop.fe.dto.customer.Customer;
 
 import java.math.BigDecimal;
@@ -15,7 +16,7 @@ public class Order {
 
     private List<OrderFlowers> orderFlowersList;
 
-    private String status;
+    private OrderStatus status;
 
     private Date createDate;
 
@@ -29,7 +30,7 @@ public class Order {
 
     public Order() {}
 
-    public Order(Customer customer, List<OrderFlowers> orderFlowersList, String status, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice){
+    public Order(Customer customer, List<OrderFlowers> orderFlowersList, OrderStatus status, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice){
         this.customer = customer;
         this.orderFlowersList = orderFlowersList;
         this.status = status;
@@ -73,11 +74,11 @@ public class Order {
         oF.setOrder(this);
     }
 
-    public String getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 

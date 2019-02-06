@@ -2,6 +2,7 @@ package com.accenture.flowershop.fe.servlets;
 
 import com.accenture.flowershop.be.business.flowerStock.FlowerStockBusinessService;
 import com.accenture.flowershop.be.entity.account.AccountType;
+import com.accenture.flowershop.be.entity.order.OrderStatus;
 import com.accenture.flowershop.fe.dto.customer.Customer;
 import com.accenture.flowershop.fe.dto.flower.Flower;
 import com.accenture.flowershop.fe.dto.order.Order;
@@ -56,6 +57,8 @@ public class BasketServlet extends HttpServlet {
     {
         showBasket(req,resp);
     }
+
+
 
 
     /**
@@ -221,7 +224,7 @@ public class BasketServlet extends HttpServlet {
 
                             //Дополняем заказ оставшимися параметрами
                             order.setCustomer(customer);
-                            order.setStatus("Open");
+                            order.setStatus(OrderStatus.OPEN);
                             order.setCreateDate(new Date(System.currentTimeMillis()));
                             order.setDiscount(customer.getDiscount());
                             order.setFinalPrice(finalPrice);
@@ -247,6 +250,8 @@ public class BasketServlet extends HttpServlet {
         }
         printWriter.println("</body></html>");
     }
+
+
 
 
     /**
@@ -295,6 +300,7 @@ public class BasketServlet extends HttpServlet {
                 "</h3>");
     }
 
+
     /**
      * Отображение основной информации об указанном цветке
      *
@@ -308,6 +314,7 @@ public class BasketServlet extends HttpServlet {
                 "<h4 align=center>Cost: " + cost + "RUB</h4>" +
                 "<h4 align=center>Count on stocks: " + countOnStocks);
     }
+
 
     /**
      * Отображение информации покупателя об указанном цветке

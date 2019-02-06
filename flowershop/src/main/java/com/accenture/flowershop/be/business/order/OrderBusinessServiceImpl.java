@@ -8,6 +8,7 @@ import com.accenture.flowershop.be.entity.customer.Customer;
 import com.accenture.flowershop.be.entity.flowerStock.FlowerStock;
 import com.accenture.flowershop.be.entity.order.Order;
 import com.accenture.flowershop.be.entity.order.OrderFlowers;
+import com.accenture.flowershop.be.entity.order.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -54,9 +55,12 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     }
 
     @Override
+    @Transactional
     public Order findOrder(Long id) throws InternalException {
         try {
-            return orderDAO.findOrder(id);
+            Order order = orderDAO.findOrder(id);
+            order.getOrderFlowersList().size();
+            return order;
         }
         catch (Exception e){
             throw new InternalException(InternalException.ERROR_SERVICE_ORDER_FIND_ID, new Throwable(e));
@@ -74,12 +78,24 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     }
 
     @Override
+    @Transactional
     public List<Order> findOrders(Customer customer) throws InternalException {
         try {
+            List<Order> orders;
             if(customer == null) {
-                return orderDAO.getAllOrders();
+                orders = orderDAO.getAllOrders();
+                orders.size();
+                for (Order o: orders) {
+                    o.getOrderFlowersList().size();
+                }
+                return orders;
             } else {
-                return orderDAO.findOrders(customer);
+                orders = orderDAO.findOrders(customer);
+                orders.size();
+                for (Order o: orders) {
+                    o.getOrderFlowersList().size();
+                }
+                return orders;
             }
         }
         catch (Exception e){
@@ -156,7 +172,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
     public boolean closeOrder(Order order)
             throws InternalException {
         try {
-            order.setStatus("Close");
+            order.setStatus(OrderStatus.CLOSE);
             order.setCloseDate(new Date(System.currentTimeMillis()));
 
             return orderDAO.updateOrder(order);

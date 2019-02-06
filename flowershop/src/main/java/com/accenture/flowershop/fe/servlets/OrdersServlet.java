@@ -4,6 +4,7 @@ import com.accenture.flowershop.be.business.customer.CustomerBusinessService;
 import com.accenture.flowershop.be.business.flowerStock.FlowerStockBusinessService;
 import com.accenture.flowershop.be.business.order.OrderBusinessService;
 import com.accenture.flowershop.be.entity.account.AccountType;
+import com.accenture.flowershop.be.entity.order.OrderStatus;
 import com.accenture.flowershop.fe.dto.customer.Customer;
 import com.accenture.flowershop.fe.dto.flower.Flower;
 import com.accenture.flowershop.fe.dto.order.Order;
@@ -25,7 +26,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -65,6 +65,9 @@ public class OrdersServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         showMainInfo(req, resp);
     }
+
+
+
 
     /**
      * Отображение основной информации страницы
@@ -133,6 +136,8 @@ public class OrdersServlet extends HttpServlet {
         printWriter.println("</body></html>");
 
     }
+
+
 
 
     /**
@@ -230,49 +235,61 @@ public class OrdersServlet extends HttpServlet {
     private  void showAllUserOrderInformation(PrintWriter printWriter, HttpServletRequest req, AccountType userType, String login, Customer customer) {
         try {
             //Список заказов, которые необходимо отобразить
-            List<Order> orderDtos = new ArrayList<>();
-            for (com.accenture.flowershop.be.entity.order.Order o : orderBusinessService.findOrders(customer == null ?
-                    null : mapper.map(customer, com.accenture.flowershop.be.entity.customer.Customer.class))) {
-                orderDtos.add(mapper.map(o, Order.class));
+            HashMap<Long, String> orders = new HashMap<>();
+            List<com.accenture.flowershop.be.entity.order.Order> orderEntities = orderBusinessService.findOrders(customer == null ?
+                    null : mapper.map(customer, com.accenture.flowershop.be.entity.customer.Customer.class));
+            for (com.accenture.flowershop.be.entity.order.Order o : orderEntities) {
+                orders.put(o.getId(), "Status: " + o.getStatus() + "</h4><h4 align=center>Customer: " + o.getCustomer().getFirstName() + o.getCustomer().getMiddleName() + o.getCustomer().getLastName()
+                        + "</h4><h4 align=center>Final price: " + o.getFinalPrice());
             }
 
             //Показываем основную информацию о пользователе
             showUserPanel(printWriter, userType, login, customer);
 
             //Показываем информацию о заказах
-            if (orderDtos.isEmpty()) {
+            if (orders.isEmpty()) {
                 printWriter.println("<h1 align = center>There is not a single order!</h1>");
             } else {
-                for (Order o : orderDtos) {
+                for (HashMap.Entry<Long, String> o: orders.entrySet()) {
                     //Если нажали кнопку закрытия заказа, закрываем его и обновляем его в списке Dto заказов
-                    if (req.getParameter("close" + o.getId() + "OrderButton") != null) {
-                        orderBusinessService.closeOrder(mapper.map(o, com.accenture.flowershop.be.entity.order.Order.class));
-                        o = mapper.map(orderBusinessService.findOrder(o.getId()), Order.class);
+                    if (req.getParameter("close" + o.getKey() + "OrderButton") != null) {
+                        com.accenture.flowershop.be.entity.order.Order order = orderBusinessService.findOrder(o.getKey());
+                        orderBusinessService.closeOrder(mapper.map(order, com.accenture.flowershop.be.entity.order.Order.class));
+                        o.setValue("Status: " + orderBusinessService.findOrder(o.getKey()).getStatus() + "</h4><h4 align=center>Customer: " +
+                                orderBusinessService.findOrder(o.getKey()).getCustomer().getFirstName() + " " +
+                                orderBusinessService.findOrder(o.getKey()).getCustomer().getMiddleName() + " " +
+                                orderBusinessService.findOrder(o.getKey()).getCustomer().getLastName() +
+                                "</h4><h4 align=center>Final price" + orderBusinessService.findOrder(o.getKey()).getFinalPrice());
                     }
 
-                    //Отображение основной информации заказа
-                    printWriter.println("<hr>" +
-                            "<h3 align=center>Id: " + o.getId() + "</h3>" +
-                            "<h4 align=center>Status: " + o.getStatus() + "</h4>" +
-                            "<h4 align=center>Create Date: " + o.getCreateDate() + "</h4>" +
-                            "<h4 align=center>Close Date: " + (o.getCloseDate() == null ? "____-__-__" : o.getCloseDate()) + "</h4>" +
-                            "<h4 align=center>Customer: " + o.getCustomer().getFirstName() + " " + o.getCustomer().getMiddleName() +
-                            " " + o.getCustomer().getLastName() + "</h4>" +
-                            "<h4 align=center>Discount: " + o.getDiscount() + "%</h4>" +
-                            "<h4 align=center>Final Price: " + o.getFinalPrice() + "RUB</h4>" +
-                            "<form action = 'orders' method = 'post'>");
-
                     //При отсутствии нажатия на кнопку отображения цветов заказа, показываем ее
-                    if (req.getParameter("show" + o.getId() + "OrderFlowersButton") == null) {
-                        printWriter.println("<p align=center><input type = 'submit' name = 'show" + o.getId() + "OrderFlowersButton' value = 'Show order flowers'/></p>");
+                    if (req.getParameter("show" + o.getKey() + "OrderFullInfoButton") == null && req.getParameter("close" + o.getKey() + "OrderButton") == null) {
+                        //Отображение основной информации заказа
+                        printWriter.println("<hr>" +
+                                "<h3 align=center>Id: " + o.getKey() + "</h3>" +
+                                "<h4 align=center>" + o.getValue() + "</h4>" +
+                                "<form action = 'orders' method = 'post'>" +
+                                "<p align=center><input type = 'submit' name = 'show" + o.getKey() + "OrderFullInfoButton' value = 'Show order full info'/></p>");
                     //При нажатии на кнопку отображения показываем информацию о всех цветках заказа
                     } else {
+                        Order order = mapper.map(orderBusinessService.findOrder(o.getKey()), Order.class);
+                        printWriter.println("<hr>" +
+                                "<h3 align=center>Id: " + order.getId() + "</h3>" +
+                                "<h4 align=center>Status: " + order.getStatus() + "</h4>" +
+                                "<h4 align=center>Create Date: " + order.getCreateDate() + "</h4>" +
+                                "<h4 align=center>Close Date: " + (order.getCloseDate() == null ? "____-__-__" : order.getCloseDate()) + "</h4>" +
+                                "<h4 align=center>Customer: " + order.getCustomer().getFirstName() + " " + order.getCustomer().getMiddleName() +
+                                " " + order.getCustomer().getLastName() + "</h4>" +
+                                "<h4 align=center>Discount: " + order.getDiscount() + "%</h4>" +
+                                "<h4 align=center>Final Price: " + order.getFinalPrice() + "RUB</h4>" +
+                                "<form action = 'orders' method = 'post'>");
+
                         printWriter.println("<br><br><h3 align=center>Order Flowers</h3>");
 
                         //Список цветов этого заказа
-                        List<OrderFlowers> orderFlowersList = o.getOrderFlowersList();
+                        List<OrderFlowers> orderFlowersList = order.getOrderFlowersList();
                         for (OrderFlowers oF : orderFlowersList) {
-                            BigDecimal flowerCostWithDiscount = oF.getFlower().getCost().multiply(BigDecimal.valueOf(1 - (o.getDiscount() * 0.01))).setScale(2, RoundingMode.CEILING);
+                            BigDecimal flowerCostWithDiscount = oF.getFlower().getCost().multiply(BigDecimal.valueOf(1 - (order.getDiscount() * 0.01))).setScale(2, RoundingMode.CEILING);
                             BigDecimal totalCostForCurrentFlowerType = flowerCostWithDiscount.multiply(new BigDecimal(oF.getFlowerCount())).setScale(2, RoundingMode.CEILING);
                             printWriter.println("<br>" +
                                     "<h4 align=center>Name: " + oF.getFlower().getName() + "</h4>" +
@@ -281,10 +298,11 @@ public class OrdersServlet extends HttpServlet {
                                     "<h5 align=center>Total cost for current flower type: " + totalCostForCurrentFlowerType + "</h5>");
 
                         }
-                        printWriter.println("<p align=center><input type = 'submit' name = 'hide" + o.getId() + "OrderFlowersButton' value = 'Hide order flowers'/></p>");
-                    }
-                    if (userType == AccountType.ADMIN && o.getStatus().equals("Open")) {
-                        printWriter.println("<p align=center><input type = 'submit' name = 'close" + o.getId() + "OrderButton' value = 'Close order'/></p>");
+                        printWriter.println("<p align=center><input type = 'submit' name = 'hide" + o.getKey() + "OrderFlowersButton' value = 'Hide full order info'/></p>");
+
+                        if (userType == AccountType.ADMIN && order.getStatus().equals(OrderStatus.OPEN)) {
+                            printWriter.println("<p align=center><input type = 'submit' name = 'close" + o.getKey() + "OrderButton' value = 'Close order'/></p>");
+                        }
                     }
                     printWriter.println("</form>");
                 }

@@ -21,10 +21,11 @@ public class Order {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderFlowers> orderFlowersList;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus  status;
 
     @Column(name="create_date")
     private Date createDate;
@@ -41,7 +42,7 @@ public class Order {
 
     public Order() {}
 
-    public Order(Customer customer, List<OrderFlowers> orderFlowersList, String status, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice){
+    public Order(Customer customer, List<OrderFlowers> orderFlowersList, OrderStatus status, Date createDate, Date closeDate, Integer discount, BigDecimal finalPrice){
         this.customer = customer;
         this.orderFlowersList = orderFlowersList;
         this.status = status;
@@ -85,11 +86,11 @@ public class Order {
         oF.setOrder(this);
     }
 
-    public String getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 

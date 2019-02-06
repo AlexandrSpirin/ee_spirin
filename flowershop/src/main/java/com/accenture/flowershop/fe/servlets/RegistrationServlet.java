@@ -31,6 +31,7 @@ public class RegistrationServlet extends HttpServlet {
     @Autowired
     private CustomerBusinessService customerBusinessService;
 
+
     @Override
     public void init (ServletConfig config) throws ServletException
     {
@@ -38,6 +39,7 @@ public class RegistrationServlet extends HttpServlet {
         SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
                 config.getServletContext());
     }
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException
@@ -50,6 +52,8 @@ public class RegistrationServlet extends HttpServlet {
     {
         showRegistrationInfo(req,resp);
     }
+
+
 
 
     /**

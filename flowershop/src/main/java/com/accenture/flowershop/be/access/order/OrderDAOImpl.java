@@ -22,6 +22,7 @@ public class OrderDAOImpl implements OrderDAO{
     private EntityManager entityManager;
 
     @Override
+    @Transactional
     public List<Order> getAllOrders() throws InternalException {
         try {
             TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o", Order.class);
@@ -45,6 +46,7 @@ public class OrderDAOImpl implements OrderDAO{
     }
 
     @Override
+    @Transactional
     public Order findOrder(Long id) throws InternalException {
         try {
             TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o WHERE o.id = :id ", Order.class);
@@ -74,6 +76,7 @@ public class OrderDAOImpl implements OrderDAO{
     }
 
     @Override
+    @Transactional
     public List<Order> findOrders(Customer customer) throws InternalException {
         try {
             TypedQuery<Order> q = entityManager.createQuery("SELECT o FROM Order o WHERE o.customer.id = :cId", Order.class);
