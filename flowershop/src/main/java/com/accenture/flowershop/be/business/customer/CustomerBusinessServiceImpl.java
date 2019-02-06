@@ -2,6 +2,8 @@ package com.accenture.flowershop.be.business.customer;
 
 import com.accenture.flowershop.be.InternalException;
 import com.accenture.flowershop.be.access.customer.CustomerDAO;
+import com.accenture.flowershop.be.business.XMLConverter;
+import com.accenture.flowershop.be.business.account.AccountBusinessService;
 import com.accenture.flowershop.be.entity.account.Account;
 import com.accenture.flowershop.be.entity.customer.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,10 @@ public class CustomerBusinessServiceImpl implements CustomerBusinessService {
     @Autowired
     @Qualifier("customerDAOImpl")
     private CustomerDAO customerDAO;
+
+
+    @Autowired
+    private XMLConverter xmlConverter;
 
 
     @Override
@@ -166,7 +172,11 @@ public class CustomerBusinessServiceImpl implements CustomerBusinessService {
     public boolean insertCustomer(Account account, String firstName, String middleName, String lastName,
                            String email, String phoneNumber, BigDecimal money, int discount)throws InternalException{
         try {
-            return customerDAO.insertCustomer(account, firstName, middleName, lastName, email, phoneNumber, money, discount);
+            if(customerDAO.insertCustomer(account, firstName, middleName, lastName, email, phoneNumber, money, discount)) {
+                xmlConverter.convertFromObjectToXML(findCustomer(account), "customer" + findCustomer(account).getId() + ".xml");
+                return true;
+            }
+            return false;
         }
         catch (Exception e){
             throw new InternalException(InternalException.ERROR_SERVICE_CUSTOMER_INSERT, new Throwable(e));

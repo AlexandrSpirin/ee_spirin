@@ -1,13 +1,14 @@
 package com.accenture.flowershop.be.entity.order;
 
 import com.accenture.flowershop.be.entity.flower.Flower;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name="order_flowers")
+@XmlRootElement
 public class OrderFlowers {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_flowers_seq")
@@ -39,6 +40,7 @@ public class OrderFlowers {
         return id;
     }
 
+    @XmlElement
     public void setId(Long id) {
         this.id = id;
     }
@@ -47,6 +49,7 @@ public class OrderFlowers {
         return order;
     }
 
+    @XmlElement
     public void setOrder(Order order) {
         this.order = order;
     }
@@ -55,6 +58,7 @@ public class OrderFlowers {
         return flower;
     }
 
+    @XmlElement
     public void setFlower(Flower flower) {
         this.flower = flower;
     }
@@ -63,6 +67,7 @@ public class OrderFlowers {
         return flowerCount;
     }
 
+    @XmlElement
     public void setFlowerCount(Integer flowerCount) {
         this.flowerCount = flowerCount;
     }

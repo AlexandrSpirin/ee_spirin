@@ -1,12 +1,15 @@
 package com.accenture.flowershop.be.entity.flower;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 
 @Entity
 @Table(name="flowers")
+@XmlRootElement
 public class Flower {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "flower_seq")
@@ -30,6 +33,7 @@ public class Flower {
         return id;
     }
 
+    @XmlElement
     public void setId(long id) {
         this.id = id;
     }
@@ -38,6 +42,7 @@ public class Flower {
         return name;
     }
 
+    @XmlElement
     public void setName(String name) {
         this.name = name;
     }
@@ -46,6 +51,7 @@ public class Flower {
         return cost;
     }
 
+    @XmlElement
     public void setCost(BigDecimal cost) {
         this.cost = cost;
     }

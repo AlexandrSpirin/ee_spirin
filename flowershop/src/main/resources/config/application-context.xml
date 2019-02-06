@@ -8,9 +8,12 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans    http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context    http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/jee    http://www.springframework.org/schema/jee/spring-jee.xsd
-       http://www.springframework.org/schema/tx    http://www.springframework.org/schema/tx/spring-tx.xsd">
+       http://www.springframework.org/schema/tx    http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/oxm    http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd">
+
 
     <context:component-scan base-package = "com.accenture.flowershop.*"/>
+
 
     <jee:jndi-lookup id="dataSource" jndi-name = "jdbc/flowerShopDS"/>
 
@@ -58,7 +61,23 @@
         </property>
     </bean>
 
-    <bean id="mapper" class="org.dozer.DozerBeanMapper">
+    <bean id="mapper" class="org.dozer.DozerBeanMapper"></bean>
 
+    <bean id="XMLConverter" class="com.accenture.flowershop.be.business.XMLConverter">
+        <property name="marshaller" ref="castorMarshaller" />
+        <property name="unmarshaller" ref="castorMarshaller" />
+    </bean>
+
+    <bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller"/>
+
+    <context:property-placeholder location = "classpath:foo.properties"/>
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:foo.properties</value>
+            </list>
+        </property>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
     </bean>
 </beans>

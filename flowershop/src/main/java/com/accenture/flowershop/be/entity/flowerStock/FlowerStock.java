@@ -3,10 +3,13 @@ package com.accenture.flowershop.be.entity.flowerStock;
 import com.accenture.flowershop.be.entity.flower.Flower;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 
 @Entity
 @Table(name="flower_stocks")
+@XmlRootElement
 public class FlowerStock {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "flower_stock_seq")
@@ -33,6 +36,7 @@ public class FlowerStock {
         return id;
     }
 
+    @XmlElement
     public void setId(Long id) {
         this.id = id;
     }
@@ -41,6 +45,7 @@ public class FlowerStock {
         return flower;
     }
 
+    @XmlElement
     public void setFlower(Flower flower) {
         this.flower = flower;
     }
@@ -49,6 +54,7 @@ public class FlowerStock {
         return flowerCount;
     }
 
+    @XmlElement
     public void setFlowerCount(Integer flowerCount) {
         this.flowerCount = flowerCount;
     }

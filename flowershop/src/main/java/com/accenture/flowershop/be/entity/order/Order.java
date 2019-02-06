@@ -3,6 +3,8 @@ package com.accenture.flowershop.be.entity.order;
 import com.accenture.flowershop.be.entity.customer.Customer;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import java.util.List;
 
 @Entity
 @Table(name="orders")
+@XmlRootElement
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq")
@@ -58,6 +61,7 @@ public class Order {
         return id;
     }
 
+    @XmlElement
     public void setId(Long id) {
         this.id = id;
     }
@@ -66,6 +70,7 @@ public class Order {
         return customer;
     }
 
+    @XmlElement
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
@@ -74,6 +79,7 @@ public class Order {
         return orderFlowersList;
     }
 
+    @XmlElement
     public void setOrderFlowersList(List<OrderFlowers> orderFlowersList) {
         this.orderFlowersList = orderFlowersList;
     }
@@ -90,6 +96,7 @@ public class Order {
         return status;
     }
 
+    @XmlElement
     public void setStatus(OrderStatus status) {
         this.status = status;
     }
@@ -98,6 +105,7 @@ public class Order {
         return createDate;
     }
 
+    @XmlElement
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
@@ -106,6 +114,7 @@ public class Order {
         return closeDate;
     }
 
+    @XmlElement
     public void setCloseDate(Date closeDate) {
         this.closeDate = closeDate;
     }
@@ -114,6 +123,7 @@ public class Order {
         return discount;
     }
 
+    @XmlElement
     public void setDiscount(Integer discount) {
         this.discount = discount;
     }
@@ -122,6 +132,7 @@ public class Order {
         return finalPrice;
     }
 
+    @XmlElement
     public void setFinalPrice(BigDecimal finalPrice) {
         this.finalPrice = finalPrice;
     }

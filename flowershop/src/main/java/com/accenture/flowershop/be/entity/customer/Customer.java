@@ -3,10 +3,13 @@ package com.accenture.flowershop.be.entity.customer;
 import com.accenture.flowershop.be.entity.account.Account;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name="customers")
+@XmlRootElement
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_seq")
@@ -54,6 +57,7 @@ public class Customer {
         return id;
     }
 
+    @XmlElement
     public void setId(Long id) {
         this.id = id;
     }
@@ -62,6 +66,7 @@ public class Customer {
         return account;
     }
 
+    @XmlElement
     public void setAccount(Account account) {
         this.account = account;
     }
@@ -70,6 +75,7 @@ public class Customer {
         return firstName;
     }
 
+    @XmlElement
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -78,6 +84,7 @@ public class Customer {
         return middleName;
     }
 
+    @XmlElement
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
     }
@@ -86,6 +93,7 @@ public class Customer {
         return lastName;
     }
 
+    @XmlElement
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -94,6 +102,7 @@ public class Customer {
         return email;
     }
 
+    @XmlElement
     public void setEmail(String email) {
         this.email = email;
     }
@@ -102,6 +111,7 @@ public class Customer {
         return phoneNumber;
     }
 
+    @XmlElement
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
@@ -110,6 +120,7 @@ public class Customer {
         return money;
     }
 
+    @XmlElement
     public void setMoney(BigDecimal money) {
         this.money = money;
     }
@@ -118,6 +129,7 @@ public class Customer {
         return discount;
     }
 
+    @XmlElement
     public void setDiscount(Integer discount) {
         this.discount = discount;
     }
