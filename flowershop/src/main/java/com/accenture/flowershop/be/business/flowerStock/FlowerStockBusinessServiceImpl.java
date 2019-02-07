@@ -7,8 +7,10 @@ import com.accenture.flowershop.be.entity.flowerStock.FlowerStock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Random;
 
 
 @Service
@@ -90,6 +92,29 @@ public class FlowerStockBusinessServiceImpl implements FlowerStockBusinessServic
 
 
     @Override
+    @Transactional
+    public boolean increaseFlowerStockSize(Long id, int increaseValue) throws InternalException {
+        try {
+            return flowerStockDAO.increaseFlowerStockSize(id, increaseValue);
+        } catch (Exception e) {
+            throw new InternalException(InternalException.ERROR_SERVICE_FLOWER_STOCK_INSERT, new Throwable(e));
+        }
+    }
+
+    @Override
+    @Transactional
+    public boolean increaseFlowerStockSize(Long id) throws InternalException {
+        try {
+            Random random = new Random();
+            int increaseValue = random.nextInt(30-10) + 10;
+            return flowerStockDAO.increaseFlowerStockSize(id, increaseValue);
+        } catch (Exception e) {
+            throw new InternalException(InternalException.ERROR_SERVICE_FLOWER_STOCK_INSERT, new Throwable(e));
+        }
+    }
+
+    @Override
+    @Transactional
     public boolean insertFlowerStock(Flower flower, int flowerCount)
             throws InternalException {
         try {
@@ -101,6 +126,7 @@ public class FlowerStockBusinessServiceImpl implements FlowerStockBusinessServic
     }
 
     @Override
+    @Transactional
     public boolean updateFlowerStock(FlowerStock flowerStock)
             throws InternalException {
         try {

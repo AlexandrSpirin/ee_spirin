@@ -5,11 +5,12 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:jee="http://www.springframework.org/schema/jee"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
        xsi:schemaLocation="http://www.springframework.org/schema/beans    http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context    http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/jee    http://www.springframework.org/schema/jee/spring-jee.xsd
        http://www.springframework.org/schema/tx    http://www.springframework.org/schema/tx/spring-tx.xsd
-       http://www.springframework.org/schema/oxm    http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd">
+       http://cxf.apache.org/jaxws    http://cxf.apache.org/schemas/jaxws.xsd">
 
 
     <context:component-scan base-package = "com.accenture.flowershop.*"/>
@@ -61,7 +62,7 @@
         </property>
     </bean>
 
-    <bean id="mapper" class="org.dozer.DozerBeanMapper"></bean>
+    <bean id="mapper" class="org.dozer.DozerBeanMapper"/>
 
     <bean id="XMLConverter" class="com.accenture.flowershop.be.business.XMLConverter">
         <property name="marshaller" ref="castorMarshaller" />
@@ -80,4 +81,11 @@
         </property>
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
     </bean>
+
+    <bean id="FlowerStockWebService" class="com.accenture.flowershop.fe.ws.FlowerStockWebServiceImpl" />
+
+    <jaxws:endpoint id="FlowerStockWebService1" implementor="#FlowerStockWebService"
+                    address="/FlowerStockWebService"/>
+
+
 </beans>

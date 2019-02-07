@@ -113,6 +113,24 @@ public class FlowerStockDAOImpl implements FlowerStockDAO {
 
     @Override
     @Transactional
+    public boolean increaseFlowerStockSize(Long id, int increaseValue) throws InternalException{
+        try {
+            FlowerStock foundFlowerStock = findFlowerStock(id);
+            if(foundFlowerStock != null)
+            {
+                foundFlowerStock.setFlowerCount(foundFlowerStock.getFlowerCount() + increaseValue);
+                entityManager.merge(foundFlowerStock);
+                return true;
+            }
+            return false;
+        }
+        catch (Exception e){
+            throw new InternalException(InternalException.ERROR_DAO_FLOWER_STOCK_INSERT, new Throwable(e));
+        }
+    }
+
+    @Override
+    @Transactional
     public boolean insertFlowerStock(Flower flower, int flowerCount) throws InternalException{
         try {
             if(findFlowerStocksByFlower(flower) == null)
