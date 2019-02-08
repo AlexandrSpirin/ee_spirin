@@ -5,6 +5,7 @@ import com.accenture.flowershop.be.business.account.AccountBusinessService;
 import com.accenture.flowershop.be.business.customer.CustomerBusinessService;
 import com.accenture.flowershop.be.entity.account.AccountType;
 import com.accenture.flowershop.fe.enums.SessionAttribute;
+import com.accenture.flowershop.fe.ws.rest.LoginCheckClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -31,6 +32,9 @@ public class RegistrationServlet extends HttpServlet {
 
     @Autowired
     private CustomerBusinessService customerBusinessService;
+
+    //@Autowired
+    //private LoginCheckClient loginCheckClient;
 
 
     @Override
@@ -96,10 +100,12 @@ public class RegistrationServlet extends HttpServlet {
         try {
             if(session.getAttribute(SessionAttribute.USER_TYPE.toString()) == AccountType.ADMIN) {
                 if (passwordOne.equals(passwordTwo)) {
+                    //printWriter.println("<h1 align=center>This login is already in use? " + loginCheckClient.getLoginCheckResult(login).toString() + "</h1>");
                     if (accountBusinessService.registration(login, passwordOne, AccountType.CUSTOMER)) {
                         if(customerBusinessService.insertCustomer(accountBusinessService.findAccount(login),
                                 firstName, middleName, lastName, email, phoneNumber, money, discount)) {
                             printWriter.println("<h1 align=center>" + login + " was registered!</h1>");
+
                         } else {
                             printWriter.println("<h1 align=center>This account is already in use! Please choose another account.</h1>");
                         }
